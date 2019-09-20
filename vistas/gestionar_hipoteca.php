@@ -366,35 +366,11 @@ require 'header.php';
                                                         <div class="form-group col-lg-2 col-md-2 col-sm-2 col-xs-12">
 
                                                         <h5 style="color: #eb6d00">A Capital:  <span class="badge badge-info" id="label_a_capital">0</span>  </h5>   
-
-                                                        <h5 style="color: #eb6d00">A Interes:  <span class="badge badge-info" id="label_a_interes">0</span>  </h5>   
                                                         </div>
-                                                        
-                                                        <div class="form-group col-lg-2 col-md-2 col-sm-2 col-xs-12">
-
-                                                        <h5 style="color: #eb6d00">A Interes M:  <span class="badge badge-info" id="label_a_interes_m">0</span>  </h5>   
-
-                                                        <h5 style="color: #eb6d00">A Mant V:  <span class="badge badge-info" id="label_a_mant_v">0</span>  </h5>   
-                                                        </div>
-                                                        <!-- <div class="form-group col-lg-2 col-md-2 col-sm-2 col-xs-12">
-                                                        <h3 style="color: #eb6d00">A Capital:  <span class="badge badge-info" id="label_a_capital">0</span>  </h3>   
-                                                        </div>
-
-                                                        <div class="form-group col-lg-2 col-md-2 col-sm-2 col-xs-12">
-                                                        <h3 style="color: #eb6d00">A Capital:  <span class="badge badge-info" id="label_a_capital">0</span>  </h3>   
+                                                        <!-- <h5 style="color: #eb6d00">A Interes:  <span class="badge badge-info" id="siguiente_capital">0</span>  </h5>   
                                                         </div> -->
                                                         
                                                     
-
-                                                        
-
-
-                                                        <!--<div class="form-group col-lg-2 col-md-2 col-sm-2 col-xs-12">
-                                                            <h4 style="color: #6f42c1">Siguiente Interés:</h4>
-                                                            <input type="text" class="form-control" name="siguienteInteres" id="siguienteInteres" maxlength="7" placeholder="$0">
-                                                        </div>-->
-
-                                                        
 
                                                     <div class="form-group col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                                         <label>Concepto:</label>

@@ -133,10 +133,12 @@ function calculaCuotaaEnviarFuncion(){
 
             if(parseFloat(monto_pago) != parseFloat(cuota)){
                 if( parseFloat(monto_pago) >  parseFloat(cuota) ){//si das mas de la cuota
-                    
-                    amortizacion = parseFloat(amortizacion) + parseFloat(abono_a_capital)
-                   // console.log(idhipoteca,interes,amortizacion,interes_moratorio,fecha,nota)
-                   // enviaGuardarAbono(idhipoteca,interes,amortizacion,interes_moratorio,fecha,nota)
+                    let montoLocal = parseFloat(monto_pago)
+                    let cuotaLocal = parseFloat(cuota)
+                    let a_capital = parseFloat(montoLocal) - parseFloat(cuotaLocal)
+                    labelsPendientes(0.00,parseFloat(a_capital).toFixed(2))
+                   
+                   
                 }
                  if(parseFloat(monto_pago) < parseFloat(cuota)){ //si el monto que paga es menor a la cuota //una vez entra aqui puede que la monto sea mayor a los intereses pero menor que la cuota
                     
@@ -144,75 +146,39 @@ function calculaCuotaaEnviarFuncion(){
                            
                             let montoLocal = parseFloat(monto_pago)
                             let interesLocal = parseFloat(intereses)
-                            let restaMonto = parseFloat(montoLocal) - parseFloat(interesLocal) //lo que se va a guardar de capital
-                            $('#label_a_capital').html(parseFloat(restaMonto).toFixed(2))
+                            let a_capital = parseFloat(montoLocal) - parseFloat(interesLocal) //lo que se va a guardar de capital
+                          
+                            labelsPendientes(0.00,parseFloat(a_capital).toFixed(2))
                           
                         }
                          if(  parseFloat(monto_pago) < parseFloat(intereses) ){ //Si el monto es menor que la suma de intereses verificara uno a uno los intereses y no abonara al capital y tendra un pendiente 
                             let montoLocal = parseFloat(monto_pago)
                             let interesesLocal = parseFloat(intereses)//la suma de todos intereses
                             let interesLocal = parseFloat(interes)//solo interes
-
-                            if(parseFloat(montoLocal) <= parseFloat(interesLocal)){//si es igual se tendra que igualar el interes sera igual al monto
-                                 
-                                labelsPendientes(pendiente,0.00,0.00,0.00,0.00)
-
-
-                            }
-                            if(parseFloat(montoLocal) > parseFloat(interesLocal)){
-
-                                montoLocal = parseFloat( montoLocal) - parseFloat(interesLocal)
-                                
-
-                            }
-
-
-
-                            
+   
+                                labelsPendientes(pendiente,0.00,)    
         
-                         }
-                        
+                         }          
         
                 }
             }
             if(parseFloat(monto_pago) === parseFloat(cuota)){
-                console.log("Es igual a la cuota")
+                
+                labelsPendientes(0.00,parseFloat(amortizacion).toFixed(2))
             }
            
-            if (parseFloat(mont) > parseFloat(cuota)){
-                //Primero divide cuanto va a cada interes
-                  
-                //despues se paga el capital
-               let monto_a_abonar = ( parseFloat(mont) - parseFloat(cuota) ) 
-               abono_a_capital = parseFloat(monto_a_abonar).toFixed(2)
-               pendiente_de_abono = 0.00
-             //  document.getElementById('label_pendiente').innerHTML = 0.00
-
-             //   document.getElementById('label_a_capital').innerHTML = parseFloat(monto_a_abonar).toFixed(2)
-               
-
-            }else{
-                let monto_pendiente= ( parseFloat(cuota) - parseFloat(mont) ) 
-                pendiente_de_abono = parseFloat(monto_pendiente).toFixed(2)
-                abono_a_capital = 0.00
-              //  document.getElementById('label_pendiente').innerHTML = parseFloat(monto_pendiente).toFixed(2)
-              //  document.getElementById('label_a_capital').innerHTML = 0.00
-
-                ////Primero divide cuanto va a cada interes
-                //despues cuanto queda pendiente a pagar y sumar al capital
-                
-            }
+        
 }
 //funcion cambia los Span y labels de los pendientes
-function labelsPendientes(pendiente,a_capital,a_interes,a_interes_m,a_mantv){
+function labelsPendientes(pendiente,a_capital){
 
     $('#label_pendiente').html(pendiente)
     $('#label_a_capital').html(a_capital)
-    $("#label_a_interes").html(a_interes)
-    $('#label_a_interes_m').html(a_interes_m)
-    $('#label_a_mant_v').html(a_mantv)
-
-    console.log(pendiente,a_capital,a_interes,a_interes_m,a_mantv, " Datos recibidos")
+   // $("#label_a_interes").html(a_interes)
+  //  $('#label_a_interes_m').html(a_interes_m)
+  //  $('#label_a_mant_v').html(a_mantv)
+  //
+  //
 
 }
 
