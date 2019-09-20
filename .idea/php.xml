@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="PhpProjectServersManager">
+    <servers>
+      <server host="localhost" id="d27af6d1-a6c2-47f9-bfdb-5146a728c307" name="XdebugServ" use_path_mappings="true">
+        <path_mappings>
+          <mapping local-root="$PROJECT_DIR$/ajax/cuenta_banco.php" remote-root="/Applications/XAMPP/xamppfiles/htdocs/system/Credi_em/ajax/cuenta_banco.php" />
+          <mapping local-root="$PROJECT_DIR$/ajax/gestionar_hipoteca.php" remote-root="/Applications/XAMPP/xamppfiles/htdocs/system/Credi_em/ajax/gestionar_hipoteca.php" />
+          <mapping local-root="$PROJECT_DIR$/config/Conexion.php" remote-root="/Applications/XAMPP/xamppfiles/htdocs/System/Credi_em/config/Conexion.php" />
+          <mapping local-root="$PROJECT_DIR$/config/global.php" remote-root="/Applications/XAMPP/xamppfiles/htdocs/System/Credi_em/config/global.php" />
+          <mapping local-root="$PROJECT_DIR$/modelos/Gestionar_Hipoteca.php" remote-root="/Applications/XAMPP/xamppfiles/htdocs/System/Credi_em/modelos/Gestionar_Hipoteca.php" />
+          <mapping local-root="$PROJECT_DIR$/vistas/gestionar_hipoteca.php" remote-root="/Applications/XAMPP/xamppfiles/htdocs/system/Credi_em/vistas/gestionar_hipoteca.php" />
+          <mapping local-root="$PROJECT_DIR$/vistas/header.php" remote-root="/Applications/XAMPP/xamppfiles/htdocs/System/Credi_em/vistas/header.php" />
+        </path_mappings>
+      </server>
+    </servers>
+  </component>
+  <component name="PhpProjectSharedConfiguration" php_language_level="7.2" />
+</project>
