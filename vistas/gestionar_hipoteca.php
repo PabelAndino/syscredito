@@ -178,7 +178,7 @@ require 'header.php';
                                             <div class="form-group col-lg-2 col-md-2 col-sm-2 col-xs-12">
 
                                                 <label>Cambio dólar:</label>
-                                                <input  class="form-control" name="saldo_banco" id="saldo_banco"  >
+                                                <input  class="form-control" name="cambio_dolar" id="cambio_dolar"  >
                                             </div>
                                             <div class="form-group col-lg-1 col-md-1 col-sm-1 col-xs-12">
                                                 <label>C$:</label>
@@ -294,9 +294,9 @@ require 'header.php';
                                                     <div class="form-group col-lg-2 col-md-2 col-sm-6 col-xs-12">
                                                         <label>Interes:</label>
                                                         <input type="number" class="form-control" maxlength="10" step=".01" min="0" name="abonointeres" id="abonointeres" maxlength="7" placeholder="Abono Interes">
-                                                        <input type="hidden" class="form-control" name="idabonodetalles" id="idabonodetalles" maxlength="7" placeholder="Abono Interes"><!--Este es el id de abono que se genera cuando se va a editar un abono-->
+                                                        <input type="hidden" class="form-control" name="idabonodetalles" id="idabonodetalles" maxlength="7"  placeholder="Abono Interes"><!--Este es el id de abono que se genera cuando se va a editar un abono-->
                                                         <input type="hidden" class="form-control" name="idhipotecaAbonar" id="idhipotecaAbonar" maxlength="7" placeholder="Abono Interes">  <!--es el mismo idhipoteca que se necesita para guardar un abono-->
-                                                        <!-- <input type="hidden" class="form-control" name="idfinanciamientoAbonar" id="idfinanciamientoAbonar" maxlength="7" placeholder="Abono Interes">-->
+                                                        
 
                                                         <input type="hidden" class="form-control" name="ultimoidabono" id="ultimoidabono" maxlength="7" placeholder="test">
                                                     </div>

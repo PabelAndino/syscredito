@@ -19,7 +19,32 @@ function init(){
     initFUNCTIONS()
     listarBancos()
 
-  
+  getTipoCambio()
+}
+function getTipoCambio(){
+    $.ajax({
+        url: 'https://free.currconv.com/api/v7/convert?q=USD_NIO&compact=ultra&apiKey=20c75241f5f1d3c74188',
+        type: 'GET',
+        dataType:'json',
+        success: function(res) {
+            console.log(res)
+ 
+            for (var clave in res){
+                // Controlando que json realmente tenga esa propiedad
+                if (res.hasOwnProperty(clave)) {
+                  // Mostrando en pantalla la clave junto a su valor
+                  $('#cambio_dolar').val(res[clave])
+                 // console.log("La clave es " + clave+ " y el valor es " + res[clave]);
+                }
+              }
+        },
+        error:function(){
+            $('#cambio_dolar').val('Sin conexion')
+        }
+      })
+
+      
+      
 }
 //Funciones Recargar
 function recargar() {
@@ -135,9 +160,8 @@ function calculaCuotaaEnviarFuncion(){
                 if( parseFloat(monto_pago) >  parseFloat(cuota) ){//si das mas de la cuota
                     let montoLocal = parseFloat(monto_pago)
                     let cuotaLocal = parseFloat(cuota)
-                    let a_capital = parseFloat(montoLocal) - parseFloat(cuotaLocal)
+                    let a_capital =( parseFloat(montoLocal) - parseFloat(cuotaLocal) ) + parseFloat(amortizacion)
                     labelsPendientes(0.00,parseFloat(a_capital).toFixed(2))
-                   
                    
                 }
                  if(parseFloat(monto_pago) < parseFloat(cuota)){ //si el monto que paga es menor a la cuota //una vez entra aqui puede que la monto sea mayor a los intereses pero menor que la cuota
@@ -174,11 +198,7 @@ function labelsPendientes(pendiente,a_capital){
 
     $('#label_pendiente').html(pendiente)
     $('#label_a_capital').html(a_capital)
-   // $("#label_a_interes").html(a_interes)
-  //  $('#label_a_interes_m').html(a_interes_m)
-  //  $('#label_a_mant_v').html(a_mantv)
-  //
-  //
+    $('#commentAbono').text('')
 
 }
 
@@ -720,7 +740,7 @@ function guardaryeditarHipoteca(e) {
 
    // var formData = new FormData($("#formularioHipoteca")[0]);
     let saldo_banco =$('#saldo_banco').val()//parseFloat($('#saldo_banco').val()).toFixed(2)
-    let monto = $('#monto_ncuenta').val()//parseFloat($('#monto_ncuenta').val()).toFixed(2)//parseFloat($('#monto_ncuenta').val()).toFixed(2)
+    let monto = parseFloat($("#monto_ncuenta").val().replace(',', ''))//parseFloat($('#monto_ncuenta').val()).toFixed(2)//parseFloat($('#monto_ncuenta').val()).toFixed(2) parseFloat($('#monto_ncuenta').val()).toFixed(2) 
     let solicitud = $('#idsolicitud_picker').val()
     let fiador= $('#idfiador_picker').val()
     let garantia= $('#idgarantia').val()
@@ -780,99 +800,84 @@ function guardaryeditarHipoteca(e) {
 function guardaryeditarAbono(e) {
     e.preventDefault(); //
 
-    let idabonos = function (){
-        if($('idabono').val()>0){
-            return $('idabono').val()
-        }
-        return 0
-    }
     let idhipoteca = $('#idhipotecaAbonar').val()
+    let idabono = $('#idabonodetalles').val()
     let fecha = $('#fecha_horaAbono').val()
     let nota = $('#commentAbono').val()
     let interes =  parseFloat($('#abonointeres').val()).toFixed(2)
+    let intereses = parseFloat($('#intereses').val()).toFixed(2)
     let interes_moratorio = parseFloat($('#interes_moratorio_abono').val()).toFixed(2) 
     let mantenimiento = parseFloat($('#mantValortotal').val()).toFixed(2)
-    let amortizacion = parseFloat($('#abono_capital').val()).toFixed(2)
+    var amortizacion = parseFloat($('#abono_capital').val()).toFixed(2)
     let cuota = parseFloat($('#cuota').val()).toFixed(2)
     let monto_pago = parseFloat($('#monto_pago').val()).toFixed(2)
     var cuotiado = monto_pago 
+    
+    let pendiente = parseFloat(parseFloat(intereses) - parseFloat(monto_pago)).toFixed(2)
 
-
-    if(parseFloat(monto_pago) != parseFloat(cuota)){
-        if( parseFloat(monto_pago) >  parseFloat(cuota) ){//si das mas de la cuota
-            console.log("Abonoa a Capital :" + abono_a_capital)
-            amortizacion = parseFloat(amortizacion) + parseFloat(abono_a_capital)
-            console.log(idhipoteca,interes,amortizacion,interes_moratorio,fecha,nota)
-           // enviaGuardarAbono(idhipoteca,interes,amortizacion,interes_moratorio,fecha,nota)
+    if( parseFloat(idabono.length ) === 0){ //comprueba que haya idabono para saber si va a hacer un abono o editarlo
+        if(parseFloat(monto_pago) > parseFloat(cuota) ){
+            let montoLocal = parseFloat(monto_pago)
+            let cuotaLocal = parseFloat(cuota)
+            let a_capital =( parseFloat(montoLocal) - parseFloat(cuotaLocal) ) + parseFloat(amortizacion)
+            enviaGuardarAbono(idhipoteca,idabono,interes,interes_moratorio,mantenimiento,a_capital,0.00,fecha,nota)
+            console.log(a_capital," a capital")
         }
-         if(parseFloat(monto_pago) < parseFloat(cuota)){ //si el monto que paga es menor a la cuota
-            
-                if( parseFloat(monto_pago) > parseFloat(interes) ){ 
-                    console.log("monto pago mayor que interes: "+ monto_pago)
-                        var monto_local = parseFloat(monto_pago).toFixed(2)
+        if(parseFloat(monto_pago) < parseFloat(cuota) ){
+            if( parseFloat(monto_pago) >= parseFloat(intereses) ){ //si el pago es mayor que los intereses sumados
+                           
+                let montoLocal = parseFloat(monto_pago)
+                let interesLocal = parseFloat(intereses)
+                let a_capital = parseFloat(parseFloat(montoLocal) - parseFloat(interesLocal)).toFixed(2) //quedara en cero pero no quedar ningun pendiente
+                enviaGuardarAbono(idhipoteca,idabono,interes,interes_moratorio,mantenimiento,a_capital,0.00,fecha,nota)
+                console.log(a_capital," a capital")
+              
+            }
+            if(  parseFloat(monto_pago) < parseFloat(intereses) ){ //Si el monto es menor que la suma de intereses verificara uno a uno los intereses y no abonara al capital y tendra un pendiente 
+                let montoLocal = parseFloat(monto_pago)//este sera el interes que abonara ya que hay un pendiente de interes
+                let interesesLocal = parseFloat(intereses)//la suma de todos intereses
+                let interesLocal = parseFloat(interes)//solo interes
+                enviaGuardarAbono(idhipoteca,idabono,montoLocal,0.00,0.00,0.00,pendiente,fecha,nota)//como hay un pendiente el resto se iguala a cero y solo se envia a interes el monto que esta pagando
+                console.log('Hay pendiente de interes: ',pendiente)
+                     
 
-                        if(monto_local > parseFloat(interes)){
-                            monto_local = monto_local - interes //se paga el primer interes
-                            console.log("Pago primer interes: " + monto_local)
-                            
-                        }else{
-                            
-                        }
-                        
-                        if(parseFloat(interes_moratorio) > 0){//puede que no este pagando interes moratorio, entonces si tiene intereses
-
-                            if(parseFloat(monto_local) >= parseFloat(interes_moratorio)){
-                                 monto_local = monto_local - interes_moratorio
-                                 console.log("Pagado el interes moratorio: " + monto_local)
-                                 
-                           }
-
-                        }else{
-
-                        }
-                    
-                        if(parseFloat(monto_local) >= parseFloat(mantenimiento)){
-                            monto_local = monto_local - mantenimiento
-                            console.log("Pago mantenimiento: " + monto_local)
-                            
-                        }
-
-                    // for(i=parseFloat(monto_pago);i<=0;i++){
-
-                        
-
-                    // }
-                   
-                }
-                 if(  parseFloat(monto_pago) < parseFloat(interes) ){
-
-                    console.log("monto pago menor que el interes: " + interes)
-
-                 }
+             } 
+        }
+        if(parseFloat(monto_pago) === parseFloat(cuota)){
                 
+          //  labelsPendientes(0.00,parseFloat(amortizacion).toFixed(2))//hay que usar la amortizacion
+          enviaGuardarAbono(idhipoteca,idabono,interes,interes_moratorio,mantenimiento,amortizacion,0.00,fecha,nota)//la amortizacion sera el capital a enviar
+          //ya que esta pagando la cuota completa
+            console.log("a capital: ", amortizacion)
 
         }
-    }
-    if(parseFloat(monto_pago) === parseFloat(cuota)){
-        console.log("Es igual a la cuota")
+
+    }else{
+        console.log("Editar")
     }
         
 
 }
 
-function enviaGuardarAbono(idhipoteca,interes,capital,interes_moratorio,fecha,nota){
+function enviaGuardarAbono(idhipoteca,idabonos,interes,interes_moratorio,mant_valor,capital,pendiente,fecha,nota){
+     //   console.log("Datos a Enviar: ",idhipoteca,idabonos,interes,interes_moratorio,mant_valor,capital,pendiente,fecha,nota)
+
     $.ajax({
-        url: "../ajax/gestionar_hipoteca.php?op=guardaryeditarAbono" ,
+        url: "../ajax/gestionar_hipoteca.php?op=guardarAbono" ,
         type: "get",
         data: {
-            'idabono':idabonos(),
             'idhipoteca':idhipoteca,
+            'idabono':idabonos,
+            
             'interes': interes,
-            'capital': capital,
             'interes_moratorio': interes_moratorio,
+            'mant_valor':mant_valor,
+            'pendiente':pendiente,
+            'capital': capital,
+            
             'fecha':fecha,
             'nota':nota
-        },
+         },
 
         success: function(datos)
         {

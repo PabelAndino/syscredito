@@ -29,6 +29,8 @@
     <script src="../public/js/bootbox.min.js"></script> 
     <script src="../public/js/bootstrap-select.min.js"></script>
     <script src="../public/js/toastr.min.js"></script>
+   
+
     <!-- <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.11/jquery-ui.min.js"></script> -->
 
 

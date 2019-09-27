@@ -19,128 +19,149 @@ if ($_SESSION['ventas']==1)
     <link href="../public/css/ticket.css" rel="stylesheet" type="text/css">
 
 </head>
-<body onload="window.print();"><!--IMPRIME DIRECTAMENTE AL LLAMARLO-->
-<?php
 
-//Incluímos la clase Venta
-require_once "../modelos/Gestionar_Hipoteca.php";
-//Instanaciamos a la clase con el objeto venta
-$hipoteca = new Gestionar_Hipoteca();
-//En el objeto $rspta Obtenemos los valores devueltos del método ventacabecera del modelo
-$rspta = $hipoteca->cabeceraTicket($_GET["id"]);
-$reg = $rspta->fetch_object();
+<body onload="window.print();" style="style="width:100px;height:500px;"><!--IMPRIME DIRECTAMENTE AL LLAMARLO-->
+  <?php
 
-$restante = $hipoteca->restanteTicket($_GET["id"]);
-$recorreres = $restante->fetch_object();
-//Recorremos todos los valores obtenidos
+    //Incluímos la clase Venta
+    require_once "../modelos/Gestionar_Hipoteca.php";
+    //Instanaciamos a la clase con el objeto venta
+    $hipoteca = new Gestionar_Hipoteca();
+    //En el objeto $rspta Obtenemos los valores devueltos del método ventacabecera del modelo
+    $rspta = $hipoteca->cabeceraTicket($_GET["id"]);
+    $reg = $rspta->fetch_object();
 
-
-//Establecemos los datos de la empresa
-
-$empresa = "CrediEmpeño";
-$documento = "2737-00000";
-$direccion = "Sector 3";
-$telefono = "2737-00000";
-$email = "pabelwitt@gmail.com";
-?>
-<div class="zona_impresion">
-<!-- codigo imprimir -->
-<br>
-<table border="1"  width="300px">
-    <tr>
-        <td align="center">
-        <!-- Mostramos los datos de la empresa en el documento HTML -->
-        .::<strong> <?php echo $empresa; ?></strong>::.<br>
-        <?php echo $documento; ?><br>
-        <?php echo $direccion .' - '.$telefono; ?><br>
-        </td>
-    </tr>
-    <!--<tr>
-        <td align="center"><?php /*echo $reg->fecha; */?></td>
-    </tr>-->
-    <tr>
-      <td align="center"></td>
-    </tr>
-    <tr>
-        <!-- Mostramos los datos del cliente en el documento HTML -->
-        <td>Cliente: <?php echo $reg->cliente; ?></td>
-    </tr>
-    <tr>
-        <td><?php echo $reg->tipo_documento.": ".$reg->num_documento; ?></td>
-    </tr>
-    <tr>
-        <td>Nº de cuenta: <?php echo " - ".$reg->num_cuenta ; ?></td>
-    </tr>
-</table>
-<br>
-<!-- Mostramos los detalles de la venta en el documento HTML -->
-<table border="0"  width="100px" >
+    $restante = $hipoteca->restanteTicket($_GET["id"]);
+    $recorreres = $restante->fetch_object();
+    //Recorremos todos los valores obtenidos
 
 
-    <tr>
-        <td >Interes.</td>
-        <td>Capital</td>
-        <td>Total Abonado</td>
-    </tr>
-    <tr>
-      <td colspan="3">=============================</td>
-    </tr>
-    <?php
+    //Establecemos los datos de la empresa
 
-    $rsptad = $hipoteca->abonoDetalle($_GET["id"]);
-    $cantidad=0;
+    $empresa = "CrediEmpeño";
+    $documento = "2737-00000";
+    $direccion = "Sector 3";
+    $telefono = "2737-00000";
+    $email = "crediemp@gmail.com";
+  ?>
+  
+  <!-- codigo imprimir -->
+  
+      <br>
+      <table border="1"  width="270px">
+          <tr>
+              <td align="center">
+              <!-- Mostramos los datos de la empresa en el documento HTML -->
+              .::<strong> <?php echo $empresa; ?></strong>::.<br>
+              <?php echo $documento; ?><br>
+              <?php echo $direccion .' - '.$telefono; ?><br>
+              </td>
+          </tr>
+          <!--<tr>
+              <td align="center"><?php /*echo $reg->fecha; */?></td>
+          </tr>-->
+          <tr>
+            <td align="center"></td>
+          </tr>
+          <tr>
+              <!-- Mostramos los datos del cliente en el documento HTML -->
+              <td>Cliente: <?php echo $reg->cliente; ?></td>
+              
+          </tr>
+          <tr>
+              <td><?php echo $reg->tipo_documento.": ".$reg->num_documento; ?></td>
+          </tr>
+          <tr>
+              <td>Nº de cuenta: <?php echo " - ".$reg->num_cuenta ; ?></td>
+          </tr>
+          <tr>
+            <td>
+               Nº Solicitud
+            </td>
+           
+          </tr>
+      </table>
+      <br>
+      <!-- Mostramos los detalles de la venta en el documento HTML -->
 
-    while ($regd = $rsptad->fetch_object()) {
-        echo "<tr>";
-        echo "<td>".$regd->abono_interes."</td>";
-        echo "<td>".$regd->abono_capital;
-        echo "<td >$/ ".$regd->total_abonado."</td>";
-        echo "</tr>";
+      <table border="1" width="270px">
+        <tr>
+                <td>Intereses</td>
+                <td>Capital</td>
+                <td>Total</td>
+                <td>Moneda</td>
+            </tr>
+            <tr>
+              <!-- <td colspan="3">----------------------------</td> -->
+            </tr>
+            <?php
 
-    }
+              $rsptad = $hipoteca->abonoDetalle($_GET["id"]);
+              $cantidad=0;
 
-    ?>
-    <!-- Mostramos los totales de la venta en el documento HTML -->
-    <tr>
+              while ($regd = $rsptad->fetch_object()) {
+                  echo "<tr>";
+                  echo "<td>".$regd->intereses."</td>";
+                  echo "<td>".$regd->abono_capital;
+                  echo "<td > ".$regd->total_abonado."</td>";
+                  echo "<td > ".$regd->moneda."</td>";
+                  echo "</tr>";
 
-    <td align="left"><b>Restante:</b></td>
+              }
 
+            ?>
+      </table>
 
-    <td><b> <?php echo $recorreres->restante;  ?></b></td>
-
-
-    </tr>
-    <tr>
-
-        <td align="left"><b>Principal:</b></td>
-
-
-        <td><b> <?php echo $recorreres->monto; ?></b></td>
-
-
-    </tr>
-    <tr>
-      <td colspan="3">Nº de abono: <?php echo $reg->detalle; ?></td>
-    </tr>
-    <tr>
-      <td colspan="3">&nbsp;</td>
-    </tr>
-    <tr>
-      <td colspan="3" align="center">¡Gracias por preferirnos!</td>
-    </tr>
-    <tr>
-      <td colspan="3" align="center">ElsaSoft</td>
-    </tr>
-    <tr>
-      <td colspan="3" align="center"> Nicaragua- Jalapa</td>
-    </tr>
-
-</table>
+      <table border="0.5">
 
 
-<br>
-</div>
-<p>&nbsp;</p>
+          
+          <!-- Mostramos los totales de la venta en el documento HTML -->
+          <tr>
+
+            <td align="left"><b>Restante:</b></td>
+            <td><b> <?php echo $recorreres->restante;  ?></b></td>
+
+          </tr>
+
+          <tr>
+              <td align="left"><b>Principal:</b></td>
+              <td><b> <?php echo $recorreres->monto; ?></b></td>
+
+          </tr>
+          <tr>
+              <td align="left"><b>Pendiente:</b></td>
+              <td><b> <?php echo $recorreres->pendiente; ?></b></td>
+
+          </tr>
+
+
+          <tr>
+            <td colspan="3">Nº de abono: <?php echo $reg->detalle; ?></td>
+          </tr>
+          <tr>
+            <td colspan="3">&nbsp;</td>
+          </tr>
+         
+            <td colspan="3">&nbsp;</td>
+          </tr>
+
+          
+      </table>
+
+      
+  
+            <table>
+            <tr>
+            <td colspan="" align="left">________________</td>
+            <td colspan="" align="right">________________</td>
+          </tr>
+          <tr>
+            <td colspan="" align="left">Recibi conforme</td>
+            <td colspan="" align="right">Entregue conforme</td>
+          </tr>
+          <tr>
+            </table>
 
 </body>
 </html>

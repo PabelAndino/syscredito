@@ -26,8 +26,46 @@ require 'header.php';
             <div class="col-md-12">
                 <div class="box">
                     <div class="box-header with-border">
-                        <h1 >Nueva Cuenta</h1>
+                        <h1 >Abonos</h1>
+                        <div class="panel-body" style="height: 400px;" id="formularioregistros">
 
+<form name="formulario" id="formulario" method="POST">
+
+
+    <div class="form-group col-lg-12 col-md-12 col-sm-12 col-xs-12">
+
+        <table id="tbllistadoHipotecas" class="table table-striped table-bordered table-condensed table-hover">
+
+
+            <thead>
+            <th>Opciones</th>
+            <th>Fecha</th>
+            <th>Cliente</th>
+            <th>Abono Capital</th>
+            <th>Abono Interes</th>
+            <th>Total de abonos</th>
+            <th>Moneda</th>
+            </thead>
+            <tbody>
+            <!----  La loquera de aqui quien lo llena es el dataTable-->
+            </tbody>
+
+            <tfoot>
+            <th>Opciones</th>
+            <th>Fecha</th>
+            <th>Cliente</th>
+            <th>Abono Capital</th>
+            <th>Abono Interes</th>
+            <th>Total de abonos</th>
+            <th>Moneda</th>
+            </tfoot>
+        </table>
+
+    </div>
+
+
+</form>
+</div>
                         <div class="box-tools pull-right">
                         </div>
                     </div>

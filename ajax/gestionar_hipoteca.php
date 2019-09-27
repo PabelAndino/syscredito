@@ -68,7 +68,7 @@ switch ($_GET["op"]){
         }
         break;
     case 'guardaryeditarHipoteca':
-        $monto =$_GET['montos'];
+        $monto = ($_GET['montos']);
         $idhipoteca=$_GET['idhipoteca'];
         $saldo_banco =$_GET['banco'];
         $solicitud =$_GET['solicitud'];
@@ -96,27 +96,43 @@ switch ($_GET["op"]){
         else {
         }
         break;
-    case 'guardaryeditarAbono':
+    case 'guardarAbono':
 
         $idhipotecaAbonar = $_GET['idhipoteca'];
-        $interes_moratorio = $_GET['interes_moratorio'];
-        $idabono = $_GET['idabono'];
+        $abonocapital = $_GET['capital'];     
         $abonointeres = $_GET['interes'];
-        $abonocapital = $_GET['capital'];
+        $interes_pendiente =$_GET['pendiente'];
+        $interes_moratorio = $_GET['interes_moratorio'];
+        $mantenimiento = $_GET['mant_valor'];
+        $idabono = $_GET['idabono'];
+       
+       
         $fechaAbono = $_GET['fecha'];
         $nota = $_GET['nota'];
         if (empty($idabono)){
 
-            $rspta=$hipoteca->insertarAbono($idhipotecaAbonar,$fechaAbono,$abonocapital,$abonointeres,$interes_moratorio,$nota);
-           // $rspta = true;
-            echo $rspta ? "Hipoteca Registrada" : "No se pudo registrar la Hipoteca";
+           $rspta=$hipoteca->insertarAbono($idhipotecaAbonar,$fechaAbono,$abonocapital,$abonointeres,$interes_pendiente,$interes_moratorio,$mantenimiento,$nota);
+           echo $rspta ? "Abono Registrado" : "No se pudo registrar el abono";
+        // echo $idhipotecaAbonar ," ",
+        //  $abonocapital ," ",
+        //  $abonointeres ," ",
+        //  $interes_pendiente," ",
+        //  $interes_moratorio ," ",
+        //  $mantenimiento ," ",
+         $idabono ;
+          
         }
         else {
-            $rspta=$hipoteca->editarAbono($idabono,$fechaAbono,$abonocapital,$abonointeres,$nota);
-            echo $rspta ? "Abono editado correcatamente" : "No se pudo editar el Abono";
+           // $rspta=$hipoteca->editarAbono($idabono,$fechaAbono,$abonocapital,$abonointeres,$nota);
+           // echo $rspta ? "Abono editado correcatamente" : "No se pudo editar el Abono";
         }
         break;
+   
+    case 'editarAbono':
+
+        break;    
     case 'guardaryeditarDetallesAbono':
+       
         if (empty($idabono)){
 
             $rspta=$hipoteca->insertarDetalleAbono($idabono,$fecha,$abonocapital,$abonointeres);
@@ -195,6 +211,7 @@ switch ($_GET["op"]){
                    </tr>';
         }
         break;
+   
     case 'muestraHipotecasLista':
         $idcl=$_GET['idcliente'];
         $rspta=$hipoteca->muestraHipotecasLista($idcl);
@@ -230,6 +247,44 @@ switch ($_GET["op"]){
                    </tr>';
         }
         break;
+    
+    case 'muestraTodosAbonos':
+         $rspta=$hipoteca->muestratodosAbonos();
+
+        //Codificar el resultado utilizando json
+        echo '<thead style="background-color:#ff6851">
+
+                                            <th>Opciones</th>
+                                            <th>Fecha</th>
+                                            <th>Cliente</th>
+                                            <th>Abono Capital</th>
+                                            <th>Abono Interes</th>
+                                            <th>Total Abonado</th>
+                                            <th>Moneda</th>
+                                    
+
+                                    <!-- 
+                                    <th style="white-space: nowrap;min-width: 200px;max-width: 200px;overflow: scroll">Nota</th>
+                                    -->
+                                </thead>';
+
+        while ($reg = $rspta->fetch_object())
+        {
+            $urlTICKET='../reportes/TicketRepH.php?id=';
+
+            echo '<tr>
+                   <td><a target="_blank" href="'.$urlTICKET.$reg->detalle.'">   <button class="btn btn-info" type="button"><i class="fa fa-print"></i></button></a>
+                   <a data-toggle="modal" href="#modalCuentasAbonos"><button class="btn btn-bitbucket" type="button" onclick="mostrarAbonoInfo('.$reg->idhipoteca.','.$reg->monto.')"><i class="fa fa-info"></i></button></a>
+                   </td>
+                   <td>'.$reg->fecha.'</td>
+                   <td>'.$reg->cliente.'</td>
+                   <td>'.$reg->abono_capital.'</td>
+                   <td>'.$reg->abono_interes.'</td>
+                   <td>'.$reg->total_abonado.'</td>
+                   <td>'.$reg->moneda.'</td>
+                   </tr>';
+        }
+     break;  
     case 'mostrar':
         $rspta=$venta->mostrar($idventa);
         //Codificar el resultado utilizando json
@@ -244,13 +299,13 @@ switch ($_GET["op"]){
         break;
     
     case 'mostrarUltimoAbono':
-    $id=$_GET['id'];
+            $id=$_GET['id'];
 
-    $rspta = $hipoteca->mostrarUltimoAbono($id);
-    while ($reg = $rspta->fetch_object()) {
-        echo $reg->id;
-    }
-    break;
+             $rspta = $hipoteca->mostrarUltimoAbono($id);
+             while ($reg = $rspta->fetch_object()) {
+            echo $reg->id;
+            }
+     break;
     case 'muestraAbonoeInteres':
         $id=$_GET['ultimoabono'];
         $rspta=$hipoteca->muestraAbonoeInteres($id);
@@ -277,31 +332,31 @@ switch ($_GET["op"]){
         break;
     case 'mostrarCuentasAbono':
     
-    $id=$_GET['idcliente'];
-    $rspta=$hipoteca->mostrarCuentasAbono($id);
-    //Vamos a declarar un array
-    $data= Array();
-    while ($reg=$rspta->fetch_object()){
+            $id=$_GET['idcliente'];
+            $rspta=$hipoteca->mostrarCuentasAbono($id);
+            //Vamos a declarar un array
+            $data= Array();
+            while ($reg=$rspta->fetch_object()){
 
-        echo ' <thead>
-                   <th>Opciones</th>
-                    <th>Fecha Desembolso</th>
-                    <th>Fecha Pago</th>
-                    <th>Monto</th>
-                    <th>Interes</th>
-                    <th>Moneda</th>
-                 </thead>';
-        echo '<tr>
-                <th><button class="btn btn-success" onclick="mostrarCuentas('.$reg->idhipoteca.',\''.$reg->monto.'\',\''.$reg->interes.'\',\''.$reg->plazo.'\')"><i class="fa fa-plus"></i></button></th>
-                <th>'.$reg->fecha_desembolso.'</th>
-                <th>'.$reg->fecha_pago.'</th>
-                <th>'.$reg->monto.'</th>
-                <th>'.$reg->interes.'</th>
-                <th>'.$reg->moneda.'</th>
-                </tr>';
+                echo ' <thead>
+                        <th>Opciones</th>
+                            <th>Fecha Desembolso</th>
+                            <th>Fecha Pago</th>
+                            <th>Monto</th>
+                            <th>Interes</th>
+                            <th>Moneda</th>
+                        </thead>';
+                echo '<tr>
+                        <th><button class="btn btn-success" onclick="mostrarCuentas('.$reg->idhipoteca.',\''.$reg->monto.'\',\''.$reg->interes.'\',\''.$reg->plazo.'\')"><i class="fa fa-plus"></i></button></th>
+                        <th>'.$reg->fecha_desembolso.'</th>
+                        <th>'.$reg->fecha_pago.'</th>
+                        <th>'.$reg->monto.'</th>
+                        <th>'.$reg->interes.'</th>
+                        <th>'.$reg->moneda.'</th>
+                        </tr>';
 
-    }
-    break;
+            }
+            break;
 
     case 'mostrarPrimerInteres':
         $idHipoteca = $_GET['idHipoteca'];
@@ -486,7 +541,7 @@ switch ($_GET["op"]){
     case 'planPago'://Case de prueba****
 
 
-    break;
+     break;
         //LIST METHODS
 
     case 'listarDetallesCuenta':
@@ -718,7 +773,7 @@ switch ($_GET["op"]){
         break;
 
 
-        case 'listarNuevasCuentas':
+    case 'listarNuevasCuentas':
 
         require_once "../modelos/Cuentas.php"; 
 
@@ -890,7 +945,7 @@ switch ($_GET["op"]){
             $mes_desembolso = date('m',strtotime($reg->fecha_desembolso));
             $anio_desembolso = date('Y',strtotime($reg->fecha_desembolso));
 
-            $fecha_pago = date('Y-m-d',strtotime($reg->fecha_pago));
+            $fecha_pago = date("Y-m-d",strtotime($reg->fecha_pago));
             $mes_pago = date('m',strtotime($reg->fecha_pago));
             $fecha_pago_mesanio = date('Y-m',strtotime($reg->fecha_pago));
             $dia_pago = date('d',strtotime($reg->fecha_pago));
@@ -1169,5 +1224,5 @@ switch ($_GET["op"]){
         
 
 
-    }
+     }
 ?>

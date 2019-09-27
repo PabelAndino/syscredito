@@ -91,13 +91,13 @@ Class Gestionar_Hipoteca
         return ejecutarConsulta($sql);
     }
 
-    public function insertarAbono($idhipoteca,$fecha,$capital,$interes,$interes_moratorio,$nota){
+    public function insertarAbono($idhipoteca,$fecha,$capital,$interes,$interes_pendiente,$interes_moratorio,$mantenimiento_valor,$nota){
 
         $sql="INSERT INTO abono_hipoteca(idhipoteca,fecha,num_comprobante,estado) VALUES ('$idhipoteca','$fecha','0','Pendiente')";
         $idabononew=ejecutarConsulta_retornarID($sql);
 
         $sw=true;
-        $sql_detalle = "INSERT INTO detalle_abono_hipoteca(idabono,fecha,abono_capital,abono_interes,abono_interes_moratorio,nota) VALUES('$idabononew','$fecha','$capital','$interes','$interes_moratorio','$nota')";
+        $sql_detalle = "INSERT INTO detalle_abono_hipoteca(idabono,fecha,abono_capital,abono_interes,interes_pendiente,abono_interes_moratorio,mantenimiento_valor,nota) VALUES('$idabononew','$fecha','$capital','$interes','$interes_pendiente','$interes_moratorio','$mantenimiento_valor','$nota')";
         $iddetalle=ejecutarConsulta_retornarID($sql_detalle);
 
         $sql_sumacapital="INSERT INTO suma_capital(idabono_detalle,abono_capital) VALUES('$iddetalle','$capital')";
@@ -302,6 +302,16 @@ Class Gestionar_Hipoteca
               ";
         return ejecutarConsulta($sql);
     }
+    public function muestratodosAbonos(){
+
+
+        $sql="SELECT h.idhipoteca,da.iddetalle_abono as detalle,DATE(da.fecha) as fecha,cl.nombres as cliente,da.abono_capital,da.abono_interes,(da.abono_capital + da.abono_interes) as total_abonado,
+                h.moneda,h.monto FROM hipoteca h INNER JOIN solicitud sl ON h.solicitud=sl.idsolicitud INNER JOIN cliente cl ON sl.cliente = cl.idcliente 
+                INNER JOIN usuario us ON h.idusuario=us.idusuario INNER JOIN abono_hipoteca ah ON ah.idhipoteca=h.idhipoteca INNER JOIN detalle_abono_hipoteca da ON da.idabono=ah.idabono 
+                WHERE h.condicion='Pendiente' AND h.estado='Aceptado'
+              ";
+        return ejecutarConsulta($sql);
+    }
     public function muestraHipotecasLista($idcliente){
         $fecha= date('Y/m/d');
 
@@ -329,15 +339,16 @@ Class Gestionar_Hipoteca
     }
 
     function abonoDetalle($id){
-        $sql="SELECT h.idhipoteca,da.iddetalle_abono as detalle,da.fecha,cl.nombres as cliente,cl.tipo_documento,cl.num_documento,h.idhipoteca as num_cuenta,
-da.abono_capital,da.abono_interes,(da.abono_capital + da.abono_interes) as total_abonado,h.moneda FROM hipoteca h INNER JOIN solicitud sl ON h.solicitud=sl.idsolicitud 
-INNER JOIN cliente cl ON sl.cliente = cl.idcliente INNER JOIN usuario us ON h.idusuario=us.idusuario INNER JOIN abono_hipoteca ah ON ah.idhipoteca=h.idhipoteca 
-INNER JOIN detalle_abono_hipoteca da ON da.idabono=ah.idabono WHERE da.iddetalle_abono = '$id'";
+        $sql="SELECT h.idhipoteca,da.iddetalle_abono as detalle,da.fecha,cl.nombres as cliente,cl.tipo_documento,cl.num_documento,h.idhipoteca as num_cuenta, 
+        da.abono_capital,(da.abono_interes + da.abono_interes_moratorio + da.mantenimiento_valor) as intereses,(da.abono_interes + da.abono_interes_moratorio + da.mantenimiento_valor) as total_abonado,
+        h.moneda,(da.interes_pendiente) as pendiente FROM hipoteca h INNER JOIN solicitud sl ON h.solicitud=sl.idsolicitud INNER JOIN cliente cl ON sl.cliente = cl.idcliente 
+        INNER JOIN usuario us ON h.idusuario=us.idusuario INNER JOIN abono_hipoteca ah ON ah.idhipoteca=h.idhipoteca INNER JOIN detalle_abono_hipoteca da ON da.idabono=ah.idabono 
+        WHERE da.iddetalle_abono = '$id'";
         return ejecutarConsulta($sql);
     }
 
     function restanteTicket($id){
-        $sql="SELECT SUM(da.abono_capital), h.monto, (h.monto - SUM(da.abono_capital)) as restante FROM hipoteca h INNER JOIN solicitud sl 
+        $sql="SELECT SUM(da.abono_capital), h.monto, (h.monto - SUM(da.abono_capital)) as restante,(da.interes_pendiente) as pendiente FROM hipoteca h INNER JOIN solicitud sl 
 ON h.solicitud=sl.idsolicitud INNER JOIN cliente cl ON sl.cliente = cl.idcliente INNER JOIN usuario us ON h.idusuario=us.idusuario 
 INNER JOIN abono_hipoteca ah ON ah.idhipoteca=h.idhipoteca INNER JOIN detalle_abono_hipoteca da ON da.idabono=ah.idabono WHERE da.iddetalle_abono = '$id'";
 
