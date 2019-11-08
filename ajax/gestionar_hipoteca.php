@@ -70,7 +70,7 @@ switch ($_GET["op"]){
     case 'guardaryeditarHipoteca':
         $monto = ($_GET['montos']);
         $idhipoteca=$_GET['idhipoteca'];
-        $saldo_banco =$_GET['banco'];
+        $saldo_banco =$_GET['saldo_banco'];
         $solicitud =$_GET['solicitud'];
         $fiador=$_GET['fiador'];
         $garantia=$_GET['garantia'];
@@ -85,15 +85,35 @@ switch ($_GET["op"]){
         $plazo=$_GET['plazo'];
         $tipo=$_GET['tipo'];
         $nota=$_GET['nota'];
+        
+        $numero_cuenta = 0;
+        $monto_a_actualizar = round((round($saldo_banco) - round($monto) ),2 );//como quedara el monto de la cuenta despues del prestamo
 
+        //verifica si no hay una cuenta nueva, si no hay asignara uno para que se sepa que es la primera cuenta, si no consultara si esta para sumarle 1
+        $obtiene_ncuenta = $hipoteca->getnoCuenta($solicitud);
+
+        if(($obtiene_ncuenta->num_rows) == 0){ //si devuelve cero significa que no se a creado ninguna cuenta, significa que sera la primera 
+
+            $numero_cuenta = 1;
+            echo $numero_cuenta;
+
+        }else{
+            while($ncuenta = $obtiene_ncuenta->fetch_object()){
+                $numero = $ncuenta->no_cuenta;
+                $numero_cuenta = $numero + 1;
+               
+         }
+        }
+        
+       // echo $numero_cuenta;
         if (empty($idhipoteca)){
 
-            $rspta=$hipoteca->guardarHipoteca($idusuario,$fiador,$garantia,$fecha_desembolso,$fecha_pago,$tipo,
-                                              $monto,$interes,$plazo,$interes_moratorio,$moneda,$nota,$comision,$manteminiento_valor,$cuenta_desenbolso,$solicitud);
-            echo $rspta? "Cuenta guardada correctamente":"No se pudo guardar la cuenta";
-           // echo $rspta ? "Hipoteca Registrada" : "No se pudo registrar la Hipoteca";
-        }
-        else {
+           $rspta=$hipoteca->guardarHipoteca($idusuario,$fiador,$garantia,$fecha_desembolso,$fecha_pago,$tipo,
+                                             $monto,$interes,$plazo,$interes_moratorio,$moneda,$nota,$comision,$manteminiento_valor,$cuenta_desenbolso,$solicitud,$numero_cuenta,$monto_a_actualizar);
+            echo $rspta ? "Cuenta guardada correctamente":"No se pudo guardar la cuenta";
+          
+        }else {
+            
         }
         break;
     case 'guardarAbono':
@@ -340,6 +360,7 @@ switch ($_GET["op"]){
 
                 echo ' <thead>
                         <th>Opciones</th>
+                            <th>No Creditos</th>
                             <th>Fecha Desembolso</th>
                             <th>Fecha Pago</th>
                             <th>Monto</th>
@@ -348,6 +369,7 @@ switch ($_GET["op"]){
                         </thead>';
                 echo '<tr>
                         <th><button class="btn btn-success" onclick="mostrarCuentas('.$reg->idhipoteca.',\''.$reg->monto.'\',\''.$reg->interes.'\',\''.$reg->plazo.'\')"><i class="fa fa-plus"></i></button></th>
+                        <th>'.$reg->no_credito.'</th>
                         <th>'.$reg->fecha_desembolso.'</th>
                         <th>'.$reg->fecha_pago.'</th>
                         <th>'.$reg->monto.'</th>
@@ -785,6 +807,7 @@ switch ($_GET["op"]){
                 <thead>
                 <th>Opciones</th>
                 <th>Cuenta</th>
+                <th>No Credito</th>
                 <th>Cliente</th>
                 <th>Cedula</th>
                 <th>Monto</th>
@@ -814,6 +837,7 @@ switch ($_GET["op"]){
                 <tr>
                 <td>'. $condition.$state.' <a target="_blank" href="'.$urlTICKET.$reg->idhipoteca.'"> <button class="btn btn-flickr" type="button"><i class="fa fa-file-text"></i></button></a> </td>
                 <td>'.$reg->idhipoteca.'</td>
+                <td>'.$reg->no_credito.'</td>
                 <td>'.$reg->nombres.'</td>
                 <td>'.$reg->num_documento.'</td>
                 <td>'.$reg->monto.'</td>

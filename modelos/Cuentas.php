@@ -64,7 +64,7 @@ Class Cuentas
 
     public function listarCuentaDia()
     {
-        $sql="SELECT h.idhipoteca,h.fecha_desembolso,h.fecha_pago,h.monto,h.interes,h.interes_moratorio,h.tipo,h.moneda,h.plazo,cl.nombres,cl.num_documento,h.condicion,h.estado 
+        $sql="SELECT h.idhipoteca,h.fecha_desembolso,h.fecha_pago,h.monto,h.interes,h.interes_moratorio,h.tipo,h.moneda,h.plazo,cl.nombres,cl.num_documento,h.condicion,h.estado,h.no_credito 
               FROM hipoteca h INNER JOIN solicitud s ON h.solicitud = s.idsolicitud INNER JOIN cliente cl ON s.cliente=cl.idcliente ";
         return ejecutarConsulta($sql);
     }

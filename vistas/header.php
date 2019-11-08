@@ -150,8 +150,7 @@
                
                 <li><a href="gestionar_hipoteca.php"><i class="fa fa-circle-o"></i>Prestamos</a></li>
                 <li><a href="modal.php"><i class="fa fa-circle-o"></i>Modal</a></li>
-                 <li><a href="bancos.php"><i class="fa fa-circle-o"></i>Bancos</a></li>
-                 <li><a href="socios.php"><i class="fa fa-circle-o"></i>Socios</a></li>
+                 
                 <li><a href="printTest.php"><i class="fa fa-circle-o"></i>Print Test</a></li>
                 
               </ul>
@@ -172,7 +171,8 @@
               <ul class="treeview-menu">
                
                 <li><a href="cuentas.php"><i class="fa fa-circle-o"></i>Cuentas</a></li>
-                
+                <li><a href="bancos.php"><i class="fa fa-circle-o"></i>Bancos</a></li>
+                 <li><a href="socios.php"><i class="fa fa-circle-o"></i>Socios</a></li>
                 
               </ul>
             </li>';

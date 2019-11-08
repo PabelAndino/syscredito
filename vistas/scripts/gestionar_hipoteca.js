@@ -10,17 +10,67 @@ var IDipoteca,Monto,Interes,Ultimoabonoid;
 
 //Función que se ejecuta al inicio
 function init(){
-      listarAbonosdeldia();
-  //  listarNuevaCuenta()
-  //  limpiarGarantia();
-  //  limpiarAbono();
-    fechaActual()
-    pickerChange()
-    initFUNCTIONS()
-    listarBancos()
+        listarAbonosdeldia();
+  
+        fechaActual()
+        pickerChange()
+        initFUNCTIONS()
+        listarBancos()
 
-  getTipoCambio()
+        getTipoCambio()
+        setTipoCambio()
+   
 }
+
+function setTipoCambio(){
+    
+
+
+    var $cambio = $('select#monedaHipoteca').on('change',function(){
+        let tipo_cambio = $('#cambio_dolar').val()
+        let moneda = $(this).val(); //cada que cambie asignara su valor a la variable moneda
+        let monto = parseFloat($("#monto_ncuenta").val().replace(',', ''))//reemplazara la coma del monto por nada y quedara una sola sifra
+        let moneda_val = ($('#banco_moneda').text()).trim()
+        console.log(moneda_val)
+        if(moneda === "Cordobas"){ //si la moneda seleccionada es cordobas
+
+            if(moneda_val === "Dolares"){ //si la moneda selccionada es cordobas y la cuenta esta en dolares
+                console.log("No joda primo")
+                let calculo = (monto / parseFloat(tipo_cambio)).toFixed(2)
+                $('#cambio').val(calculo)
+            }else{
+                $('#cambio').val(parseFloat(monto).toFixed(2))
+            }
+            // let calculo = parseFloat(monto * parseFloat(tipo_cambio)).toFixed(2)
+            // console.log("Conversion ",calculo,moneda_val)
+        }else{ //si la moneda seleccionada es dolares
+            if(moneda_val === "Dolares"){ // si la moneda seleccionada es dolares y si la cuenta esta en dolares 
+                $('#cambio').val(parseFloat(monto).toFixed(2))
+                
+            }else{ //si la cuenta esta en cordobas y la moneda seleccionada en dolares
+
+                let calculo = (monto * parseFloat(tipo_cambio)).toFixed(2)
+                $('#cambio').val(calculo)
+
+                
+            }
+            
+        }
+        
+
+
+
+   })
+
+
+}
+
+function resetCambioMoneda(){//resetea la moneda y el tipo de cambio al hacer ciertos cambios en controles
+    $("#monedaHipoteca").val('default');
+    $("#monedaHipoteca").selectpicker("refresh");
+    $('#cambio').val('')
+}
+
 function getTipoCambio(){
     $.ajax({
         url: 'https://free.currconv.com/api/v7/convert?q=USD_NIO&compact=ultra&apiKey=20c75241f5f1d3c74188',
@@ -35,6 +85,7 @@ function getTipoCambio(){
                   // Mostrando en pantalla la clave junto a su valor
                   $('#cambio_dolar').val(res[clave])
                  // console.log("La clave es " + clave+ " y el valor es " + res[clave]);
+                // setCambio() //una vez es llamada mostrado el tipo de cambio llama a la funcion para que pueda mostrar el tipo de cambio y calcularlo
                 }
               }
         },
@@ -42,6 +93,7 @@ function getTipoCambio(){
             $('#cambio_dolar').val('Sin conexion')
         }
       })
+
 
       
       
@@ -197,6 +249,7 @@ function calculaCuotaaEnviarFuncion(){
 function labelsPendientes(pendiente,a_capital){
 
     $('#label_pendiente').html(pendiente)
+    $('#input_pendiente').val(pendiente)
     $('#label_a_capital').html(a_capital)
     $('#commentAbono').text('')
 
@@ -219,6 +272,9 @@ function cpf(v){
     v=v.replace(/\.(\d{1,2})\./g,'.$1'); 
     v = v.toString().split('').reverse().join('').replace(/(\d{3})/g,'$1,');    
     v = v.split('').reverse().join('').replace(/^[\,]/,''); 
+
+    resetCambioMoneda()
+
     return v;  
 }  
 //Fin agrega comas mientras se escribe
@@ -308,11 +364,14 @@ function pickerChange() {
 function pickerChangeBanco() {
     var $idbancos = $('select#idbancos').on('change',function(){
         var idBanco = $(this).val();
-        calculaSaldoBanco(idBanco)
+        console.log(idBanco, "Id Perrin")
+        calculaSaldoBanco(idBanco )
+        resetCambioMoneda()
 
     });
 }
 function calculaSaldoBanco(idbanco) {
+    let monto 
     $.ajax({
         url:'../ajax/cuenta_banco.php?op=calculaSaldoBanco',
         type:'get',
@@ -322,10 +381,13 @@ function calculaSaldoBanco(idbanco) {
 
             //  $('#saldo_banco').val(data)
             //  $('#acancelar').val((parseFloat($('#saldo_banco').val())+29).toFixed(2))
-            document.getElementById('saldo_banco').value=saldo
-            console.log(saldo," Saldo")
+           // document.getElementById('saldo_banco').value= saldo
+            $('#saldo_banco').val(saldo)
+           
+            
         }
     })
+   
     saldoBancoMoneda(idbanco)
 }
 function saldoBancoMoneda(idbanco) {
@@ -735,12 +797,9 @@ function guardaryeditarGarantia(e) {
     limpiar();
     arr.length = 0;
 }
-function guardaryeditarHipoteca(e) {
-    e.preventDefault(); //No recargara la pagina despues de llamar esta funcion
-
-   // var formData = new FormData($("#formularioHipoteca")[0]);
+function valuesH(){//Esta funcion no esta haciendo nada de momento
     let saldo_banco =$('#saldo_banco').val()//parseFloat($('#saldo_banco').val()).toFixed(2)
-    let monto = parseFloat($("#monto_ncuenta").val().replace(',', ''))//parseFloat($('#monto_ncuenta').val()).toFixed(2)//parseFloat($('#monto_ncuenta').val()).toFixed(2) parseFloat($('#monto_ncuenta').val()).toFixed(2) 
+    let monto = parseFloat($("#monto_ncuenta").val().replace(',', ''))//reemplazara la coma del monto por nada y quedara una sola sifra
     let solicitud = $('#idsolicitud_picker').val()
     let fiador= $('#idfiador_picker').val()
     let garantia= $('#idgarantia').val()
@@ -756,45 +815,70 @@ function guardaryeditarHipoteca(e) {
     let mantenimiento =$('#mantenimiento').val()
     let nota= $('#comment').val()
     let idhipoteca=$('#idhipoteca').val()
+    let cambio_dolar = $('#cambio_dolar').val()
+}
+
+
+function guardaryeditarHipoteca(e) {
+    e.preventDefault(); //No recargara la pagina despues de llamar esta funcion
+
+   // var formData = new FormData($("#formularioHipoteca")[0]);
+    let saldo_banco =$('#saldo_banco').val()//parseFloat($('#saldo_banco').val()).toFixed(2)
+    let monto = parseFloat($("#monto_ncuenta").val().replace(',', ''))//reemplazara la coma del monto por nada y quedara una sola sifra
+    let solicitud = $('#idsolicitud_picker').val()
+    let fiador= $('#idfiador_picker').val()
+    let garantia= $('#idgarantia').val()
+    let banco= $('#idbancos').val()
+    let fecha_desembolso= $('#fechaHipoteca').val()
+    let fecha_pago= $('#fechaPago').val()
+    let moneda= $('#monedaHipoteca').val()
+    let interes= $('#interes').val()
+    let interes_moratorio= $('#interes_moratorio').val()
+    let comision= $('#comision').val()
+    let plazo= $('#plazo_month').val()
+    let tipo= $('#tipo').val()
+    let mantenimiento =$('#mantenimiento').val()
+    let nota= $('#comment').val()
+    let idhipoteca=$('#idhipoteca').val()
+    let cambio_dolar = $('#cambio_dolar').val()
+    let conv_dolar  = $('#convert_ds').val()
+    let conv_cords = $('#convert_cs').val()
+    let cambio = parseFloat($('#cambio').val()).toFixed(2)
 
 
 
+       if (parseFloat(saldo_banco) < parseFloat(cambio)){
 
 
-
-       if (parseFloat(saldo_banco) < parseFloat(monto)){
            var alerta ="No hay fondo suficiente en esta cuenta, este banco solo tiene: "+ saldo_banco +" Y se esta solicitando: " + monto
             bootbox.alert( alerta )
 
        }else {
-           $.ajax({
-          url: "../ajax/gestionar_hipoteca.php?op=guardaryeditarHipoteca",
-          type: "get",
-          data:{
-              'montos':monto, 'solicitud':solicitud, 'fiador':fiador, 'garantia':garantia,  'banco':banco, 'desembolso':fecha_desembolso,'pago':fecha_pago,
-              'moneda':moneda, 'interes':interes, 'interes_moratorio':interes_moratorio, 'comision':comision,  'plazo':plazo,
-              'tipo':tipo,'mantenimiento':mantenimiento,'nota':nota,'idhipoteca':idhipoteca
 
-          },
+        console.log(moneda,cambio)
 
-          success: function(datos)
-          {
-              bootbox.alert({
-                  message: datos,
-                  callback: function (result) {
-                     // recargar()
-                  }
-              });
-          }
+           $.ajax({ 
+                url: "../ajax/gestionar_hipoteca.php?op=guardaryeditarHipoteca",
+                type: "get",
+                data:{
+                    'montos':cambio, 'solicitud':solicitud, 'fiador':fiador, 'garantia':garantia,  'banco':banco, 'desembolso':fecha_desembolso,'pago':fecha_pago,
+                    'moneda':moneda, 'interes':interes, 'interes_moratorio':interes_moratorio, 'comision':comision,  'plazo':plazo,
+                    'tipo':tipo,'mantenimiento':mantenimiento,'nota':nota,'idhipoteca':idhipoteca,'saldo_banco':saldo_banco
 
-      })
+                },
+
+                success: function(datos)
+                {
+                    bootbox.alert({
+                        message: datos,
+                        callback: function (result) {
+                            // recargar()
+                        }
+                    });
+                }
+
+           })
        }
-
-
-
-
-
-
 
 }
 function guardaryeditarAbono(e) {

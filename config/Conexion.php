@@ -17,6 +17,8 @@ if(!function_exists('ejecutarConsulta')) // si no existe la voy a definir
         global  $conexion;
         $query = $conexion->query($sql);
         return $query; //solo devuelve 1 o O
+
+        //return mysqli_error($conexion);
     }
 
     function ejecutarConsultaSimpleFila($sql)
@@ -32,6 +34,7 @@ if(!function_exists('ejecutarConsulta')) // si no existe la voy a definir
         global  $conexion;
         $query = $conexion->query($sql);
         return $conexion->insert_id;
+       // return mysqli_error($conexion);
     }
 
     function limpiarCadena($str)//escapar los caracteres especiales en una cadena para ponerlos en la sentencia sql

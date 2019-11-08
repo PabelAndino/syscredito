@@ -25,7 +25,7 @@ else
                     <div class="col-md-12">
                         <div class="box">
                             <div class="box-header with-border">
-                                <h1 class="p-3 mb-2 bg-maroon-gradient text-white">Bancos </h1>
+                                <h1 class="p-3 mb-2 bg-maroon-gradient text-white">Socios </h1>
                                 <div class="box-tools pull-right">
                                 </div>
                             </div>
@@ -39,8 +39,8 @@ else
                                 <form name="formulario_ncuenta" id="formulario_ncuenta" method="POST">
 
                                     <div class="form-group col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                        <h2>Datos del Banco</h2>
-                                        <input type="hidden" id="idcuenta_banco">
+                                        <h2>Datos Socios</h2>
+                                        <input type="hidden" id="idcuenta_banco" VALUE="">
                                     </div>
 
                                     <div class="form-group col-lg-3 col-md-3 col-sm-3 col-xs-12">
@@ -53,23 +53,13 @@ else
 
                                     </div>
 
+                                    
                                     <div class="form-group col-lg-3 col-md-3 col-sm-3 col-xs-12">
-                                        <label>Nombre del Banco:</label>
-
-                                        <input type="text" class="form-control" name="banco_nombre" id="banco_nombre" maxlength="100" placeholder="Nombre del Proveedor" required>
-                                    </div>
-
-
-                                   <!-- <div class="form-group col-lg-3 col-md-3 col-sm-3 col-xs-12">
-                                        <label>Tipo de documento(*):</label>
-                                        <select class="form-control selectpicker" name="tipo_documento" id="tipo_documento" required>
-
-                                            <option value="CEDULA">Cedula</option>
-                                            <option value="RUC">RUC</option>
-
+                                        <label>Banco:</label>
+                                        <select class="form-control selectpicker" title="Bancos" data-size="5" name="banco_nombre" id="banco_nombre" required>
                                         </select>
 
-                                    </div>-->
+                                    </div>
 
 
 
@@ -102,21 +92,30 @@ else
 
                                     <!--Montos para editar-->
                                     <div class="form-group col-lg-2 col-md-2 col-sm-2 col-xs-12" >
-                                        <label>Montos:</label>
+                                        <!-- <label>Montos:</label>
                                         <select class="form-control selectpicker" title="Montos" data-size="5" name="montos_picker" id="montos_picker"  ><!--CARGARA LOS MONTOS PARA EDITARLOS-->
 
-                                        </select>
+                                        <!-- </select> -->
 
-                                    </div>
+                                      </div>
 
-                                    <div class="form-group col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                    <div class="form-group col-lg-3 col-md-3 col-sm-3 col-xs-12">
 
                                         <div class="well-sm">
                                             <a data-toggle="modal" href="#modalSocios">
                                                 <button class="btn btn-warning" type="button" id="btn_socio"><i class="fa fa-user"></i> Socio</button>
                                             </a>
+                                            <a data-toggle="modal" href="#modalBancos">
+                                                <button class="btn btn-bitbucket" type="button" id="btn_bancos"><i class="fa fa-bank"></i> Bancos</button>
+                                            </a>
+
                                         </div>
 
+                                        <!-- <div class="form-group col-lg-3 col-md-3 col-sm-3 col-xs-12">
+
+                                        <div class="well-sm">
+                                            
+                                        </div> -->
 
 <!--                                        <button class="btn btn-danger" onclick="cancelarform()" type="button"><i class="fa fa-arrow-circle-left"></i> Cancelar</button>-->
                                     </div>
@@ -170,6 +169,7 @@ else
         <!--Fin-Contenido-->
 
         <div class="modal fade" id="modalSocios" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" >
+
             <div class="modal-dialog" style="width: 75% !important;">
                 <div class="modal-content">
 
@@ -184,7 +184,7 @@ else
                                 <div class="form-group col-lg-6 col-md-6 col-sm-6 col-xs-12">
                                     <label>Nombre(*):</label>
                                     <input type="hidden" name="idsocio" id="idsocio">
-<!--                                    <input type="hidden" name="tipo_personaCliente" id="tipo_personaCliente" value="Cliente" >-->
+
 
                                     <input type="text"     class="form-control" name="nombres" id="nombres" maxlength="100" placeholder="Nombres y Apellidos" required>
                                 </div>
@@ -247,6 +247,76 @@ else
                 </div>
             </div>
         </div>
+
+
+        <!-- Modal -->
+        
+        <!-- Fin Modal -->
+
+        <!-- Modal Bancos-->
+        <div class="modal fade" id="modalBancos" tabindex="-1" role="dialog"  aria-labelledby="myModalLabel" aria-hidden="true"  >
+            <div class="modal-dialog" style="width: 75% !important;">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title">Ingrese un Banco</h4>
+                    </div>
+
+                            <form name="formularioBancos" id="formularioBancos" method="POST">
+
+                                 <div class="form-group col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                    <label>Nombre del Banco:</label>
+                                    <input type="text" class="form-control" name="banco_input" id="banco_input"  placeholder="Banco" required>
+                                    <input type="number" name="idbanco" id="idbanco" hidden VALUE="">
+                                </div>
+
+                                <div class="form-group col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                    <label>Descripción:</label>
+                                    <input type="text" class="form-control" name="descripcion_input" id="descripcion_input" placeholder="Descripcion" required>
+                                </div>
+
+                                <!-- <div class="form-group col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                    <label>Teléfono(*):</label>
+                                    <input type="text" class="form-control" name="telefono" id="telefono" maxlength="256" placeholder="telefono" required>
+                                </div> -->
+
+                                <div class="form-group col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                    <button class="btn btn-primary" type="submit"  id="btnGuardarSocio"><i class="fa fa-save"></i> Guardar</button>
+
+                                    <button class="btn btn-warning"  type="button"><i class="fa fa-arrow-circle-left"></i> Limpiar</button>
+                                </div>
+
+                            </form>
+
+                      <div class="">
+                        <table id="tbBancos" class="table table-striped table-bordered table-condensed table-hover">
+
+                            <thead>
+
+                            <th>Opciones</th>
+                            <th>Nombre</th>
+                            <th>Descripción</th>
+                            <th>Estado</th>
+                            <tbody>
+                            <tr>
+
+                            </tbody>
+                            <tfoot>
+
+                            <th>Opciones</th>
+                            <th>Nombre</th>
+                            <th>Descripción</th>
+                            <th>Estado</th>
+                            
+                        </table>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Fin modal -->
 
 
         <?php

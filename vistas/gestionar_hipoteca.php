@@ -76,9 +76,10 @@ require 'header.php';
                                     </div>
 
                                     <div class="form-group col-lg-3 col-md-3 col-sm-3 col-xs-6">
-                                        <label>Banco(*):</label>
+                                        <label>Cuenta Socio(*):</label>
                                         <select  title="Buscar cuentas de banco" name="idbancos" id="idbancos" class="form-control selectpicker" data-size="4" data-live-search="true" required>
                                         </select>
+                                        
                                     </div>
                                     <div class="form-group col-lg-2 col-md-2 col-sm-2 col-xs-12">
                                         <label>Fecha Desembolso(*):</label>
@@ -89,9 +90,14 @@ require 'header.php';
                                         <input type="date" class="form-control" name="fechaPago" id="fechaPago">
                                     </div>
 
+                                    <div class="form-group col-lg-2 col-md-2 col-sm-6 col-xs-12">
+                                        <label>Monto(*):</label>
+                                        <input type="text" class="form-control" name="monto_ncuenta" id="monto_ncuenta"  onkeypress="mascara(this,cpf)" maxlength="10" step=".01" min="0" required>
+                                    </div>
+
                                     <div class="form-group col-lg-2 col-md-2 col-sm-6 col-xs-6">
                                         <label>Moneda(*):</label>
-                                        <select name="monedaHipoteca" id="monedaHipoteca" class="form-control selectpicker" required>
+                                        <select name="monedaHipoteca" id="monedaHipoteca" title="Moneda" class="form-control selectpicker" required>
 
                                             <option value="Cordobas">Córdobas</option>
                                             <option value="Dolares">Dólares</option>
@@ -99,10 +105,7 @@ require 'header.php';
                                         </select>
                                     </div>
 
-                                    <div class="form-group col-lg-2 col-md-2 col-sm-6 col-xs-12">
-                                        <label>Monto(*):</label>
-                                        <input type="text" class="form-control" name="monto_ncuenta" id="monto_ncuenta"  onkeypress="mascara(this,cpf)" maxlength="10" step=".01" min="0" required>
-                                    </div>
+                                    
 
                                     <div class="form-group col-lg-2 col-md-2 col-sm-6 col-xs-12">
                                         <label>Interés(*):</label>
@@ -169,11 +172,16 @@ require 'header.php';
                                         <label id="banco_moneda">MONEDA</label>
                                     </div>
 
+                                    <div class="form-group col-lg-2 col-md-2 col-sm-6 col-xs-12">
+                                        <label>Cambio:</label>
+                                        <input  class="form-control"  type="text" name="cambio" id="cambio" required  >
+                                        <!-- <label id="banco_moneda">MONEDA</label> -->
+                                    </div>
 
                                     <div class="form-group col-lg-12 col-md-12 col-sm-12 col-xs-12">
 
                                         <div class="well well-sm">
-                                            <button type="button" onclick="" class="btn btn-adn"><i class="fa fa-amazon"></i></button>
+                                            <button type="button" id="btn_cambio" class="btn btn-adn"><i class="fa fa-amazon"></i></button>
 
                                             <div class="form-group col-lg-2 col-md-2 col-sm-2 col-xs-12">
 
@@ -182,11 +190,11 @@ require 'header.php';
                                             </div>
                                             <div class="form-group col-lg-1 col-md-1 col-sm-1 col-xs-12">
                                                 <label>C$:</label>
-                                                <input  class="form-control" name="saldo_banco" id="saldo_banco"  >
+                                                <input  class="form-control" name="convert_cs" id="convert_cs"  >
                                             </div>
                                             <div class="form-group col-lg-1 col-md-1 col-sm-1 col-xs-12">
                                                 <label>$:</label>
-                                                <input  class="form-control" name="saldo_banco" id="saldo_banco"  >
+                                                <input  class="form-control" name="convert_ds" id="convert_ds"  >
                                             </div>
 
                                         </div>
@@ -272,215 +280,212 @@ require 'header.php';
                             <!--Seccion 2 Abonos -->           <div role="tabpanel" class="tab-pane" id="seccion2">
                                            
                                                 
-                                                <div class="panel-body">
-                                                   
-                                                    <h3>Abonos</h3>
-                                                    <form name="formularioAbono" id="formularioAbono" method="POST" style="height: 100%">
-                                                        <div class="form-group col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                                                        <label>Buscar Cuenta-Cliente(*):</label>
+                                                                    <div class="panel-body">
+                                                                    
+                                                                        <h3>Abonos</h3>
+                                                                        <form name="formularioAbono" id="formularioAbono" method="POST" style="height: 100%">
+                                                                            <div class="form-group col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                                                                            <label>Buscar Cuenta-Cliente(*):</label>
 
-                                                          <select title="Busca al Cuenta del cliente" id="buscarClientesAbono" name="buscarClientesAbono" class="form-control selectpicker" data-size="4" data-live-search="true" required>
+                                                                            <select title="Busca al Cuenta del cliente" id="buscarClientesAbono" name="buscarClientesAbono" class="form-control selectpicker" data-size="4" data-live-search="true" required>
 
-                                                        </select>
-                                                        </div>
+                                                                            </select>
+                                                                            </div>
 
-                                                    <div class="form-group col-lg-2 col-md-2 col-sm-2 col-xs-12">
-                                                        <label>Fecha(*):</label>
-                                                        <input type="date" class="form-control" name="fecha_horaAbono" id="fecha_horaAbono">
-                                                    </div>
-
-
-
-                                                    <div class="form-group col-lg-2 col-md-2 col-sm-6 col-xs-12">
-                                                        <label>Interes:</label>
-                                                        <input type="number" class="form-control" maxlength="10" step=".01" min="0" name="abonointeres" id="abonointeres" maxlength="7" placeholder="Abono Interes">
-                                                        <input type="hidden" class="form-control" name="idabonodetalles" id="idabonodetalles" maxlength="7"  placeholder="Abono Interes"><!--Este es el id de abono que se genera cuando se va a editar un abono-->
-                                                        <input type="hidden" class="form-control" name="idhipotecaAbonar" id="idhipotecaAbonar" maxlength="7" placeholder="Abono Interes">  <!--es el mismo idhipoteca que se necesita para guardar un abono-->
-                                                        
-
-                                                        <input type="hidden" class="form-control" name="ultimoidabono" id="ultimoidabono" maxlength="7" placeholder="test">
-                                                    </div>
-
-                                                        
-
-                                                        <div class="form-group col-lg-2 col-md-2 col-sm-2 col-xs-12">
-                                                            <label>Interes moratorio:</label>
-                                                            <input type="text" class="form-control" maxlength="10" step=".01" min="0" name="interes_moratorio_abono" id="interes_moratorio_abono" maxlength="7" placeholder="Cuota" VALUE="0.00">
-                                                        </div>
-                                                        <div class="form-group col-lg-2 col-md-2 col-sm-6 col-xs-12">
-                                                            <label>Amortizacion:</label>
-                                                            <input type="number" class="form-control" maxlength="10" step=".01" min="0" name="abono_capital" id="abono_capital" maxlength="7" placeholder="Cuota" VALUE="0.00">
-                                                        </div>
-                                                        <div class="form-group col-lg-2 col-md-2 col-sm-2 col-xs-6" style="border: 5px ;border-color: #0c0c0c">
-                                                            <div class="well well-sm">
-                                                                <a data-toggle="modal" href="#modalCuentas">
-                                                                    <button id="btnBuscarCuenta" type="button" onclick="muestraCuentasPendientesAbono()" class="btn btn-primary"> <span class="fa fa-plus"></span> Cuentas</button>
-                                                                </a>
-                                                            </div>
-                                                        </div>
-
-                                                    <div class="form-group col-lg-2 col-md-2 col-sm-6 col-xs-12">
-                                                        <label>Mant Valor:</label>
-                                                        <input type="number" class="form-control" maxlength="10" step=".01" min="0" name="mantValortotal" id="mantValortotal" maxlength="7" placeholder="Abono Interes" VALUE="0.00">
-                                                    </div>
-
-
-                                                      <div class="form-group col-lg-2 col-md-2 col-sm-2 col-xs-12">
-                                                            <label>Intereses(sumado):</label>
-                                                            <input type="number" class="form-control" maxlength="10"  step=".01" min="0"  name="intereses" id="intereses" maxlength="7" placeholder="0" >
-                                                        </div>
-
-
-                                                        <div class="form-group col-lg-2 col-md-2 col-sm-2 col-xs-12">
-                                                            <label>Cuota:</label>
-                                                            <input type="number" class="form-control" maxlength="10"  step=".01" min="0" name="cuota" id="cuota" maxlength="7" placeholder="0" >
-                                                        </div>
-
-                                                        
-
-
-                                                        <div class="form-group col-lg-2 col-md-2 col-sm-2 col-xs-12">
-                                                            <label>Monto a Pagar:</label>
-                                                            <input type="text"  class="form-control" name="monto_pago" id="monto_pago" maxlength="10" placeholder="$0">
-                                                        </div>
-
-                                                        <div class="form-group col-lg-2 col-md-2 col-sm-2 col-xs-12">
-                                                            <h4 style="color: #0074ff">Primer Interés:</h4>
-                                                            <input type="text" readonly class="form-control" name="primerInteresAbono" id="primerInteresAbono" maxlength="7" placeholder="$0">
-                                                        </div>
-
-                                                        <div class="form-group col-lg-2 col-md-2 col-sm-2 col-xs-12">
-                                                            <h4 style="color: #6f42c1">Monto Restante:</h4>
-                                                            <input type="text" class="form-control" name="siguienteMonto" id="siguienteMonto" maxlength="10" placeholder="$0">
-                                                        </div>
-
-
-                                                        
-
-                                                    
-
-                                                        <div class="form-group col-lg-2 col-md-2 col-sm-2 col-xs-12">
-                                                        <h5 style="color: #eb6d00">Pendiente:  <span class="badge badge-info" id="label_pendiente">0</span>  </h5>   
-                                                        </div>
-
-                                                        <div class="form-group col-lg-2 col-md-2 col-sm-2 col-xs-12">
-
-                                                        <h5 style="color: #eb6d00">A Capital:  <span class="badge badge-info" id="label_a_capital">0</span>  </h5>   
-                                                        </div>
-                                                        <!-- <h5 style="color: #eb6d00">A Interes:  <span class="badge badge-info" id="siguiente_capital">0</span>  </h5>   
-                                                        </div> -->
-                                                        
-                                                    
-
-                                                    <div class="form-group col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                                        <label>Concepto:</label>
-                                                        <textarea class="form-control" rows="5" id="commentAbono" name="commentAbono" ></textarea>
-                                                    </div>
+                                                                        <div class="form-group col-lg-2 col-md-2 col-sm-2 col-xs-12">
+                                                                            <label>Fecha(*):</label>
+                                                                            <input type="date" class="form-control" name="fecha_horaAbono" id="fecha_horaAbono">
+                                                                        </div>
 
 
 
-                                                     <!--Tabla Abonos-->   <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
-                                                        <h4 class="bg-green-gradient">Detalles de Abonos</h4>
-                                                        <table id="detallesAbonos"  class="table table-striped table-bordered table-condensed table-hover">
+                                                                        <div class="form-group col-lg-2 col-md-2 col-sm-6 col-xs-12">
+                                                                            <label>Interes:</label>
+                                                                            <input type="number" class="form-control" maxlength="10" step=".01" min="0" name="abonointeres" id="abonointeres" maxlength="7" placeholder="Abono Interes">
+                                                                            <input type="hidden" class="form-control" name="idabonodetalles" id="idabonodetalles" maxlength="7"  placeholder="Abono Interes"><!--Este es el id de abono que se genera cuando se va a editar un abono-->
+                                                                            <input type="hidden" class="form-control" name="idhipotecaAbonar" id="idhipotecaAbonar" maxlength="7" placeholder="Abono Interes">  <!--es el mismo idhipoteca que se necesita para guardar un abono-->
+                                                                            
 
-                                                            <thead style=" background-color: #6ce393">
+                                                                            <input type="hidden" class="form-control" name="ultimoidabono" id="ultimoidabono" maxlength="7" placeholder="test">
+                                                                        </div>
 
-                                                            <th>Opciones</th>
-                                                            <th>Fecha</th>
-                                                            <th>Concepto</th>
-                                                            <th>Interes</th>
-                                                            <th>Capital</th>
-                                                            <th>Saldo Pendiente</th>
-                                                            <th>Moneda</th>
+                                                                            
 
-                                                            </thead>
+                                                                            <div class="form-group col-lg-2 col-md-2 col-sm-2 col-xs-12">
+                                                                                <label>Interes moratorio:</label>
+                                                                                <input type="text" class="form-control" maxlength="10" step=".01" min="0" name="interes_moratorio_abono" id="interes_moratorio_abono" maxlength="7" placeholder="Cuota" VALUE="0.00">
+                                                                            </div>
+                                                                            <div class="form-group col-lg-2 col-md-2 col-sm-6 col-xs-12">
+                                                                                <label>Amortizacion:</label>
+                                                                                <input type="number" class="form-control" maxlength="10" step=".01" min="0" name="abono_capital" id="abono_capital" maxlength="7" placeholder="Cuota" VALUE="0.00">
+                                                                            </div>
+                                                                            <div class="form-group col-lg-2 col-md-2 col-sm-2 col-xs-6" style="border: 5px ;border-color: #0c0c0c">
+                                                                                <div class="well well-sm">
+                                                                                    <a data-toggle="modal" href="#modalCuentas">
+                                                                                        <button id="btnBuscarCuenta" type="button" onclick="muestraCuentasPendientesAbono()" class="btn btn-primary"> <span class="fa fa-plus"></span> Cuentas</button>
+                                                                                    </a>
+                                                                                </div>
+                                                                            </div>
 
-
-                                                            <tfoot>
-
-                                                            <th></th>
-                                                            <th></th>
-                                                            <th><h4>$/ 0.00</h4></th>
-                                                            <th><h4>$/ 0.00</h4></th>
-                                                            <th></th>
-                                                            </tfoot>
-                                                            <tbody>
-
-                                                            </tbody>
-                                                        </table>
-                                                    </div>
-                                                        <!--Tabla MORA-->   <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
-                                                            <h4 class="bg-red-gradient">Detalles de Mora</h4>
-                                                            <table id="detalles_mora"  class="table table-striped table-bordered table-condensed table-hover">
-                                                                   
-                                                                <thead style=" background-color: #ff4e00">
-
-                                                                <th>Meses</th>
-                                                                <th>Fechas</th>
-                                                                <th>Interes Diario</th>
-                                                                <th>Interes Moratorio</th>
-                                                                <th>Mant Valor</th>
-                                                                <th>Total Interes</th>
-                                                                <th>Moneda</th>
-                                                                </thead>
-                                                                <tfoot>
-                                                                <th>Opciones</th>
-                                                                <th>Año</th>
-                                                                <th>Interes diario</th>
-                                                                <th>Interes Moratorio</th>
-                                                                <th>Mant Valor</th>
-                                                                <th>Total Interes</th>
-
-                                                                <th>Moneda</th>
-
-                                                                </tfoot>
-                                                                <tbody>
-
-                                                                </tbody>
-                                                            </table>
-                                                        </div>
-                                                        <!--Detalles Cuenta--><div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
-                                                            <h4 class="bg-yellow-gradient">Detalles de Cuenta</h4>
-
-                                                            <table id="detallesCuenta"  class="table table-striped table-bordered table-condensed table-hover">
-                                                                <thead style="background-color: #ffd82b">
-
-                                                                <th>Fecha</th>
-                                                                <th>Fiador</th>
-                                                                <th>Garantia</th>
-                                                                <th>Monto</th>
-                                                                <th>Interés</th>
-                                                                <th>Moneda</th>
-                                                                <th style="white-space: nowrap;min-width: 200px;max-width: 200px;overflow: scroll">Nota</th>
-
-                                                                </thead>
-                                                                <tfoot>
-                                                                <th>TOTAL</th>
-                                                                <th></th>
-                                                                <th></th>
-                                                                <th><h4>$/ 0.00</h4></th>
-                                                                <th><h4>$/ 0.00</h4></th>
-                                                                <th></th>
-                                                                <th></th>
-
-                                                                </tfoot>
-                                                                <tbody>
-
-                                                                </tbody>
-                                                            </table>
+                                                                        <div class="form-group col-lg-2 col-md-2 col-sm-6 col-xs-12">
+                                                                            <label>Mant Valor:</label>
+                                                                            <input type="number" class="form-control" maxlength="10" step=".01" min="0" name="mantValortotal" id="mantValortotal" maxlength="7" placeholder="Abono Interes" VALUE="0.00">
+                                                                        </div>
 
 
-                                                        </div>
+                                                                        <div class="form-group col-lg-2 col-md-2 col-sm-2 col-xs-12">
+                                                                                <label>Intereses(sumado):</label>
+                                                                                <input type="number" class="form-control" maxlength="10"  step=".01" min="0"  name="intereses" id="intereses" maxlength="7" placeholder="0" >
+                                                                            </div>
 
-                                                        <div class="form-group col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                                            <button class="btn btn-primary" type="submit"  id="btnGuardarAbono"><i class="fa fa-save"></i> Guardar</button>
 
-                                                            <button id="btnCancelar" class="btn btn-danger" onclick="cancelarform()" type="button"><i class="fa fa-arrow-circle-left"></i> Cancelar</button>
-                                                        </div>
+                                                                            <div class="form-group col-lg-2 col-md-2 col-sm-2 col-xs-12">
+                                                                                <label>Cuota:</label>
+                                                                                <input type="number" class="form-control" maxlength="10"  step=".01" min="0" name="cuota" id="cuota" maxlength="7" placeholder="0" >
+                                                                            </div>
 
-                                                
-                                                </div>
-                            </div><!--Fin de Seccion 2 ///-->
+                                                                            <div class="form-group col-lg-2 col-md-2 col-sm-2 col-xs-12">
+                                                                                <label>Monto a Pagar:</label>
+                                                                                <input type="text"  class="form-control" name="monto_pago" id="monto_pago" maxlength="10" placeholder="$0">
+                                                                            </div>
+
+                                                                            <div class="form-group col-lg-2 col-md-2 col-sm-2 col-xs-12">
+                                                                                <label style="color: #0074ff">Primer Interés:</label>
+                                                                                <input type="text" readonly class="form-control" name="primerInteresAbono" id="primerInteresAbono" maxlength="7" placeholder="$0">
+                                                                            </div>
+
+                                                                            <div class="form-group col-lg-2 col-md-2 col-sm-2 col-xs-12">
+                                                                                <h4 style="color: #6f42c1">Monto Restante:</h4>
+                                                                                <input type="text" class="form-control" name="siguienteMonto" id="siguienteMonto" maxlength="10" placeholder="$0">
+                                                                            </div>
+                                              
+
+                                                                            <div class="form-group col-lg-2 col-md-2 col-sm-2 col-xs-12">
+                                                                            <h5 style="color: #eb6d00">Pendiente:  <span class="badge badge-info" id="label_pendiente">0</span>  </h5>  
+                                                                            <input type="number" class="form-control" maxlength="10"  step=".01" min="0" id="input_pendiente"> 
+                                                                            </div>
+
+                                                                            <div class="form-group col-lg-2 col-md-2 col-sm-2 col-xs-12">
+
+                                                                            <h5 style="color: #eb6d00">A Capital:  <span class="badge badge-info" id="label_a_capital">0</span>  </h5>   
+                                                                            </div>
+                                                                            <!-- <h5 style="color: #eb6d00">A Interes:  <span class="badge badge-info" id="siguiente_capital">0</span>  </h5>   
+                                                                            </div> -->
+                                                                            
+                                                                            <div class="form-group col-lg-2 col-md-2 col-sm-2 col-xs-12">
+                                                                                <label style="color: #ff5252">Pendiente Pago:</label>
+                                                                                <input type="text" readonly class="form-control" name="pendiente_pago" id="pendiente_pago" maxlength="7" placeholder="$0">
+                                                                            </div>
+
+                                                                            <div class="form-group col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                                                <label>Concepto:</label>
+                                                                                <textarea class="form-control" rows="5" id="commentAbono" name="commentAbono" ></textarea>
+                                                                            </div>
+
+
+
+                                                                        <!--Tabla Abonos-->   <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
+                                                                            <h4 class="bg-green-gradient">Detalles de Abonos</h4>
+                                                                            <table id="detallesAbonos"  class="table table-striped table-bordered table-condensed table-hover">
+
+                                                                                <thead style=" background-color: #6ce393">
+
+                                                                                <th>Opciones</th>
+                                                                                <th>Fecha</th>
+                                                                                <th>Concepto</th>
+                                                                                <th>Interes</th>
+                                                                                <th>Capital</th>
+                                                                                <th>Saldo Pendiente</th>
+                                                                                <th>Moneda</th>
+
+                                                                                </thead>
+
+
+                                                                                <tfoot>
+
+                                                                                <th></th>
+                                                                                <th></th>
+                                                                                <th><h4>$/ 0.00</h4></th>
+                                                                                <th><h4>$/ 0.00</h4></th>
+                                                                                <th></th>
+                                                                                </tfoot>
+                                                                                <tbody>
+
+                                                                                </tbody>
+                                                                            </table>
+                                                                        </div>
+                                                                            <!--Tabla MORA-->   <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
+                                                                                <h4 class="bg-red-gradient">Detalles de Mora</h4>
+                                                                                <table id="detalles_mora"  class="table table-striped table-bordered table-condensed table-hover">
+                                                                                    
+                                                                                    <thead style=" background-color: #ff4e00">
+
+                                                                                    <th>Meses</th>
+                                                                                    <th>Fechas</th>
+                                                                                    <th>Interes Diario</th>
+                                                                                    <th>Interes Moratorio</th>
+                                                                                    <th>Mant Valor</th>
+                                                                                    <th>Total Interes</th>
+                                                                                    <th>Moneda</th>
+                                                                                    </thead>
+                                                                                    <tfoot>
+                                                                                    <th>Opciones</th>
+                                                                                    <th>Año</th>
+                                                                                    <th>Interes diario</th>
+                                                                                    <th>Interes Moratorio</th>
+                                                                                    <th>Mant Valor</th>
+                                                                                    <th>Total Interes</th>
+
+                                                                                    <th>Moneda</th>
+
+                                                                                    </tfoot>
+                                                                                    <tbody>
+
+                                                                                    </tbody>
+                                                                                </table>
+                                                                            </div>
+                                                                            <!--Detalles Cuenta--><div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
+                                                                                <h4 class="bg-yellow-gradient">Detalles de Cuenta</h4>
+
+                                                                                <table id="detallesCuenta"  class="table table-striped table-bordered table-condensed table-hover">
+                                                                                    <thead style="background-color: #ffd82b">
+
+                                                                                    <th>Fecha</th>
+                                                                                    <th>Fiador</th>
+                                                                                    <th>Garantia</th>
+                                                                                    <th>Monto</th>
+                                                                                    <th>Interés</th>
+                                                                                    <th>Moneda</th>
+                                                                                    <th style="white-space: nowrap;min-width: 200px;max-width: 200px;overflow: scroll">Nota</th>
+
+                                                                                    </thead>
+                                                                                    <tfoot>
+                                                                                    <th>TOTAL</th>
+                                                                                    <th></th>
+                                                                                    <th></th>
+                                                                                    <th><h4>$/ 0.00</h4></th>
+                                                                                    <th><h4>$/ 0.00</h4></th>
+                                                                                    <th></th>
+                                                                                    <th></th>
+
+                                                                                    </tfoot>
+                                                                                    <tbody>
+
+                                                                                    </tbody>
+                                                                                </table>
+
+
+                                                                            </div>
+
+                                                                            <div class="form-group col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                                                <button class="btn btn-primary" type="submit"  id="btnGuardarAbono"><i class="fa fa-save"></i> Guardar</button>
+
+                                                                                <button id="btnCancelar" class="btn btn-danger" onclick="cancelarform()" type="button"><i class="fa fa-arrow-circle-left"></i> Cancelar</button>
+                                                                            </div>
+
+                                                                    
+                                                                    </div>
+                                                </div><!--Fin de Seccion 2 ///-->
                             <!--Seccion 3 Detalles de abono --><div role="tabpanel" class="tab-pane" id="seccion3">
                                 <h3 class="h3"><span class="">Abonos del Dia</span></h3>
 
@@ -982,7 +987,7 @@ require 'header.php';
 
                             <thead>
                             <th>Opciones</th>
-
+                            <th>No Creditos</th>
                             <th>Fecha</th>
 
                             <th>Monto</th>
