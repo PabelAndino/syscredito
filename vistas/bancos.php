@@ -25,7 +25,7 @@ else
                     <div class="col-md-12">
                         <div class="box">
                             <div class="box-header with-border">
-                                <h1 class="p-3 mb-2 bg-maroon-gradient text-white">Socios </h1>
+                                <h1 class="p-3 mb-2 bg-maroon-gradient text-white">Gestionar cuentas de Socios </h1>
                                 <div class="box-tools pull-right">
                                 </div>
                             </div>
@@ -60,8 +60,6 @@ else
                                         </select>
 
                                     </div>
-
-
 
                                     <div class="form-group col-lg-3 col-md-3 col-sm-3 col-xs-12">
                                         <label>Numero de Cuenta:</label>

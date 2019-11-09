@@ -38,7 +38,7 @@ function listarCuentas(){
 
 }
 
-function pagarHipoteca(idhipoteca){
+function pagarHipoteca(idhipoteca,idgarantia){
     bootbox.confirm("Esta seguro de Pagar la cuenta",function (result) {
 
         if(result) { //si le dio a si
@@ -47,7 +47,8 @@ function pagarHipoteca(idhipoteca){
                 url: "../ajax/cuentas.php?op=pagarCuenta",
                 type: "get", //send it through get method
                 data: {
-                    'idhipoteca':idhipoteca
+                    'idhipoteca':idhipoteca,
+                    'idgarantia':idgarantia
 
                 },
 
@@ -72,7 +73,7 @@ function pagarHipoteca(idhipoteca){
     })
 }
 
-function volver(idhipoteca){//Sirve por si quiere que la cuenta no este pagada
+function volver(idhipoteca,idgarantia){//Sirve por si quiere que la cuenta no este pagada, si despues de pagada quiere reactivar la misma cuenta
     bootbox.confirm("Esta seguro que quiere que la cuente No este pagada? ",function (result) {
 
         if(result) { //si le dio a si
@@ -81,7 +82,8 @@ function volver(idhipoteca){//Sirve por si quiere que la cuenta no este pagada
                 url: "../ajax/cuentas.php?op=volver",
                 type: "get", //send it through get method
                 data: {
-                    'idhipoteca':idhipoteca
+                    'idhipoteca':idhipoteca,
+                    'idgarantia':idgarantia
 
                 },
 

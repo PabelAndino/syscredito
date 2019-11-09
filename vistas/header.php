@@ -173,6 +173,7 @@
                 <li><a href="cuentas.php"><i class="fa fa-circle-o"></i>Cuentas</a></li>
                 <li><a href="bancos.php"><i class="fa fa-circle-o"></i>Bancos</a></li>
                  <li><a href="socios.php"><i class="fa fa-circle-o"></i>Socios</a></li>
+                 <li><a href="solicitud.php"><i class="fa fa-circle-o"></i>Solicitudes</a></li>
                 
               </ul>
             </li>';

@@ -163,6 +163,7 @@ switch ($_GET["op"]){
         }
         break;
     case 'guardarSolicitud':
+        $idsolicitud=$_GET['idsolicitud'];
         $idcliente=$_GET['idcliente'];
         $sabeleer=$_GET['sabeleer'];
         $tipo_local=$_GET['tipo_local'];
@@ -177,10 +178,16 @@ switch ($_GET["op"]){
 
      //   echo $idcliente,$conyugue,$sabeleer,$tipo_local,$ultimo_anio,$num_dependientes,$ingresos_seraliced,$total_ingresos,
      //   $sector,$objetivo_prestamo;
-
-        $repuesta=$hipoteca->insertarNuevaSolicitur($idcliente,$conyugue,$tipo_local,$sabeleer,$ultimo_anio,$num_dependientes,
+        if(empty($idsolicitud)){
+            $repuesta=$hipoteca->insertarNuevaSolicitur($idcliente,$conyugue,$tipo_local,$sabeleer,$ultimo_anio,$num_dependientes,
             $ingresos_seraliced,$total_ingresos,$sector,$objetivo_prestamo);
-        echo ($repuesta)? "Solicitud ingresada correctamente":"No se pudo ingresar la solicitud";
+            echo ($repuesta)? "Solicitud ingresada correctamente":"No se pudo ingresar la solicitud";
+        }else{
+            $repuesta=$hipoteca->actualizarSolicitud($idsolicitud,$idcliente,$conyugue,$tipo_local,$sabeleer,$ultimo_anio,$num_dependientes,
+            $ingresos_seraliced,$total_ingresos,$sector,$objetivo_prestamo);
+            echo ($repuesta)? "Solicitud Actualizada correctamente":"No se pudo actualizar la solicitud";
+        }
+        
         break;
         //Delete
     case 'anular':
@@ -826,7 +833,7 @@ switch ($_GET["op"]){
            $urlTICKET='../reportes/TicketRepHLista.php?id=';
            
            if (($reg->estado) == 'Aceptado'){
-            $state = '<button class="btn btn-danger" type="button" onclick="eliminar('.$reg->idhipoteca.')"><i class="fa fa-trash"></i>Eliminar</button>';
+            $state = '<button class="btn btn-danger" type="button" onclick="eliminar('.$reg->idhipoteca.')"><i class="fa fa-trash"></i>Eliminar</button> <button class="btn btn-instagram" type="button" onclick="eliminar('.$reg->idhipoteca.')"><i class="fa fa-edit"></i>Editar</button> ';
            }else if(($reg->estado) == 'Cancelado'){
             $state = '<button class="btn btn-twitter" type="button" onclick="restaurar('.$reg->idhipoteca.')" ><i class="fa fa-truck"></i>Regresar</button>';
            }

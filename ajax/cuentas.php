@@ -33,16 +33,16 @@ switch ($_GET["op"])
            $state = '';
            $color = '';
            if (($reg->condicion) == 'Pendiente'){
-            $condition = '<button class="btn btn-success" type="button" onclick="pagarHipoteca('.$reg->idhipoteca.')"><i class="fa fa-upload"></i>Pagar</button>';
+            $condition = '<button class="btn btn-success" type="button" onclick="pagarHipoteca('.$reg->idhipoteca.','.$reg->idgarantia.')"><i class="fa fa-upload"></i>Pagar</button>';
            }else if(($reg->condicion) == 'Pagado'){
-             $condition = '<button class="btn btn-microsoft" type="button" onclick="volver('.$reg->idhipoteca.')" ><i class="fa fa-refresh"></i>Volver</button>';
+             $condition = '<button class="btn btn-microsoft" type="button" onclick="volver('.$reg->idhipoteca.','.$reg->idgarantia.')" ><i class="fa fa-refresh"></i>Volver</button>';
              $color = "#FF987C";
            }
            
            if (($reg->estado) == 'Aceptado'){
-            $state = '<button class="btn btn-danger" type="button" onclick="eliminar('.$reg->idhipoteca.')"><i class="fa fa-trash"></i>Eliminar</button>';
+            $state = '<button class="btn btn-danger" type="button" onclick="eliminar('.$reg->idhipoteca.','.$reg->idgarantia.')"><i class="fa fa-trash"></i>Eliminar</button>';
            }else if(($reg->estado) == 'Cancelado'){
-            $state = '<button class="btn btn-twitter" type="button" onclick="restaurar('.$reg->idhipoteca.')" ><i class="fa fa-truck"></i>Regresar</button>';
+            $state = '<button class="btn btn-twitter" type="button" onclick="restaurar('.$reg->idhipoteca.','.$reg->idgarantia.')" ><i class="fa fa-truck"></i>Regresar</button>';
            }
 
             
@@ -70,15 +70,17 @@ switch ($_GET["op"])
     case 'pagarCuenta':
 
         $idhipoteca = $_GET['idhipoteca'];
-        $resp = $cuentas->pagarCuenta($idhipoteca);
+        $idgarantia = $_GET['idgarantia'];
+        $resp = $cuentas->pagarCuenta($idhipoteca,$idgarantia);
 
         echo $resp ? "Cuenta Pagada!!!" : "La cuenta no se pudo pagar";
 
     break;
 
-    case 'volver'://Si la cuenta se pago y se quiere que se deba de nuevo
+    case 'volver'://Si la cuenta se pago y se quiere que se deba de nuevo o volver al estado de deuda
     $idhipoteca = $_GET['idhipoteca'];
-        $resp = $cuentas->volver($idhipoteca);
+    $idgarantia = $_GET['idgarantia'];
+    $resp = $cuentas->volver($idhipoteca,$idgarantia);
 
         echo $resp ? "Se debe nuevamente la cuenta" : "La cuenta no se pudo regresar";
 

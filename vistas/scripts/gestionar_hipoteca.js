@@ -181,10 +181,7 @@ function calculaCuotaaEnviar(){ //al presionar enter calcula la cuota
            // console.log(mont)
 
            calculaCuotaaEnviarFuncion()
-            
-
-            
-            
+             
         }
 
 
@@ -585,7 +582,7 @@ function editarAbono(iddetalle,nota,interes,capital,moneda) {
     $('#abonointeres').val(interes);
     $('#abono_capital').val(capital);
     $('#idabonodetalles').val(iddetalle);
-console.log(iddetalle,fecha2,nota,interes,capital,moneda)
+    console.log(iddetalle,fecha2,nota,interes,capital,moneda)
 
 
 
@@ -626,7 +623,7 @@ function guardaryeditarFiador(){
     let estado_civil=$('#estado_civilFiador').val()
     let id_fiador =$('#id_fiador').val()
     let ingreso =$('#ingresos').val()
-    console.log(nombre,tipo_documento,genero,documento,direccion,telefono,email,estado_civil,ingreso)
+   // console.log(nombre,tipo_documento,genero,documento,direccion,telefono,email,estado_civil,ingreso)
 
     $.ajax({
         url:"../ajax/gestionar_hipoteca.php?op=guardarFiador",
@@ -717,7 +714,7 @@ function guardarNuevaSolicitud(e) {
         sabe_leer='No'
     }
 
-
+    let idsolicitud= $('#idsolicitud').val() 
     let idcliente=$('#idcliente_solicitud').val()
     let conyugue=$('#nombre_conyugue').val()
     let tipo_local=$('#tipo_local').val()
@@ -734,7 +731,7 @@ function guardarNuevaSolicitud(e) {
         });
      //   alert("My favourite sports are: " + ingresos.join(", ") + " "+ sabe_leer);
 
-console.log("idcliente "+idcliente,"sabe leer "+sabe_leer,"consyugue "+conyugue,"tipo local "+tipo_local,
+        console.log("idcliente "+idcliente,"sabe leer "+sabe_leer,"consyugue "+conyugue,"tipo local "+tipo_local,
             "ultimo año "+ultimo_anio,"num dependientes "+num_dependientes,"ingresos "+ingresos,
             "total ingresos "+total_ingresos,"sector "+sector,"objetivo prestamo "+objetivo_prestamo)
 
@@ -742,6 +739,7 @@ console.log("idcliente "+idcliente,"sabe leer "+sabe_leer,"consyugue "+conyugue,
         url:"../ajax/gestionar_hipoteca.php?op=guardarSolicitud",
         type:'get',
         data:{
+            'idsolicitud':idsolicitud,
             'idcliente':idcliente,
             'sabeleer':sabe_leer,
             'conyugue':conyugue,
