@@ -7,6 +7,8 @@ var pendiente_de_abono = 0.00;
 var abono_a_capital = 0.00;
 
 var IDipoteca,Monto,Interes,Ultimoabonoid;
+var capitalAAbonar //asignara el capital a abonar porque no sale de la funcion ajax que lo obtiene y no puede ser llamado de una
+//funcion externa entonces se asignara a esta variable global
 
 //Función que se ejecuta al inicio
 function init(){
@@ -19,7 +21,7 @@ function init(){
 
         getTipoCambio()
         setTipoCambio()
-   
+        
 }
 
 function setTipoCambio(){
@@ -30,16 +32,18 @@ function setTipoCambio(){
         let tipo_cambio = $('#cambio_dolar').val()
         let moneda = $(this).val(); //cada que cambie asignara su valor a la variable moneda
         let monto = parseFloat($("#monto_ncuenta").val().replace(',', ''))//reemplazara la coma del monto por nada y quedara una sola sifra
-        let moneda_val = ($('#banco_moneda').text()).trim()
+        let moneda_val = ($('#banco_moneda').text()).trim() //el Label que indica si es dolares o cordobas la cuenta de socios a la que se debitara
         console.log(moneda_val)
         if(moneda === "Cordobas"){ //si la moneda seleccionada es cordobas
 
             if(moneda_val === "Dolares"){ //si la moneda selccionada es cordobas y la cuenta esta en dolares
                 console.log("No joda primo")
                 let calculo = (monto / parseFloat(tipo_cambio)).toFixed(2)
+             //   $('#monto_total').val(monto)
                 $('#cambio').val(calculo)
             }else{
                 $('#cambio').val(parseFloat(monto).toFixed(2))
+
             }
             // let calculo = parseFloat(monto * parseFloat(tipo_cambio)).toFixed(2)
             // console.log("Conversion ",calculo,moneda_val)
@@ -177,9 +181,6 @@ function calculaCuotaaEnviar(){ //al presionar enter calcula la cuota
            e.preventDefault()
            
 
-           //si el monto es mayor a los intereses
-           // console.log(mont)
-
            calculaCuotaaEnviarFuncion()
              
         }
@@ -229,7 +230,7 @@ function calculaCuotaaEnviarFuncion(){
                             let interesesLocal = parseFloat(intereses)//la suma de todos intereses
                             let interesLocal = parseFloat(interes)//solo interes
    
-                                labelsPendientes(pendiente,0.00,)    
+                             labelsPendientes(pendiente,0.00,)    
         
                          }          
         
@@ -822,7 +823,7 @@ function guardaryeditarHipoteca(e) {
 
    // var formData = new FormData($("#formularioHipoteca")[0]);
     let saldo_banco =$('#saldo_banco').val()//parseFloat($('#saldo_banco').val()).toFixed(2)
-    let monto = parseFloat($("#monto_ncuenta").val().replace(',', ''))//reemplazara la coma del monto por nada y quedara una sola sifra
+    let monto_ncuenta = parseFloat($("#monto_ncuenta").val().replace(',', ''))//reemplazara la coma del monto por nada y quedara una sola sifra *** El monto que enviara al prestamo
     let solicitud = $('#idsolicitud_picker').val()
     let fiador= $('#idfiador_picker').val()
     let garantia= $('#idgarantia').val()
@@ -842,6 +843,9 @@ function guardaryeditarHipoteca(e) {
     let conv_dolar  = $('#convert_ds').val()
     let conv_cords = $('#convert_cs').val()
     let cambio = parseFloat($('#cambio').val()).toFixed(2)
+   // let monto_ncuenta = parseFloat($('#monto_ncuenta').val()).toFixed(2)//el monto que guardara en el prestamo del cliente
+    
+    
 
 
 
@@ -861,7 +865,7 @@ function guardaryeditarHipoteca(e) {
                 data:{
                     'montos':cambio, 'solicitud':solicitud, 'fiador':fiador, 'garantia':garantia,  'banco':banco, 'desembolso':fecha_desembolso,'pago':fecha_pago,
                     'moneda':moneda, 'interes':interes, 'interes_moratorio':interes_moratorio, 'comision':comision,  'plazo':plazo,
-                    'tipo':tipo,'mantenimiento':mantenimiento,'nota':nota,'idhipoteca':idhipoteca,'saldo_banco':saldo_banco
+                    'tipo':tipo,'mantenimiento':mantenimiento,'nota':nota,'idhipoteca':idhipoteca,'saldo_banco':saldo_banco,'monto_ncuenta':monto_ncuenta
 
                 },
 
@@ -870,7 +874,7 @@ function guardaryeditarHipoteca(e) {
                     bootbox.alert({
                         message: datos,
                         callback: function (result) {
-                            // recargar()
+                            listarNuevasCuentas()
                         }
                     });
                 }
@@ -893,11 +897,14 @@ function guardaryeditarAbono(e) {
     var amortizacion = parseFloat($('#abono_capital').val()).toFixed(2)
     let cuota = parseFloat($('#cuota').val()).toFixed(2)
     let monto_pago = parseFloat($('#monto_pago').val()).toFixed(2)
+    
     var cuotiado = monto_pago 
+    var saldoPendiente = 0
     
     let pendiente = parseFloat(parseFloat(intereses) - parseFloat(monto_pago)).toFixed(2)
 
     if( parseFloat(idabono.length ) === 0){ //comprueba que haya idabono para saber si va a hacer un abono o editarlo
+      
         if(parseFloat(monto_pago) > parseFloat(cuota) ){
             let montoLocal = parseFloat(monto_pago)
             let cuotaLocal = parseFloat(cuota)
@@ -906,8 +913,11 @@ function guardaryeditarAbono(e) {
             console.log(a_capital," a capital")
         }
         if(parseFloat(monto_pago) < parseFloat(cuota) ){
+
             if( parseFloat(monto_pago) >= parseFloat(intereses) ){ //si el pago es mayor que los intereses sumados
-                           
+                   
+    
+
                 let montoLocal = parseFloat(monto_pago)
                 let interesLocal = parseFloat(intereses)
                 let a_capital = parseFloat(parseFloat(montoLocal) - parseFloat(interesLocal)).toFixed(2) //quedara en cero pero no quedar ningun pendiente
@@ -930,7 +940,7 @@ function guardaryeditarAbono(e) {
           //  labelsPendientes(0.00,parseFloat(amortizacion).toFixed(2))//hay que usar la amortizacion
           enviaGuardarAbono(idhipoteca,idabono,interes,interes_moratorio,mantenimiento,amortizacion,0.00,fecha,nota)//la amortizacion sera el capital a enviar
           //ya que esta pagando la cuota completa
-            console.log("a capital: ", amortizacion)
+         
 
         }
 
@@ -943,7 +953,7 @@ function guardaryeditarAbono(e) {
 
 function enviaGuardarAbono(idhipoteca,idabonos,interes,interes_moratorio,mant_valor,capital,pendiente,fecha,nota){
      //   console.log("Datos a Enviar: ",idhipoteca,idabonos,interes,interes_moratorio,mant_valor,capital,pendiente,fecha,nota)
-
+     
     $.ajax({
         url: "../ajax/gestionar_hipoteca.php?op=guardarAbono" ,
         type: "get",
@@ -975,7 +985,7 @@ function enviaGuardarAbono(idhipoteca,idabonos,interes,interes_moratorio,mant_va
 }
 //DELETE FUNCTIONS
 function eliminarAbonoH(iddetalle) {
-    bootbox.confirm("Seguro que desea eliminar el Abono??",function (result) {
+    bootbox.confirm("Seguro que desea eliminar el Abono? Sera borrado permanentemente",function (result) {
 
         if(result) { //si le dio a si
 
@@ -1035,32 +1045,15 @@ function eliminarH(idhipoteca) {
                 type: "get", //send it through get method
                 data: {
                     'id':idhipoteca
-
-
-                    /*$("#detallesAbonos").html(r).dataTable({
-
-                        "aProcessing": true,//Activamos el procesamiento del datatables
-                        "aServerSide": true,//Paginación y filtrado realizados por el servidor
-                        dom: 'Bfrtip',//Definimos los elementos del control de tabla
-                        buttons: [
-                            'copyHtml5',
-                            'excelHtml5',
-                            'csvHtml5',
-                            'pdf'
-                        ],
-
-                        "bDestroy": true,
-                        "iDisplayLength": 10,//Paginación
-                        "order": [[ 0, "desc" ]],//Ordenar (columna,orden)
-                        "pagingType": "full_numbers"}).DataTable();*/
-
                 },
 
                 success: function(data) {
                     bootbox.alert({
                         message: data,
                         callback: function (data) {
+
                             recargar()
+
                         }
                     })
                 }
@@ -1141,7 +1134,7 @@ function muestraCuentasPendientesAbono() {
 
     let idcliente = $('#buscarClientesAbono').val()
 
-    console.log(idcliente)
+    //console.log(idcliente)
     $.ajax({
         url:'../ajax/gestionar_hipoteca.php?op=mostrarCuentasAbono',
         type:'get',
@@ -1196,31 +1189,17 @@ function mostrarNumero() {
     });
 
 }
-function mostrarCuentas(idHipoteca,monto,interes,plazo) //todas las cuentas que se necesitan mostrar para abonar*******
+function mostrarCuentas(idHipoteca,monto,interes,plazo,iddias) //todas las cuentas que se necesitan mostrar para abonar*******el dia menos es
+//si por ejemplo a alguien le toca pagar domingo y llega lunes entonces que se le redusca un dia
 {
-  
-   // $.post("../ajax/gestionar_hipoteca.php?op=obtenerMonto&montos="+monto);
-    $.ajax({ //obtiene el monto
-        url: "../ajax/gestionar_hipoteca.php?op=obtenerMonto",
-        type: "get", //send it through get method
-        data: {
-            'monto': monto,
-            'interes': interes,
 
-        }/*,
-        success: function(response) {
-            //Do Something
-        },
-        error: function(xhr) {
-            //Do Something to handle error
-        }*/
-    });
-
+let dia_menos = $('#dia_menos'+iddias).val()
+console.log("dias menos", dia_menos)
     $.ajax({
         url: "../ajax/gestionar_hipoteca.php?op=listarDetallesAbono", //Muestra listado de abonos
         type: "get", //send it through get method
         data: {
-            'id':idHipoteca,
+            'idhipoteca':idHipoteca,
             'monto': monto,
         },
         success: function(r) {
@@ -1261,26 +1240,25 @@ function mostrarCuentas(idHipoteca,monto,interes,plazo) //todas las cuentas que 
 
             let siguienteCapital = parseFloat(monto / plazo) .toFixed(2) //El abono
             var restanteMonto = (monto-r);
-            $('#siguienteMonto').val(restanteMonto)//El monto Restante
-
+            $('#siguienteMonto').val(restanteMonto)//El monto Restante 
             //Esta funcion asigna el valor correcto a lo que se deberia abonar, ya que puede que llegue un momento que el monto restante
             //o lo que se reste de abonar sea menos de lo que debe abonar de acuerdo al plazo, entonces tiene que hacer la asignacion correcta
             //si lo que tiene que abonar es mas de lo que resta entonces le pasa el valor indicado
            if (restanteMonto < siguienteCapital){
                $('#abono_capital').val(restanteMonto)//Lo que corresponde abonar
-               
            }
            else{
-               $('#abono_capital').val(siguienteCapital)
-               
+               $('#abono_capital').val(siguienteCapital)              
            }
 
             var siguienteInteres= (restanteMonto * interes)/100;
 
             $('#siguienteInteres').val(siguienteInteres);
-            $('#abonointeres').val(siguienteInteres);
-            console.log(r);
-
+           // $('#abonointeres').val(siguienteInteres);
+           var localCap = $('#abono_capital').val()  
+          
+          
+           calcula_moras(idHipoteca,plazo,monto,localCap,dia_menos)
         },
 
         error: function(xhr) {
@@ -1299,14 +1277,7 @@ function mostrarCuentas(idHipoteca,monto,interes,plazo) //todas las cuentas que 
         $("#idhipotecaAbonar").val(idHipoteca);
 
 
-
-      //  $("#primerInteresAbono").val(resultado);
-       // $("#abonointeres").val();
-        var hipoteca =$("#idhipoteca").val();
-        //console.log(hipoteca);
-        verificarSiestaVaciosloscamposCapitaleInteres();
-
-    });
+    })
 
     $.post("../ajax/gestionar_hipoteca.php?op=mostrarPrimerInteres&idHipoteca="+idHipoteca,function(result) {//muesta primer interes
 
@@ -1319,20 +1290,28 @@ function mostrarCuentas(idHipoteca,monto,interes,plazo) //todas las cuentas que 
     $.post("../ajax/gestionar_hipoteca.php?op=mostrarUltimoAbono&id="+idHipoteca,function(r,status){//muesta ultimo abono
         ultimoabono = r;
         $('#ultimoidabono').val(ultimoabono);
-         mostrarUltimoAbono(ultimoabono);
+       //  mostrarUltimoAbono(ultimoabono);
 
-    });
+    })
 
+    $.post("../ajax/gestionar_hipoteca.php?op=mostrarUltimoPendiente&idhipoteca="+idHipoteca,function(r,status){//muesta ultimo Saldo pendiente si hay 
+        let saldo_pendiente= r;
+        $('#pendiente_pago').val(saldo_pendiente);
+        
+
+    })
+
+    
     IDipoteca=idHipoteca;
     Monto=monto;
     Interes=interes;
-   // Ultimoabonoid=ultimoabonoid;
+   
 
-    calcula_moras(idHipoteca,plazo,monto)
+  
 
 }
+function calcula_moras(idhipoteca,plazo,monto,amortizacion,dia_menos) {
 
-function calcula_moras(idhipoteca,plazo,monto) {
 
     
     $('#detalles_mora').dataTable(
@@ -1345,8 +1324,12 @@ function calcula_moras(idhipoteca,plazo,monto) {
             ],
             "ajax":
                 {
-                    url: '../ajax/gestionar_hipoteca.php?op=calcula_moras&idhipoteca='+idhipoteca,//&id se envia al $_GET del php
+                    url: '../ajax/gestionar_hipoteca.php?op=calcula_moras',//&id se envia al $_GET del php
                     type : "get",
+                    data:{
+                        'idhipoteca':idhipoteca,
+                        'dia_menos':dia_menos
+                    },
                     dataType : "json",
                     
                     error: function(e){
@@ -1427,7 +1410,7 @@ function calcula_moras(idhipoteca,plazo,monto) {
                 );
 
                 // Total de las sumas de cada fila
-                total = api
+            total = api
                 .column( 5 )
                 .data()
                 .reduce( function (a, b) {
@@ -1438,38 +1421,42 @@ function calcula_moras(idhipoteca,plazo,monto) {
                 // Update footer 2
                 $( api.column( 5 ).footer() ).html(
                 ' ( $'+ (total).toFixed(2) +' Total)'
-
-
                 );
-                
-              
-                $('#cuota').val( parseFloat(total).toFixed(2) )
-                
-                let sumaCuota = (parseFloat(monto/plazo).toFixed(2)) + parseFloat(total)
                
-              
-                $('#abonointeres').val(parseFloat(totalInteres).toFixed(2) )
-                $('#mantValortotal').val(parseFloat(totalMantValor).toFixed(2) )
+                
                 $('#interes_moratorio_abono').val(parseFloat(totalIntermor).toFixed(2) )
-                $('#intereses').val(parseFloat(total).toFixed(2) ) //la suma de los intereses
-               
-                calculaCuota(parseFloat(total).toFixed(2)) 
+                     
+                    if(total > 0 && totalInteres > 0 && totalMantValor > 0){ //Si no se verifica asi, los datos anteriores son llamados dos veces y causan conflictos 
+                        //con resultados distintos
+                        var pendientePago = parseFloat($('#pendiente_pago').val()).toFixed(2)  
+                        $('#abonointeres').val(parseFloat(totalInteres).toFixed(2) )
+                        $('#mantValortotal').val(parseFloat(totalMantValor).toFixed(2) )
+                        total = total + parseFloat(pendientePago) //va sumar al total de intereses el saldo pendiente para que pueda cobrarlo sin hacer mas procedimientos
+                        $('#intereses').val(parseFloat(total).toFixed(2) ) //la suma de los intereses o total de intereses
+                       
+                      
+                        
+                        var saldo_pendiente = parseFloat($('#pendiente_pago').val());
+                        if(saldo_pendiente == ''){
+                            saldo_pendiente = 0
+                        }
+                        var localCuot =  parseFloat(total) + parseFloat(amortizacion)
+                        $('#cuota').val(  parseFloat(localCuot).toFixed(2)) //agrega al capital la suma de los intereses mas el capital
+                       
+                      //  console.log('total ', pendientePago )
+                    }
+
+                   
+                   
             }
             
         }).DataTable();
         
+         
         
-
           
 }
-function calculaCuota(intereses){
-            var localCap= parseFloat($('#abono_capital').val()).toFixed(2)
-            var localCuot =  parseFloat(intereses) + parseFloat(localCap)
-            $('#cuota').val(  parseFloat(localCuot).toFixed(2)) //agrega al capital la suma de los intereses mas el capital
-            console.log(" Amor" + parseFloat(intereses).toFixed(2) + " Cuot")
 
-
-}
 function mostrarUltimoAbono(idultimoabono) {
 
     $.post("../ajax/gestionar_hipoteca.php?op=muestraAbonoeInteres&ultimoabono="+idultimoabono, function(data, status)
@@ -1524,7 +1511,6 @@ function mostrarAbonoInfo(idHipoteca,monto) {
 
     });
 }
-
 function sacarDetalles() {
 
     var nombre = document.getElementById("nombreGarantia");
@@ -1541,7 +1527,6 @@ function sacarDetalles() {
     agregarDetalle(nombre,idcliente,descripcion.value,idcategoria,categoria,"CODIGO",precio,moneda,"Deuda",imagen,sourceImage);
 
 }
-
 function agregarDetalle(nombre,idcliente,descripcion,idcategoria,categoria,codigo,precio,moneda,estado,image,sourceImage)
 {
 
@@ -1605,7 +1590,6 @@ console.log(result.toFixed(2));
 $('#temporal').val(result.toFixed(2));
 }
 
-
 function eliminarDetalle(indice)
 {
     $("#fila" + indice).remove();
@@ -1642,6 +1626,76 @@ function imprimirArea() {
     $('#nombres_data').val('Asi es')
 
    // window.print()
+
+}
+
+function eliminarHipoteca(idhipoteca,cuenta_desembolso,no_credito,cantidad_debitada,solicitud){
+    console.log(idhipoteca,cuenta_desembolso,no_credito,cantidad_debitada,solicitud)
+
+    // bootbox.confirm("Seguro que desea eliminar la hipoteca? Esto hara diferentes operaciones como devolver la cantidad que se presto, y el numero de este credito no aparecera mas",function(result){
+    //     if(result){
+
+
+
+
+    //         $.ajax({
+    //             url:'../ajax/gestionar_hipoteca.php?op=eliminarH',
+    //             type:'post',
+    //             data:{
+    //                 'idhipoteca':idhipoteca,'cuenta_desembolso':cuenta_desembolso,'no_credito':no_credito,
+    //                 'cantidad_debitada':cantidad_debitada,'solicitud':solicitud
+    //             },
+    //             success:function(msj){
+    //                 bootbox.alert({
+    //                     message:msj,
+    //                     callback:function(){
+    //                         listarNuevasCuentas()
+    //                     }
+    //                 })
+    //             }
+    //         })
+    //        }
+
+
+    // })
+
+    var form = $('<form><input name="usernameInput"/></form>');
+    bootbox.alert(form,function(){
+        var username = form.find('input[name=usernameInput]').val();
+        console.log(username);
+    })
+   
+}
+
+function removerDia(){
+    
+    // var table = $('#detalles_mora').DataTable( {
+    //     columnDefs: [ {
+    //         orderable: false,
+    //         className: 'select-checkbox',
+    //         targets:   7
+    //     } ],
+    //     select: {
+    //         style:    'multi',
+    //         selector: 'td:first-child'
+    //     },
+    //     order: [[ 1, 'asc' ]]
+    // });
+  
+    // $('#remove_day').click( function () {
+    //     table.rows('.selected').remove().draw( );
+    // });
+
+    var table =  $('#detalles_mora').DataTable();
+   
+     $('#detalles_mora tbody').on( 'click', '.boxtard', function () { 
+               // $(this).closest('tr').remove().draw(false) 
+        table.row( $(this).parents('tr') )
+        .remove()
+        .draw();  
+    
+    } )
+
 
 }
 init();

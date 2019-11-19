@@ -13,7 +13,7 @@ else {
 
     require 'header.php';
 
-    if ($_SESSION['consultav1'] == 1)
+    if ($_SESSION['Administrador'] == 1)
 
     {
 

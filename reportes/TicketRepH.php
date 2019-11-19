@@ -10,7 +10,7 @@ if (!isset($_SESSION["nombre"]))
 }
 else
 {
-if ($_SESSION['ventas']==1)
+if ($_SESSION['Abono']==1)
 {
 ?>
 <html>
@@ -76,7 +76,13 @@ if ($_SESSION['ventas']==1)
           </tr>
           <tr>
             <td>
-               Nº Solicitud
+               Nº Solicitud: <?php echo " - ".$reg->num_cuenta ; ?>
+            </td>
+           
+          </tr>
+          <tr>
+            <td>
+               Nº Credito: <?php echo " - ".$reg->no_credito ; ?>
             </td>
            
           </tr>
@@ -103,7 +109,7 @@ if ($_SESSION['ventas']==1)
                   echo "<tr>";
                   echo "<td>".$regd->intereses."</td>";
                   echo "<td>".$regd->abono_capital;
-                  echo "<td > ".$regd->total_abonado."</td>";
+                  echo "<td > ".round((($regd->total_abonado)+($regd->abono_capital)),2)."</td>";
                   echo "<td > ".$regd->moneda."</td>";
                   echo "</tr>";
 
@@ -120,7 +126,16 @@ if ($_SESSION['ventas']==1)
           <tr>
 
             <td align="left"><b>Restante:</b></td>
-            <td><b> <?php echo $recorreres->restante;  ?></b></td>
+            <td><b> <?php
+              $restant =$recorreres->restante;
+              if (($recorreres->sumaTotal) == 0){
+               
+               $rst = $hipoteca->restanteTicketHipoteca($_GET["idhipo"]);
+               $rr = $rst->fetch_object();
+               $restant = $rr->restante;
+              }
+            
+            echo $restant; ?></b></td>
 
           </tr>
 

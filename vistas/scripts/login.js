@@ -8,12 +8,14 @@ $("#frmAcceso").on('submit',function (e) {
     {
         if (data!="null")
         {
-            $(location).attr("href","dashboard.php");
+            $(location).attr("href","gestionar_abono.php");
 
         }else
         {
             bootbox.alert("Usuario o contraseña incorrectos");
         }
     });
+
+    
 })
 

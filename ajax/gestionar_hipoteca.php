@@ -68,7 +68,8 @@ switch ($_GET["op"]){
         }
         break;
     case 'guardaryeditarHipoteca':
-        $monto = ($_GET['montos']);
+        $monto = ($_GET['montos']);//cantidad que se debitara de la cuenta socios
+        $monto_prestamo = ($_GET['monto_ncuenta']); //cantidad que se guardara en la cuenta  prestamo del cliente
         $idhipoteca=$_GET['idhipoteca'];
         $saldo_banco =$_GET['saldo_banco'];
         $solicitud =$_GET['solicitud'];
@@ -87,7 +88,7 @@ switch ($_GET["op"]){
         $nota=$_GET['nota'];
         
         $numero_cuenta = 0;
-        $monto_a_actualizar = round((round($saldo_banco) - round($monto) ),2 );//como quedara el monto de la cuenta despues del prestamo
+        $monto_a_actualizar = round((round($saldo_banco) - round($monto) ),2 );//como quedara el monto de la cuenta despues del prestamo que va para el socio
 
         //verifica si no hay una cuenta nueva, si no hay asignara uno para que se sepa que es la primera cuenta, si no consultara si esta para sumarle 1
         $obtiene_ncuenta = $hipoteca->getnoCuenta($solicitud);
@@ -95,11 +96,11 @@ switch ($_GET["op"]){
         if(($obtiene_ncuenta->num_rows) == 0){ //si devuelve cero significa que no se a creado ninguna cuenta, significa que sera la primera 
 
             $numero_cuenta = 1;
-            echo $numero_cuenta;
+           // echo $numero_cuenta;
 
         }else{
             while($ncuenta = $obtiene_ncuenta->fetch_object()){
-                $numero = $ncuenta->no_cuenta;
+                $numero = $ncuenta->no_credito;
                 $numero_cuenta = $numero + 1;
                
          }
@@ -109,13 +110,14 @@ switch ($_GET["op"]){
         if (empty($idhipoteca)){
 
            $rspta=$hipoteca->guardarHipoteca($idusuario,$fiador,$garantia,$fecha_desembolso,$fecha_pago,$tipo,
-                                             $monto,$interes,$plazo,$interes_moratorio,$moneda,$nota,$comision,$manteminiento_valor,$cuenta_desenbolso,$solicitud,$numero_cuenta,$monto_a_actualizar);
+                                             $monto,$interes,$plazo,$interes_moratorio,$moneda,$nota,$comision,$manteminiento_valor,$cuenta_desenbolso,$solicitud,$numero_cuenta,$monto_a_actualizar,$monto_prestamo);
             echo $rspta ? "Cuenta guardada correctamente":"No se pudo guardar la cuenta";
           
         }else {
             
         }
         break;
+
     case 'guardarAbono':
 
         $idhipotecaAbonar = $_GET['idhipoteca'];
@@ -129,17 +131,13 @@ switch ($_GET["op"]){
        
         $fechaAbono = $_GET['fecha'];
         $nota = $_GET['nota'];
+        if(empty($interes_pendiente)){
+            $interes_pendiente = 0 ;
+        }
         if (empty($idabono)){
 
-           $rspta=$hipoteca->insertarAbono($idhipotecaAbonar,$fechaAbono,$abonocapital,$abonointeres,$interes_pendiente,$interes_moratorio,$mantenimiento,$nota);
+           $rspta=$hipoteca->insertarAbono($idusuario,$idhipotecaAbonar,$fechaAbono,$abonocapital,$abonointeres,$interes_pendiente,$interes_moratorio,$mantenimiento,$nota);
            echo $rspta ? "Abono Registrado" : "No se pudo registrar el abono";
-        // echo $idhipotecaAbonar ," ",
-        //  $abonocapital ," ",
-        //  $abonointeres ," ",
-        //  $interes_pendiente," ",
-        //  $interes_moratorio ," ",
-        //  $mantenimiento ," ",
-         $idabono ;
           
         }
         else {
@@ -223,10 +221,10 @@ switch ($_GET["op"]){
 
         while ($reg = $rspta->fetch_object())
         {
-            $urlTICKET='../reportes/TicketRepH.php?id=';
-
+            $urlTICKET='../reportes/TicketRepH.php?id='.$reg->detalle.'&idhipo= '.$reg->idhipoteca.' ';
+              
             echo '<tr>
-                   <td><a target="_blank" href="'.$urlTICKET.$reg->detalle.'">   <button class="btn btn-info" type="button"><i class="fa fa-print"></i></button></a>
+                   <td><a target="_blank" href="'.$urlTICKET.'">   <button class="btn btn-info" type="button"><i class="fa fa-print"></i></button></a>
                    <a data-toggle="modal" href="#modalCuentasAbonos"><button class="btn btn-bitbucket" type="button" onclick="mostrarAbonoInfo('.$reg->idhipoteca.','.$reg->monto.')"><i class="fa fa-info"></i></button></a>
                    </td>
                    <td>'.$reg->fecha.'</td>
@@ -357,10 +355,11 @@ switch ($_GET["op"]){
 
         echo  $monto."  datos  ".$interes;
         break;
-    case 'mostrarCuentasAbono':
+    case 'mostrarCuentasAbono'://muestra el numero de creditos al cual desea abonar
     
             $id=$_GET['idcliente'];
             $rspta=$hipoteca->mostrarCuentasAbono($id);
+            $augment = 0 ;//variable que aumentara en 1 para poder saber el id del campo que restara un dia
             //Vamos a declarar un array
             $data= Array();
             while ($reg=$rspta->fetch_object()){
@@ -375,7 +374,7 @@ switch ($_GET["op"]){
                             <th>Moneda</th>
                         </thead>';
                 echo '<tr>
-                        <th><button class="btn btn-success" onclick="mostrarCuentas('.$reg->idhipoteca.',\''.$reg->monto.'\',\''.$reg->interes.'\',\''.$reg->plazo.'\')"><i class="fa fa-plus"></i></button></th>
+                        <th><button class="btn btn-success" onclick="mostrarCuentas('.$reg->idhipoteca.',\''.$reg->monto.'\',\''.$reg->interes.'\',\''.$reg->plazo.'\',\''.$augment.'\')"><i class="fa fa-plus"></i></button><label>&nbsp &nbspRestar dia&nbsp &nbsp</label><input id="dia_menos'.$augment.'" type="number" value="0"></th> 
                         <th>'.$reg->no_credito.'</th>
                         <th>'.$reg->fecha_desembolso.'</th>
                         <th>'.$reg->fecha_pago.'</th>
@@ -383,6 +382,9 @@ switch ($_GET["op"]){
                         <th>'.$reg->interes.'</th>
                         <th>'.$reg->moneda.'</th>
                         </tr>';
+                        //&nbsp es para espacios HTML
+
+                        $augment ++;
 
             }
             break;
@@ -423,7 +425,6 @@ switch ($_GET["op"]){
 
         break;
     case 'muestraEstado'://PLAN DE PAGOS
-
         $fecha_actual = date('Y-m-d');
         $fechaPago = $_GET['fechaPago'];
         $plazo = $_GET['plazos'];
@@ -440,8 +441,9 @@ switch ($_GET["op"]){
         //El primer abono
         $fechaDesembolso = $_GET['desembolso'];
       //  $fechaPago = $_GET['pago'];
-
-        $date = date('Y-m-d',strtotime($fechaDesembolso));
+       // $dayplus = date('Y-m-d',strtotime("+1 day",strtotime($date)));
+        $date = date('Y-m-d',strtotime( "+1 day" ,strtotime($fechaDesembolso))); //le suma un dia porque el dia de desembolso no puede comenzar a sumar intereses
+        //si no hasta el dia siguiente
         $end_date = date('Y-m-d',strtotime($fechaPago));
 
         $mes_aniodesembolso = date('Y-m',strtotime($date));
@@ -468,26 +470,57 @@ switch ($_GET["op"]){
                                 <th>Cuota</th>
                                 <th>Saldo</th>
                                 <th>Moneda</th>
+                              
                                 </thead>';
 
         for ($i=1 ;$i <= $plazo; $i++){
-           $restante = round(($monto-$abonos_mensuales),2);
 
-           $interes_moneda=round((($monto*$interes)/100),2);
-          
-           $monto = $restante;
+            $restante = round(($monto-$abonos_mensuales),2);  
+            $monto = $restante;
+           
+            $date2 = date('Y-m-d',strtotime("+1 day",strtotime($end_date)));//despues de resolver los primeros meses ahora el mes de inicio sera el mes que continua comienza al siguiente dia porque 
+            //en los primeros meses ya se cobro el dia correspondiente entonce somienza al siguiente dia, por es el +1
+            $end_date2 = date('Y-m-d',strtotime("+1 month",strtotime($end_date)));//ahora hira sumando un mes a la fecha tambien
+           // $interes_calculado = round((($monto2 * $interes)/100),2);
+          //  $mantValor = round((($monto2  * $mantenimiento_valor)/100),2);
+            
 
-            // if($i==$plazo){
-            //     $abonos_mensuales= $abonos_mensuales + $restante;
-            //     $interes_moneda=round((($monto2 * $interes)/100),2); //
-            //   //  $interes_calculado = $interes_moneda;
-            //     $restante=0; //para que muestre el ultimo plazo
-            // }
+            $intereses_primerodias = array();
+            $mantenimientoArray = array();
+            while(date('Y-m-d',strtotime($date2))   <=  date('Y-m-d',strtotime($end_date2) ) ){//recorrera el siguiente dia de desembolso hasta el dia que contemplo pagar
 
-            $interes_calculado = round((($monto2 * $interes)/100),2);
-            $mantValor = round((($monto2  * $mantenimiento_valor)/100),2);
-          //  $dias_mesdeDesembolso = cal_days_in_month(CAL_GREGORIAN, date('m',strtotime($fechaPago)), date('Y',strtotime($fechaPago)));
-                   
+                $totalInteres = round( ( ($monto2 * $interes)/100),2);//calcula el interes a pagar
+                $primerosdias = cal_days_in_month(CAL_GREGORIAN, date('m',strtotime($date2)), date('Y',strtotime($date2)));//cuantos dias hay en el mes, puede que llegue un mes que cambie entonces dira cuantos dias hay en ese mes
+                $totalInteres = round(($totalInteres / $primerosdias),2);//cuanto seria el interes diario, divide el interes entre los dias del mes en que se encuentre, ya sea el mismo mes o el mes vaya aumentando
+     
+                array_push($intereses_primerodias,$totalInteres);//agrega los interes calculados diarios al array
+
+                //saca el mantenimiento de valor
+                $manteminiento_valor_primeros_dias = round( (($mantenimiento_valor * $monto2 )/100),2);
+                $manteminiento_valor_primeros_dias = round( ($manteminiento_valor_primeros_dias / $primerosdias ),2);
+
+                array_push($mantenimientoArray,$manteminiento_valor_primeros_dias);
+
+                $date2 = date('Y-m-d',strtotime("+1 day",strtotime($date2)));//aumenta 1 dia hasta llegar al mes y dia de pago
+            }
+
+            $primerosdias_totales = array_sum($intereses_primerodias);//suma el total de dias
+            $totalInteres = round(($primerosdias_totales),2);
+
+            $manteminiento_valor_primeros_dias_total = array_sum($mantenimientoArray);
+            $totalMantenimiento = round(($manteminiento_valor_primeros_dias_total),2);
+
+
+            $interes_calculado = $totalInteres;
+            $mantValor = $totalMantenimiento;
+           
+
+            if($i==$plazo){ //cuando llega al ultimo plazo 
+                $abonos_mensuales= $abonos_mensuales + $restante;
+                $interes_moneda=round((($monto2 * $interes)/100),2); //
+              
+                $restante=0; //para que muestre el ultimo plazoa cero el restante a cero
+            }
 
             if($i==1){//El primer estado
 
@@ -496,7 +529,7 @@ switch ($_GET["op"]){
                     
                     $intereses_primerodias = array();
                     $mantenimientoArray = array();
-                    while(date('Y-m-d',strtotime($date))   <  date('Y-m-d',strtotime($end_date) ) ){//no se usa el <= porque cuenta un dia de mas, si han pasado 3 dias,cuenta 4, solo con < los cuanta bien
+                    while(date('Y-m-d',strtotime($date))   <=  date('Y-m-d',strtotime($end_date) ) ){//recorrera el siguiente dia de desembolso hasta el dia que contemplo pagar
 
                         $totalInteres = round( ( ($monto2 * $interes)/100),2);//calcula el interes a pagar
                         $primerosdias = cal_days_in_month(CAL_GREGORIAN, date('m',strtotime($date)), date('Y',strtotime($date)));//cuandos dias hay en el mes, puede que llegue un mes que cambie entonces dira cuantos dias hay en ese mes
@@ -532,12 +565,49 @@ switch ($_GET["op"]){
                     // echo $r;
 
                 }
-                
-                
-            }else{
-                $intereses_porfecha = $interes_calculado;
+                else if($mes_aniodesembolso == $mes_aniopago){ //meses iguales en el mismo anio
+                 
+                 
+                  $intereses_primerodias = array();
+                  $mantenimientoArray = array();
+                  
+                  while(date('Y-m-d',strtotime($date))   <  date('Y-m-d',strtotime($end_date) ) ){//no se usa el <= porque cuenta un dia de mas, si han pasado 3 dias,cuenta 4, solo con < los cuanta bien
+
+                      $totalInteres = round( ( ($monto2 * $interes)/100),2);//calcula el interes a pagar
+                      $primerosdias = cal_days_in_month(CAL_GREGORIAN, date('m',strtotime($date)), date('Y',strtotime($date)));//cuandos dias hay en el mes, puede que llegue un mes que cambie entonces dira cuantos dias hay en ese mes
+                      $totalInteres = round(($totalInteres / $primerosdias),2);//cuanto seria el interes diario, divide el interes entre los dias del mes en que se encuentre, ya sea el mismo mes o el mes vaya aumentando
+           
+                      array_push($intereses_primerodias,$totalInteres);//agrega los interes calculados diarios al array
+
+                      //saca el mantenimiento de valor
+                      $manteminiento_valor_primeros_dias = round( (($mantenimiento_valor * $monto2 )/100),2);
+                      $manteminiento_valor_primeros_dias = round( ($manteminiento_valor_primeros_dias / $primerosdias ),2);
+
+                      array_push($mantenimientoArray,$manteminiento_valor_primeros_dias);
+
+                      $date = date('Y-m-d',strtotime("+1 day",strtotime($date)));//aumenta 1 dia hasta llegar al mes y dia de pago
+                  }
+
+                    $primerosdias_totales = array_sum($intereses_primerodias);//suma el total de dias
+                    $totalInteres = round(($primerosdias_totales),2);
+
+                    $manteminiento_valor_primeros_dias_total = array_sum($mantenimientoArray);
+                    $totalMantenimiento = round(($manteminiento_valor_primeros_dias_total),2);
+
+
+                    $interes_calculado = $totalInteres;
+                    $mantValor = $totalMantenimiento;
+
+
+                }
 
             }
+            // else{
+            //     $intereses_porfecha = $interes_calculado;
+
+            // }
+           
+            
 
             if($restante>=0){
                 $pMesDiario = date('m',strtotime($fechaPago));
@@ -554,6 +624,7 @@ switch ($_GET["op"]){
                     <td>'.round((($abonos_mensuales + $interes_calculado) + $mantValor ),2).'</span></td><!--Cutora-->
                     <td>'.$restante.'</td><!--Saldo-->
                     <td>'.$moneda.'</td>
+                   
                     </tr>';
 
                     $monto2=$monto; //Si no se iguala mostrara la ultima cantidad a cero, y asi comienza a calcular
@@ -564,11 +635,334 @@ switch ($_GET["op"]){
             }
 
         }
+       
 
         break;
    
-    case 'planPago'://Case de prueba****
+    case 'calcula_moras':
+        $idhipoteca = $_GET['idhipoteca'];
+        $dia_menos = $_GET['dia_menos'];
+        $dia_menos_formato = "-".$dia_menos." day";
+        $fechaactual = date("Y-m-d");
+        $fechaactual = date("Y-m-d",strtotime($dia_menos_formato,strtotime($fechaactual)));
+        $conteo = 1;
+        $conteo2 = 0; //para contar despues de los abonos
+        $conteo_moratorio = 1;
+        $test = "";
+        $test2 = "";
+        $totalInteres = 0;
+        $totalInteresMoratorio = 0;
+        $mes_anioactual = date("Y-m");
+        //$anioactual = date("Y");
+        //$mesactual = date("m");
+        $diaactual = date("d",strtotime($fechaactual));
+        //$moneda = 0;
 
+        $rspta = $hipoteca->calcula_mora($idhipoteca);
+        $data = Array();
+
+        while ($reg = $rspta->fetch_object()){
+
+            $estado = $reg->estado;
+            $monto = $reg->monto;
+            $moneda = $reg->moneda;
+            $mantenimiento = $reg->mantenimiento_valor;
+            $fecha_desembolso = date('Y-m-d',strtotime($reg->fecha_desembolso));
+            $aniomes_desembolso =  date('Y-m',strtotime($reg->fecha_desembolso));
+            $dia_desembolso = date('d',strtotime($reg->fecha_desembolso));
+            $mes_desembolso = date('m',strtotime($reg->fecha_desembolso));
+            $anio_desembolso = date('Y',strtotime($reg->fecha_desembolso));
+
+            $fecha_pago = date("Y-m-d",strtotime($reg->fecha_pago));
+            $mes_pago = date('m',strtotime($reg->fecha_pago));
+            $fecha_pago_mesanio = date('Y-m',strtotime($reg->fecha_pago));
+            $dia_pago = date('d',strtotime($reg->fecha_pago));
+            $interes = $reg->interes;
+            $interes_moratorio = $reg->interes_moratorio;
+             //se inicializa a cero porque despues se asignara con los valores del interes moratorio
+            if($estado=='sin_abono'){//si no se a realizado ningun abono
+
+                $fechaInicio = date('Y-m-d',strtotime("+1 day",strtotime($fecha_desembolso)));
+                $fechaFin = $fechaactual;
+                $diaInicio = date('d',strtotime($fechaInicio));
+                $interesM = 0;
+
+                $intereses_primerodias = array();//guardara los intereses dividios por el mes
+                $moratorio_primerosdias = array();
+                $mantenimientoArray = array();
+                while(date('Y-m-d',strtotime($fechaInicio))   <=  date('Y-m-d',strtotime($fechaFin) ) ){//recorrera el siguiente dia del desembolso hasta el dia que contemplo pagar
+
+                        $totalInteres = round( ( ($monto * $interes)/100),2);//calcula el interes a pagar
+                        $primerosdias = cal_days_in_month(CAL_GREGORIAN, date('m',strtotime($fechaInicio)), date('Y',strtotime($fechaInicio)));//cuandos dias hay en el mes, puede que llegue un mes que cambie entonces dira cuantos dias hay en ese mes
+                        $totalInteres = round(($totalInteres / $primerosdias),2);//cuanto seria el interes diario, divide el interes entre los dias del mes en que se encuentre, ya sea el mismo mes o el mes vaya aumentando
+             
+                        array_push($intereses_primerodias,$totalInteres);//agrega los interes calculados diarios al array $intereses_primerodias asi permitira sumar el contenido del array
+
+                        //saca el mantenimiento de valor
+                        $manteminiento_valor_primeros_dias = round( (($mantenimiento * $monto )/100),2);
+                        $manteminiento_valor_primeros_dias = round( ($manteminiento_valor_primeros_dias / $primerosdias ),2);
+
+                        array_push($mantenimientoArray,$manteminiento_valor_primeros_dias);
+
+
+                        if(date('Y-m-d',strtotime($fechaInicio)) > date('Y-m-d',strtotime($fecha_pago)) ){//la ficha inicio va aumentando un dia, luego cuando sea mayor que la fecha de pago cobrara el moratorio
+                            $interesM = round((($interes_moratorio * $monto)/100),2);
+                            $interesM = round(($interesM / $primerosdias),2);
+                            array_push($moratorio_primerosdias,$interesM);
+
+                         }
+                       $data[]=array(
+                        "0"=>$conteo,//$conteo2,//meses
+                        "1"=>$fechaInicio,//$fechaInicio,//fechas
+                        "2"=>$totalInteres,//$totalInteres,
+                        "3"=>$interesM,//$totalInteresMoratorio,//interes Moratorio
+                        "4"=>$manteminiento_valor_primeros_dias,//$totalMantenimiento /* round((($mantenimiento * $capital)/100 ),2 ) */,
+                        "5"=>round(($totalInteres + $interesM + $manteminiento_valor_primeros_dias),2),//round(($totalInteres + $totalInteresMoratorio + $totalMantenimiento ),2),
+                        "6"=>$moneda,//$moneda.$dia_menos
+        
+                       );
+
+                        $fechaInicio = date('Y-m-d',strtotime("+1 day",strtotime($fechaInicio)));//aumenta 1 dia hasta llegar al mes y dia de pago
+                        $conteo ++;//para enumerar los dias
+                    }
+
+                    // $primerosdias_totales = array_sum($intereses_primerodias);//suma el total de dias
+                    // $totalInteres = round(($primerosdias_totales),2);
+                    // $interes_calculado = $totalInteres;
+
+            }
+            else{
+                //Si ya se hicieron abonos
+                //Debe de calcular el siguiente abono para eso debo de tener la ultima fecha, y el interes que le toca
+                ////basado en el siguiente capital
+                $capital = 0;
+                $ultima_fecha = date('Y-m-d');//se inicializan para asignar despues
+                $fechaInicio = date('Y-m-d');//se inicializan para asignar despues
+                $suma_capital = $hipoteca->muestraSumaCapital($idhipoteca);//obtiene cuanto a abonado
+                $ultimos_datos_abono = $hipoteca->muestraUltimoAbono($idhipoteca);
+                while ($reg = $ultimos_datos_abono->fetch_object()){
+
+                    $ultima_fecha = date('Y-m-d',strtotime($reg->fecha));
+                    $fechaInicio =  $ultima_fecha;
+                    
+
+                }
+
+                while ($reg = $suma_capital->fetch_object()) {
+                    $capital = $monto - ($reg->total_abonado) ;//el Restante seria el monto total menos lo que a abonado
+                   
+                    $fechaInicio = date('Y-m-d',strtotime("+1 day",strtotime($fechaInicio)));
+                    $fechaFin = $fechaactual;
+                   
+                    $interesM = 0;
+    
+                    $intereses_primerodias = array();//guardara los intereses dividios por el mes
+                    $moratorio_primerosdias = array();
+                    $mantenimientoArray = array();
+
+                    //el año que ya abono, -- el mas que ya abono mas 1 y el dia que le toca pagar mas 1
+                    $date_mora_anio = date('Y',strtotime($fechaInicio));
+                    $date_mora_mes = date('m',strtotime("+1 month",strtotime($fechaInicio)));// date('m',strtotime($fechaInicio));//
+                    $date_mora_dia = date('d',strtotime("+1 day",strtotime($fecha_pago)));
+                    $date_mora = ($date_mora_anio) ."-". ( $date_mora_mes)."-".($date_mora_dia) ;
+                   // echo  $date_mora;
+                    while(date('Y-m-d',strtotime($fechaInicio))   <=  date('Y-m-d',strtotime($fechaFin) ) ){//recorrera el siguiente dia del desembolso hasta el dia que contemplo pagar
+
+                        $totalInteres = round( ( ($capital * $interes)/100),2);//calcula el interes a pagar
+                        $primerosdias = cal_days_in_month(CAL_GREGORIAN, date('m',strtotime($fechaInicio)), date('Y',strtotime($fechaInicio)));//cuandos dias hay en el mes, puede que llegue un mes que cambie entonces dira cuantos dias hay en ese mes
+                        $totalInteres = round(($totalInteres / $primerosdias),2);//cuanto seria el interes diario, divide el interes entre los dias del mes en que se encuentre, ya sea el mismo mes o el mes vaya aumentando
+             
+                        array_push($intereses_primerodias,$totalInteres);//agrega los interes calculados diarios al array $intereses_primerodias asi permitira sumar el contenido del array
+
+                        //saca el mantenimiento de valor
+                        $manteminiento_valor_primeros_dias = round( (($mantenimiento * $capital )/100),2);
+                        $manteminiento_valor_primeros_dias = round( ($manteminiento_valor_primeros_dias / $primerosdias ),2);
+
+                        array_push($mantenimientoArray,$manteminiento_valor_primeros_dias);
+
+                        
+                        
+                        if(strtotime($fechaInicio) >=  strtotime($date_mora)){//la ficha inicio va aumentando un dia, luego cuando sea mayor que la fecha de pago cobrara el moratorio
+                            
+                            $interesM = round((($interes_moratorio * $capital)/100),2);
+                            $interesM = round(($interesM / $primerosdias),2);
+                            array_push($moratorio_primerosdias,$interesM);
+
+                         }
+                       $data[]=array(
+                        "0"=>$conteo,//$conteo2,//meses
+                        "1"=>$fechaInicio,//$fechaInicio,//fechas
+                        "2"=>$totalInteres,//$totalInteres,
+                        "3"=>$interesM,//$totalInteresMoratorio,//interes Moratorio
+                        "4"=>$manteminiento_valor_primeros_dias,//$totalMantenimiento /* round((($mantenimiento * $capital)/100 ),2 ) */,
+                        "5"=>round(($totalInteres + $interesM + $manteminiento_valor_primeros_dias),2),//round(($totalInteres + $totalInteresMoratorio + $totalMantenimiento ),2),
+                        "6"=>$moneda,//$moneda.$dia_menos
+        
+                       );
+
+                        $fechaInicio = date('Y-m-d',strtotime("+1 day",strtotime($fechaInicio)));//aumenta 1 dia hasta llegar al mes y dia de pago
+                        $conteo ++;//para enumerar los dias
+                    }
+
+                
+                
+              
+
+            }
+        }
+        
+
+        }
+
+           $results = array(
+            "sEcho"=>1, //Información para el datatables
+            "iTotalRecords"=>count($data), //enviamos el total registros al datatable
+            "iTotalDisplayRecords"=>count($data), //enviamos el total registros a visualizar
+            "aaData"=>$data);
+
+        echo json_encode($results);
+     break;
+    case 'planPago'://Case de prueba****
+        //     $fecha_actual = date('Y-m-d');
+        //     $fechaPago = $_GET['fechaPago'];
+        //     $plazo = $_GET['plazos'];
+        //     $interes = $_GET['interes'];
+
+        //     $monto = $_GET['monto']; //el monto para calcular mensaualidades del capital
+        //     $monto2 = $_GET['monto']; //el monto para calcular el interes
+        //     $moneda = $_GET['moneda'];
+        //     $mantenimiento_valor = $_GET['mValor'];
+        //     $mantValor = 0;
+        //     $fechapagoo_dia = date('d',strtotime($fechaPago));
+        //     $valorTest = $_GET['monto'];
+        //     $abonos_mensuales = (round((($monto)/$plazo),2));
+        //     //El primer abono
+        //     $fechaDesembolso = $_GET['desembolso'];
+        //   //  $fechaPago = $_GET['pago'];
+
+        //     $date = date('Y-m-d',strtotime($fechaDesembolso));
+        //     $end_date = date('Y-m-d',strtotime($fechaPago));
+
+        //     $mes_aniodesembolso = date('Y-m',strtotime($date));
+        //     $mes_aniopago = date('Y-m',strtotime($end_date));
+        //     $mes_desembolso = date('m',strtotime($date));
+        //     $mes_pago = date('m',strtotime($end_date));
+        //     $diadesembolso  = date('d',strtotime($fechaDesembolso));
+        //     $diapago = date('d',strtotime($fechaPago));
+        //     $aniodesembolso = date('Y',strtotime($date));
+        //     $aniopago =date('Y',strtotime($end_date));
+        //     $dias=array();
+        //     $diascaculados = array();
+        //     $diastotales = array();
+        //     $contador=1;
+        //     $manteminiento_valor_primeros_dias = 0;
+
+        //     echo '<thead class="display compact" style="width:100%">
+
+        //                             <th>Plazo</th>
+        //                             <th>Fecha</th>
+        //                             <th>Capital</th>
+        //                             <th>Interes</th>
+        //                             <th>M Valor</th>
+        //                             <th>Cuota</th>
+        //                             <th>Saldo</th>
+        //                             <th>Moneda</th>
+        //                             </thead>';
+
+        //     for ($i=1 ;$i <= $plazo; $i++){
+        //        $restante = round(($monto-$abonos_mensuales),2);
+
+        //        $interes_moneda=round((($monto*$interes)/100),2);
+            
+        //        $monto = $restante;
+
+        //         // if($i==$plazo){
+        //         //     $abonos_mensuales= $abonos_mensuales + $restante;
+        //         //     $interes_moneda=round((($monto2 * $interes)/100),2); //
+        //         //   //  $interes_calculado = $interes_moneda;
+        //         //     $restante=0; //para que muestre el ultimo plazo
+        //         // }
+
+        //         $interes_calculado = round((($monto2 * $interes)/100),2);
+        //         $mantValor = round((($monto2  * $mantenimiento_valor)/100),2);
+        //        // $dias_mesdeDesembolso = cal_days_in_month(CAL_GREGORIAN, date('m',strtotime($fechaPago)), date('Y',strtotime($fechaPago)));
+                    
+
+        //         if($i==1){//El primer estado
+
+        //             if($mes_aniodesembolso < $mes_aniopago){ //verifica que no este en el mismo mes
+
+                        
+        //                 $intereses_primerodias = array();
+        //                 $mantenimientoArray = array();
+        //                 while(date('Y-m-d',strtotime($date))   <  date('Y-m-d',strtotime($end_date) ) ){//no se usa el <= porque cuenta un dia de mas, si han pasado 3 dias,cuenta 4, solo con < los cuanta bien
+
+        //                     $totalInteres = round( ( ($monto2 * $interes)/100),2);//calcula el interes a pagar
+        //                     $primerosdias = cal_days_in_month(CAL_GREGORIAN, date('m',strtotime($date)), date('Y',strtotime($date)));//cuandos dias hay en el mes, puede que llegue un mes que cambie entonces dira cuantos dias hay en ese mes
+        //                     $totalInteres = round(($totalInteres / $primerosdias),2);//cuanto seria el interes diario, divide el interes entre los dias del mes en que se encuentre, ya sea el mismo mes o el mes vaya aumentando
+                
+        //                     array_push($intereses_primerodias,$totalInteres);//agrega los interes calculados diarios al array
+
+        //                     //saca el mantenimiento de valor
+        //                     $manteminiento_valor_primeros_dias = round( (($mantenimiento_valor * $monto2 )/100),2);
+        //                     $manteminiento_valor_primeros_dias = round( ($manteminiento_valor_primeros_dias / $primerosdias ),2);
+
+        //                     array_push($mantenimientoArray,$manteminiento_valor_primeros_dias);
+
+        //                     $date = date('Y-m-d',strtotime("+1 day",strtotime($date)));//aumenta 1 dia hasta llegar al mes y dia de pago
+        //                 }
+
+
+        //                // echo ' *** Ultimo mes y dias: ' ;
+
+        //                 // array_push($diascaculados,$dias[0]); //procesa en un array los primeros y ultimos datos de dias
+        //                 //  array_push($diascaculados,end($dias));//los ultimos datos del array
+        //                 $primerosdias_totales = array_sum($intereses_primerodias);//suma el total de dias
+        //                 $totalInteres = round(($primerosdias_totales),2);
+
+        //                 $manteminiento_valor_primeros_dias_total = array_sum($mantenimientoArray);
+        //                 $totalMantenimiento = round(($manteminiento_valor_primeros_dias_total),2);
+
+
+        //                 $interes_calculado = $totalInteres;
+        //                 $mantValor = $totalMantenimiento;
+
+
+        //                 // echo $r;
+
+        //             }
+                    
+                    
+        //         }else{
+        //             $intereses_porfecha = $interes_calculado;
+
+        //         }
+
+        //         if($restante>=0){
+        //             $pMesDiario = date('m',strtotime($fechaPago));
+        //             $pAnioDiario = date('Y',strtotime($fechaPago));
+        //           //  $interesDiario = cal_days_in_month(CAL_GREGORIAN,  $pMesDiario, $pAnioDiario);
+
+
+        //             echo '  <tr>
+        //                 <td>'.$i.'</td>
+        //                 <td> '.date('Y-m-d',strtotime($fechaPago)).' </td>
+        //                 <td>'.$abonos_mensuales.'</td> <!--Abonos mensuales al capital--> 
+        //                 <td>'.round(($interes_calculado),2).'</td> <!--Interes ya calculado-->
+        //                 <td>'.$mantValor.'</td> <!--Mantenimiento de Valor--> 
+        //                 <td>'.round((($abonos_mensuales + $interes_calculado) + $mantValor ),2).'</span></td><!--Cutora-->
+        //                 <td>'.$restante.'</td><!--Saldo-->
+        //                 <td>'.$moneda.'</td>
+        //                 </tr>';
+
+        //                 $monto2=$monto; //Si no se iguala mostrara la ultima cantidad a cero, y asi comienza a calcular
+        //             //desde el monto principal, luego sigue el monto restante, hasta llegar a la menor cantidad
+        //                 $fechaPago = date("Y-m-d",strtotime($fechaPago."+ 1 month"));
+
+
+        //         }
+
+        //     }
 
      break;
         //LIST METHODS
@@ -606,8 +1000,24 @@ switch ($_GET["op"]){
         }
 
         break;
+    case 'mostrarUltimoPendiente':
+        $id=$_GET['idhipoteca'];
+        $saldo = 0;
+        $rspta = $hipoteca->mostrarUltimoPendiente($id);
+        while ($reg = $rspta->fetch_object()) {
+            
+                 $saldo = $reg->saldo;
+                 if(empty($saldo)){
+                     $saldo = 0;
+                     echo $saldo;
+                 }
+
+                 echo $saldo;
+
+            }
+    break;
     case 'listarDetallesAbono':
-        $id=$_GET['id'];
+        $id=$_GET['idhipoteca'];
         $rspta = $hipoteca->listarDetallesAbono($id);
         $total=0;
         $total=0;
@@ -621,6 +1031,7 @@ switch ($_GET["op"]){
                                     <th>Interes Mor</th>
                                     <th>Capital</th>
                                     <th>Pendiente Capital</th>
+                                    <th>Saldo Pendiente</th>
                                     <th>Moneda</th>    
                                 </thead>';
 
@@ -647,6 +1058,7 @@ switch ($_GET["op"]){
                        
                        <td><input type="hidden" id="capitalA" value="'.$reg->abono_capital.'">'.$reg->abono_capital.'</td>
                        <td><input type="hidden" id="totalA" value="'.$total.'"> '.$total.'</td>
+                       <td><input type="hidden" id="saldoA" value="'.$total.'"> '.$reg->saldo.'</td>
                        <td><input type="hidden" id="monedaA" value="'.$reg->moneda.'">'.$reg->moneda.'</td>   
                    </tr>';
 
@@ -813,12 +1225,14 @@ switch ($_GET["op"]){
         echo '
                 <thead>
                 <th>Opciones</th>
+                <th>Solicitud</th>
                 <th>Cuenta</th>
                 <th>No Credito</th>
                 <th>Cliente</th>
                 <th>Cedula</th>
                 <th>Monto</th>
                 <th>Interes</th>
+                <th>Mantenimiento</th>
                 <th>Interes Moratorio</th>
                 <th>Moneda</th>
                 <th>Estado</th>
@@ -833,7 +1247,7 @@ switch ($_GET["op"]){
            $urlTICKET='../reportes/TicketRepHLista.php?id=';
            
            if (($reg->estado) == 'Aceptado'){
-            $state = '<button class="btn btn-danger" type="button" onclick="eliminar('.$reg->idhipoteca.')"><i class="fa fa-trash"></i>Eliminar</button> <button class="btn btn-instagram" type="button" onclick="eliminar('.$reg->idhipoteca.')"><i class="fa fa-edit"></i>Editar</button> ';
+            $state = '<button class="btn btn-danger" type="button" onclick="eliminarHipoteca('.$reg->idhipoteca.',\''.$reg->cuenta_desembolso.'\',\''.$reg->no_credito.'\',\''.$reg->cantidad_debitada.'\',\''.$reg->solicitud.'\')"><i class="fa fa-trash"></i>Eliminar</button> ';
            }else if(($reg->estado) == 'Cancelado'){
             $state = '<button class="btn btn-twitter" type="button" onclick="restaurar('.$reg->idhipoteca.')" ><i class="fa fa-truck"></i>Regresar</button>';
            }
@@ -842,13 +1256,15 @@ switch ($_GET["op"]){
 
            echo '
                 <tr>
-                <td>'. $condition.$state.' <a target="_blank" href="'.$urlTICKET.$reg->idhipoteca.'"> <button class="btn btn-flickr" type="button"><i class="fa fa-file-text"></i></button></a> </td>
+                <td>'. $state.' <a target="_blank" href="'.$urlTICKET.$reg->idhipoteca.'"> <button class="btn btn-flickr" type="button"><i class="fa fa-file-text"></i></button></a> </td>
+                <td>'.$reg->solicitud.'</td>
                 <td>'.$reg->idhipoteca.'</td>
                 <td>'.$reg->no_credito.'</td>
                 <td>'.$reg->nombres.'</td>
                 <td>'.$reg->num_documento.'</td>
                 <td>'.$reg->monto.'</td>
                 <td>'.$reg->interes.'</td>
+                <td>'.$reg->mantenimiento_valor.'</td>
                 <td>'.$reg->interes_moratorio.'</td>
                 <td>'.$reg->moneda.'</td>
                 <td>'.$reg->estado.'</td>
@@ -945,9 +1361,12 @@ switch ($_GET["op"]){
             echo '<option value='.$reg->idcliente.'>'.$reg->nombre.' - '.$reg->num_documento.'</option>';
         }
         break;
-    case 'calcula_moras':
+    case 'calcula_moras--':
         $idhipoteca = $_GET['idhipoteca'];
+        $dia_menos = $_GET['dia_menos'];
+        $dia_menos_formato = "-".$dia_menos." day";
         $fechaactual = date("Y-m-d");
+        $fechaactual = date("Y-m-d",strtotime($dia_menos_formato,strtotime($fechaactual)));
         $conteo = 1;
         $conteo2 = 0; //para contar despues de los abonos
         $conteo_moratorio = 1;
@@ -1114,7 +1533,8 @@ switch ($_GET["op"]){
                         "3"=>$totalInteresMoratorio, //interes moratorio
                         "4"=>$totalMantenimiento,//totalIntereses /// mantenimiento de valor
                         "5"=>round(($totalInteres + $totalInteresMoratorio + $totalMantenimiento),2), //Moneda
-                        "6"=>$moneda
+                        "6"=>$moneda.$dia_menos
+                       
 
                     );
 
@@ -1178,21 +1598,7 @@ switch ($_GET["op"]){
                     
                     }
                   
-                    //$fecha_pago
                     
-                    /* if(  date('d',strtotime($ultima_fecha)) <  date('d',strtotime($fechaInicio))   ){//Primero si la fecha es menor o igual para cobrar mora
-                    
-                                //El interes moratorio
-                    //date('d',strtotime($fecha_pago))
-                    $totalInteresMoratorio = 1;
-                    
-                    // $totalInteresMoratorio = round( ( ($monto * $interes_moratorio)/100),2);
-                    // $totalInteresMoratorio = round(($totalInteresMoratorio / $dias_mesdeDesembolso),2);
-                   
-                   
-                    }else{
-                        $totalInteresMoratorio = 0;
-                    } */
 
 
                     // $valor = 2345.21;
@@ -1207,9 +1613,12 @@ switch ($_GET["op"]){
                         "3"=>$totalInteresMoratorio,//interes Moratorio
                         "4"=>$totalMantenimiento /* round((($mantenimiento * $capital)/100 ),2 ) */,
                         "5"=>round(($totalInteres + $totalInteresMoratorio + $totalMantenimiento ),2),
-                        "6"=>$moneda
+                        "6"=>$moneda.$dia_menos
+
+                        
 
                     );  
+                    
 
                     }
                    
@@ -1224,13 +1633,15 @@ switch ($_GET["op"]){
 
         }
 
-        $results = array(
+           $results = array(
             "sEcho"=>1, //Información para el datatables
             "iTotalRecords"=>count($data), //enviamos el total registros al datatable
             "iTotalDisplayRecords"=>count($data), //enviamos el total registros a visualizar
             "aaData"=>$data);
 
         echo json_encode($results);
+
+       
 
         break;
     case 'eliminarAbono':
@@ -1243,17 +1654,58 @@ switch ($_GET["op"]){
 
         break;
     case 'eliminarH':
-        $iddetalleF=$_GET['id'];
-        $rpsta=$hipoteca->eliminarHipoteca($iddetalleF);
-        echo $rpsta ? " Cuenta Eliminada Correctamente " : " No se pudo eliminar la cuenta!!! ";
+        $idhipoteca=$_POST['idhipoteca'];
+        $cuenta_desembolso =$_POST['cuenta_desembolso'];//la cuenta del socio
+        $no_credito = $_POST['no_credito'];
+        $solicitud = $_POST['solicitud'];
+        $cantidad_debitada = $_POST['cantidad_debitada'];//la cantidad que se habia prestado
+        $monto_actulizar = "";//el monto que se actualizara a los socios por estar eliminado la cuenta
+        $garantia = "";//la garantia pasara a no_asignado
+        $cuenta_socio = "";
+       
+        $credito = 1;
+        //number_format(($saldo_socio - $cantidad_debitada ),2,'.',',');//
+        
+      
+
+
+        $rspta =$hipoteca->eliminarHipoteca($idhipoteca);//primero lo elimina, para que reasgine los no_creditos a los que no estan eliminados
+        $consulta_saldo =$hipoteca->getSaldoSocio($cuenta_desembolso);
+        $get_socio = $consulta_saldo->fetch_object();
+        $saldo_socio = $get_socio->monto;
+        $saldo_final = ($saldo_socio + $cantidad_debitada);//obtiene cuanto monto tiene el socio y le sumara lo que se habia debitado
+        $rpsta=$hipoteca->pruebaReasignarNoCredito($solicitud);//recibe el idhipotecas con la solicitud enviada, cada solicitud ouede tener varias prestamos
+        while($creditos = $rpsta->fetch_object()){
+            
+            $idhipotecaCredit =  $creditos->idhipoteca;
+            
+            
+           $hipoteca->actualizarNoCreditos($idhipotecaCredit,$credito);//reacomadara el orden de los numero de no_creditos
+           $credito ++;
+           
+         }
+
+         $hipoteca->actualizarMontoSocio($cuenta_desembolso,$saldo_final);
+         
+         echo $rspta ? "Eliminado Correctamente" : "No se pudo eliminar";
+       // $rpsta=$hipoteca->eliminarHipoteca( $idhipoteca,$cuenta_desembolso,$no_credito,$cantidad_debitada);
+       // echo $rpsta ? " Cuenta Eliminada Correctamente " : " No se pudo eliminar la cuenta!!! ";
         break;
     case 'fechaActual':
             $fechaActual = date('Y-m-d');
              echo $fechaActual;
-        break;
+     break;
 
         
 
 
      }
+
+
+
+
+
+
+
+     
 ?>

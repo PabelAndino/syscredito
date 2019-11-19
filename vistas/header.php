@@ -107,7 +107,7 @@
             <li class="header"></li>
             <?php
 
-            if ($_SESSION['escritorio']==1)
+            if ($_SESSION['Administrador']==1)
             {
                 echo '<li>
               <a href="dashboard.php">
@@ -118,32 +118,32 @@
             }
             ?>
                 <?php
-              if ($_SESSION['almacen']==1)
+              if ($_SESSION['Administrador']==1)
               {
-              echo '<li class="treeview">
-              <a href="#">
-                <i class="fa fa-laptop"></i>
-                <span>Inventario</span>
-                <i class="fa fa-angle-left pull-right"></i>
-              </a>
-              <ul class="treeview-menu">
-                <li><a href="articulo.php"><i class="fa fa-circle-o"></i> Artículos</a></li>
-                 <li><a href="ingreso.php"><i class="fa fa-circle-o"></i> Ingreso de artículos</a></li>
-                <li><a href="categoria.php"><i class="fa fa-circle-o"></i> Categorías</a></li>
-              </ul>
-            </li>';
+            //   echo '<li class="treeview">
+            //   <a href="#">
+            //     <i class="fa fa-laptop"></i>
+            //     <span>Inventario</span>
+            //     <i class="fa fa-angle-left pull-right"></i>
+            //   </a>
+            //   <ul class="treeview-menu">
+            //     <li><a href="articulo.php"><i class="fa fa-circle-o"></i> Artículos</a></li>
+            //      <li><a href="ingreso.php"><i class="fa fa-circle-o"></i> Ingreso de artículos</a></li>
+            //     <li><a href="categoria.php"><i class="fa fa-circle-o"></i> Categorías</a></li>
+            //   </ul>
+            // </li>';
               }
               ?>
 
 
 
               <?php
-              if ($_SESSION['compras']==1)
+              if ($_SESSION['Administrador']==1)
               {
                   echo '<li class="treeview">
               <a href="#">
                 <i class="fa fa-th"></i>
-                <span>Hipoteca</span>
+                <span>Prestamos</span>
                  <i class="fa fa-angle-left pull-right"></i>
               </a>
               <ul class="treeview-menu">
@@ -157,10 +157,25 @@
             </li>';
               }
               ?>
+              <?php
+            if ($_SESSION['Abono']==1)
+              {
+                  echo '<li class="treeview">
+              <a href="#">
+                <i class="fa fa-sellsy "></i>
+                <span>Abonos</span>
+                 <i class="fa fa-angle-left pull-right"></i>
+              </a>
+              <ul class="treeview-menu">
+                <li><a href="gestionar_abono.php"><i class="fa fa-circle-o"></i> Abonos</a></li>
+                
+              </ul>
+            </li>   ';
+              }
+              ?>
 
-
-<?php
-              if ($_SESSION['compras']==1)
+          <?php
+              if ($_SESSION['Administrador']==1)
               {
                   echo '<li class="treeview">
               <a href="#">
@@ -174,6 +189,10 @@
                 <li><a href="bancos.php"><i class="fa fa-circle-o"></i>Bancos</a></li>
                  <li><a href="socios.php"><i class="fa fa-circle-o"></i>Socios</a></li>
                  <li><a href="solicitud.php"><i class="fa fa-circle-o"></i>Solicitudes</a></li>
+                 <li><a href="garantia.php"><i class="fa fa-circle-o"></i>Garantias</a></li>
+                 <li><a href="cliente.php"><i class="fa fa-circle-o"></i>Clientes</a></li>
+                 <li><a href="categorias.php"><i class="fa fa-circle-o"></i>Categorias Garantia</a></li>
+                 <li><a href="egresos.php"><i class="fa fa-circle-o"></i>Egresos</a></li>
                 
               </ul>
             </li>';
@@ -291,7 +310,7 @@
 
 
               <?php
-              if ($_SESSION['almacen']==1)
+              if ($_SESSION['Administrador']==1)
               {
                   echo '<li class="treeview">
               <a href="#">
@@ -307,7 +326,7 @@
               }
               ?>
               <?php
-              if ($_SESSION['almacen']==1)
+              if ($_SESSION['Administrador']==1)
               {
                   echo '<li class="treeview">
               <a href="#">
@@ -325,7 +344,7 @@
               ?>
 
             <?php
-              if ($_SESSION['acceso']==1)
+              if ($_SESSION['Administrador']==1)
               {
                   echo '<li class="treeview">
               <a href="#">

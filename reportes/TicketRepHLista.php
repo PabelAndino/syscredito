@@ -10,7 +10,7 @@ if (!isset($_SESSION["nombre"]))
 }
 else
 {
-if ($_SESSION['ventas']==1)
+if ($_SESSION['Administrador']==1)
 {
 ?>
 <html>
@@ -104,12 +104,49 @@ $email = "pabelwitt@gmail.com";
     $cantidad=0;
 
     while ($regd = $rsptad->fetch_object()) {
-        $interes= (($regd->monto)*($regd->interes)/100 );
+        $interes= (($regd->interes));
+        $fecha_desem = $reg->fecha_desembolso;
+        $fecha_pago = $reg->fecha_pago;
+        $mantenimiento_valor =$reg->mantenimiento_valor;
+        $monto2 = $regd->monto;
+        $date2 = date('Y-m-d',strtotime("+1 day",strtotime($fecha_desem)));//despues de resolver los primeros meses ahora el mes de inicio sera el mes que continua comienza al siguiente dia porque 
+        //en los primeros meses ya se cobro el dia correspondiente entonce somienza al siguiente dia, por es el +1
         
+        $intereses_primerodias = array();
+        $mantenimientoArray = array();
+        while(date('Y-m-d',strtotime($date2))   <=  date('Y-m-d',strtotime($fecha_pago) ) ){//recorrera el siguiente dia de desembolso hasta el dia que contemplo pagar
+
+            $totalInteres = round( ( ($monto2 * $interes)/100),2);//calcula el interes a pagar
+            $primerosdias = cal_days_in_month(CAL_GREGORIAN, date('m',strtotime($date2)), date('Y',strtotime($date2)));//cuantos dias hay en el mes, puede que llegue un mes que cambie entonces dira cuantos dias hay en ese mes
+            $totalInteres = round(($totalInteres / $primerosdias),2);//cuanto seria el interes diario, divide el interes entre los dias del mes en que se encuentre, ya sea el mismo mes o el mes vaya aumentando
+ 
+            array_push($intereses_primerodias,$totalInteres);//agrega los interes calculados diarios al array
+
+            //saca el mantenimiento de valor
+            $manteminiento_valor_primeros_dias = round( (($mantenimiento_valor * $monto2 )/100),2);
+            $manteminiento_valor_primeros_dias = round( ($manteminiento_valor_primeros_dias / $primerosdias ),2);
+
+            array_push($mantenimientoArray,$manteminiento_valor_primeros_dias);
+
+            $date2 = date('Y-m-d',strtotime("+1 day",strtotime($date2)));//aumenta 1 dia hasta llegar al mes y dia de pago
+        }
+
+        $primerosdias_totales = array_sum($intereses_primerodias);//suma el total de dias
+        $totalInteres = round(($primerosdias_totales),2);
+
+        $manteminiento_valor_primeros_dias_total = array_sum($mantenimientoArray);
+        $totalMantenimiento = round(($manteminiento_valor_primeros_dias_total),2);
+
+
+        $interes_calculado = $totalInteres;
+        $mantValor = $totalMantenimiento;
+        //// $valor = 2345.21;
+        // number_format($valor, 2, '.',',' )
+        //$valor sera = 2,345.21
 
         echo "<tr>";
-        echo "<td>".$interes."</td>";
-        echo "<td>".$regd->monto;
+        echo "<td>".number_format((round(($interes_calculado + $mantValor),2)),2,'.',',')."</td>";
+        echo "<td>".number_format(($regd->monto),2,'.',',');
         echo "<td > ".$regd->moneda."</td>";
         echo "</tr>";
 

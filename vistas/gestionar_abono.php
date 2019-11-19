@@ -10,7 +10,7 @@ if(!isset($_SESSION["nombre"]))
 }
 else
 {
-    if ($_SESSION['Administrador'] == 1)
+    if ($_SESSION['Abono'] == 1)
 
     {
 
@@ -29,7 +29,7 @@ require 'header.php';
                     <!-- /.box-header -->
                     <!-- centro -->
                     <div class="box-header with-border">
-                        <h1 class="box-title badge">Prestamos</h1>
+                        <h1 class="box-title badge">Abonos   <button class="btn btn-success" id="btnagregar" onclick="mostrarform(true)"><i class="fa fa-plus-circle"></i> Agregar</button></h1>
 
                     </div>
                     <br>
@@ -38,219 +38,13 @@ require 'header.php';
                     <div role="tabpanel">
 
                         <ul class="nav nav-tabs " role="tablist">
-                            <li role="presentation" class="active"><a href="#seccion1"  class="badge" aria-controls="seccion1" data-toggle="tab" role="tab"> Nueva Cuenta</a> </li>
-                            <li role="presentation"><a href="#seccion2" class="badge" aria-controls="seccion2"  data-toggle="tab" role="tab"> Abonos</a> </li>
-                            <li role="presentation"><a href="#seccion3" class="badge" aria-controls="seccion3"   data-toggle="tab" role="tab"> Abonos Diarios </a></li>
+                           
+                            <li role="presentation" class="active"><a href="#seccion2" class="badge" aria-controls="seccion2"  data-toggle="tab" role="tab"> Abonos</a> </li>
+                            <li role="presentation"><a href="#seccion3" class="badge" aria-controls="seccion3"   data-toggle="tab" role="tab"> Detalles de cuentas </a></li>
                         </ul>
 
                         <div class="tab-content">
-                            <!-- Seccion 1 Nuevo Cuenta -->    <div role="tabpanel" class="tab-pane active" id="seccion1">
-                                <!--<h3>Contenido 1</h3>-->
-                                <div class="panel-body">
-                                <br>
-                                <label class="label label-primary">Nueva Cuenta</label>
-                                <br>
-                                <br>
-                                <form name="formularioHipoteca" id="formularioHipoteca" method="POST">
-                                    <div class="form-group col-lg-3 col-md-3 col-sm-3 col-xs-12">
-                                        <label>Solicitud(*):</label>
-
-                                        <input type="hidden" class="form-control" name="idhipoteca" id="idhipoteca" maxlength="7">
-                                        <select id="idsolicitud_picker"  title="Buscar Cuenta" name="idsolicitud_picker" class="form-control selectpicker" data-size="4" data-live-search="true" required>
-
-                                        </select>
-                                    </div>
-
-                                    <div class="form-group col-lg-3 col-md-3 col-sm-3 col-xs-6">
-
-                                        <label>Fiador(*):</label>
-                                        <select   id="idfiador_picker"  title="Busca al Fiador" name="idfiador_picker" class="form-control selectpicker" data-size="4" data-live-search="true" required>
-                                        </select>
-                                    </div>
-
-                                    <div class="form-group col-lg-3 col-md-3 col-sm-3 col-xs-6">
-                                        <label>Garantía(*):</label>
-                                        <select  title="Busca al Garantia" name="idgarantia" id="idgarantia" class="form-control selectpicker" data-size="4" data-live-search="true" required>
-
-                                        </select>
-                                    </div>
-
-                                    <div class="form-group col-lg-3 col-md-3 col-sm-3 col-xs-6">
-                                        <label>Cuenta Socio(*):</label>
-                                        <select  title="Buscar cuentas de banco" name="idbancos" id="idbancos" class="form-control selectpicker" data-size="4" data-live-search="true" required>
-                                        </select>
-                                        
-                                    </div>
-                                    <div class="form-group col-lg-2 col-md-2 col-sm-2 col-xs-12">
-                                        <label>Fecha Desembolso(*):</label>
-                                        <input type="date" class="form-control" name="fechaHipoteca" id="fechaHipoteca">
-                                    </div>
-                                    <div class="form-group col-lg-2 col-md-2 col-sm-2 col-xs-12">
-                                        <label>Fecha Pago(*):</label>
-                                        <input type="date" class="form-control" name="fechaPago" id="fechaPago">
-                                    </div>
-
-                                    <div class="form-group col-lg-2 col-md-2 col-sm-6 col-xs-12">
-                                        <label>Monto(*):</label>
-                                        <input type="text" class="form-control" name="monto_ncuenta" id="monto_ncuenta"  onkeypress="mascara(this,cpf)" maxlength="10" step=".01" min="0" required>
-                                    </div>
-
-                                    <div class="form-group col-lg-2 col-md-2 col-sm-6 col-xs-6">
-                                        <label>Moneda(*):</label>
-                                        <select name="monedaHipoteca" id="monedaHipoteca" title="Moneda" class="form-control selectpicker" required>
-
-                                            <option value="Cordobas">Córdobas</option>
-                                            <option value="Dolares">Dólares</option>
-
-                                        </select>
-                                    </div>
-
-                                    
-
-                                    <div class="form-group col-lg-2 col-md-2 col-sm-6 col-xs-12">
-                                        <label>Interés(*):</label>
-                                        <input type="number" class="form-control" name="interes" id="interes" maxlength="7" placeholder="Serie" step=".01" min="0" required>
-                                    </div>
-                                    <div class="form-group col-lg-2 col-md-2 col-sm-6 col-xs-12">
-                                        <label>Interés Moratorio(*):</label>
-                                        <input type="number" class="form-control" name="interes_moratorio" id="interes_moratorio" maxlength="7" placeholder="Serie" step=".01" min="0" required>
-                                    </div>
-                                    <div class="form-group col-lg-2 col-md-2 col-sm-6 col-xs-12">
-                                        <label>Mant de valor:</label>
-                                        <input type="number" class="form-control" name="mantenimiento" id="mantenimiento"  step=".01" min="0">
-                                    </div>
-                                    <div class="form-group col-lg-2 col-md-2 col-sm-6 col-xs-12">
-                                        <label>Comision(*):</label>
-                                        <input type="number" class="form-control" name="comision" id="comision" maxlength="7" placeholder="Serie" step=".01" min="0" required>
-                                    </div>
-
-                                    <div class="form-group col-lg-2 col-md-2 col-sm-6 col-xs-6">
-                                        <label>Plazo(*):</label>
-                                        <input name="plazo_month" id="plazo_month" type="number" placeholder="Meses" class="form-control" required>
-                                        
-                                    </div>
-
-                                    <div class="form-group col-lg-2 col-md-2 col-sm-6 col-xs-12">
-                                        <label>Tipo(*):</label>
-                                        <select class="form-control selectpicker" name="tipo" id="tipo" required>
-
-                                            <option value="Empeño">Empeño</option>
-                                            <option value="Prestamo">Prestamo</option>
-
-                                        </select>
-
-                                    </div>
-
-
-
-
-
-                                    <div class="form-group col-lg-2 col-md-2 col-sm-6 col-xs-12">
-                                        <label>Saldo del Banco:</label>
-                                        <input  class="form-control"  type="number" name="saldo_banco" id="saldo_banco"  step=".01" min="0" >
-                                        <label id="banco_moneda">MONEDA</label>
-                                    </div>
-
-                                    <div class="form-group col-lg-2 col-md-2 col-sm-6 col-xs-12">
-                                        <label>Debitar a cuenta:</label>
-                                        <input  class="form-control"  type="text" name="cambio" id="cambio" required  >
-                                        <!-- <label id="banco_moneda">MONEDA</label> -->
-                                    </div>
-
-                                    <div class="form-group col-lg-3 col-md-3 col-sm-3 col-xs-12">
-
-                                        <div class="well well-sm">
-                                            <!-- <button type="button" id="btn_cambio" class="btn btn-adn"><i class="fa fa-amazon"></i></button> -->
-
-                                           
-                                                <label>Tipo de cambio:</label>
-                                                <input  class="form-control" name="cambio_dolar" id="cambio_dolar"  >
-                                            
-                                            </div>
-                                        
-
-                                    </div>
-
-                                    <!-- <div class="form-group col-lg-2 col-md-2 col-sm-6 col-xs-12">
-                                        <label>Total Prestamo:</label>
-                                        <input  class="form-control"  type="text" name="monto_total" id="monto_total" required  >
-                                       
-                                    </div> -->
-
-                                    <div class="form-group col-lg-12 col-md-12 col-sm-6 col-xs-12">
-
-                                        <label>Nota:</label>
-                                        <textarea class="form-control" rows="5" id="comment" name="comment"></textarea>
-
-                                    </div>
-
-                                   <div class="form-group col-lg-12 col-md-12 col-sm-12 col-xs-12">
-
-                                       <div class="well well-sm">
-                                       <a data-toggle="modal" href="#modalCliente">
-                                            <button id="btnAgregarArt" type="button" class="btn btn-primary"> <span class="fa fa-user"></span> Agregar Cliente</button>
-                                        </a>
-
-
-                                        <a data-toggle="modal" href="#modalFiador">
-                                            <button id="btnAgregarArt" type="button" class="btn bg-maroon-gradient"> <span class="fa fa-user-plus"></span> Agregar Fiador</button>
-                                        </a>
-                                           <a data-toggle="modal" href="#modal_nueva_cuenta">
-                                               <button id="btnAgregarArt" type="button" class="btn bg-purple-gradient"> <span class="fa fa-archive"></span> Solicitud</button>
-                                           </a>
-
-                                        <a data-toggle="modal"  href="#modalGarantia">
-                                            <button id="fiado" type="button" class="btn btn-warning" onclick="cargarCliente() + cargarCategoria()"> <span class="fa fa-bank"></span>Garantía</button>
-                                        </a>
-
-                                           <!-- <a data-toggle="modal" href="#modalEstado">
-                                               <button id="btnestado" onclick="muestraEstadoCuenta()" type="button" class="btn btn-primary"> <span class="fa fa-user"></span> Plan de Pagos</button>
-                                           </a> -->
-                                       </div>
-                                   </div>
-
-
-
-                                    <div class="form-group col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                        <div class="well well-sm">
-                                        <button class="btn btn-success" type="submit" id="btGuardar" ><i class="fa fa-save"></i> Guardar</button>
-                                        <button id="btnCancelar" class="btn btn-danger" onclick="recargar()" type="button"><i class="fa fa-reply"></i> Cancelar</button>
-                                       
-                                        </div>
-                                    </div>
-
-
-                                   <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
-                                       <h4 class="badge badge-dark">Detalles de Cuenta</h4>
-                                       <table id="detallesNuevaCuenta"  class="table table-striped table-bordered table-condensed table-hover">
-                                           <thead style="background-color: #8fff87">
-
-                                            <th>Opciones</th>
-                                            <th>Cuenta</th>
-                                            <th>Cliente</th>
-                                            <th>Cedula</th>
-                                            <th>Monto</th>
-                                            <th>Interes</th>
-                                            <th>Interes Moratorio</th>
-                                            <th>Moneda</th>
-                                            <th>Estado</th>
-                                            <th>Condicion</th>
-
-                                           <th style="white-space: nowrap;min-width: 200px;max-width: 200px;overflow: scroll">Nota</th>
-
-                                           </thead>
-
-                                           <tbody>
-
-                                           </tbody>
-                                       </table>
-                                   </div>
-
-                            </form>
-
-                                </div>
-                            </div><!--FIn de seccion 1-->
-                            <!--Seccion 2 Abonos -->           <div role="tabpanel" class="tab-pane" id="seccion2">
+                           <div role="tabpanel" class="tab-pane active" id="seccion2">
                                            
                                                 
                                                                     <div class="panel-body">

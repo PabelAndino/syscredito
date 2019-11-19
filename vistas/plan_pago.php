@@ -10,7 +10,7 @@ if(!isset($_SESSION["nombre"]))
 }
 else
 {
-    if ($_SESSION['ventas'] == 1)
+    if ($_SESSION['Administrador'] == 1)
 
     {
 
@@ -91,29 +91,7 @@ else
 
                                                     </select>
                                                 </td>
-                                                <td><select name="plazo_month" id="plazo_month" title="Meses"  required>
-
-                                                        <option value="1">1 mes</option>
-                                                        <option value="2">2 meses</option>
-                                                        <option value="3">3 meses</option>
-                                                        <option value="4">4 meses</option>
-                                                        <option value="5">5 meses</option>
-                                                        <option value="6">6 meses</option>
-                                                        <option value="7">7 meses</option>
-                                                        <option value="8">8 meses</option>
-                                                        <option value="9">9 meses</option>
-                                                        <option value="10">10 meses</option>
-                                                        <option value="11">11 meses</option>
-                                                        <option value="12">1 año</option>
-                                                        <option value="24">2 años</option>
-                                                        <option value="36">3 años</option>
-                                                        <option value="48">4 años</option>
-                                                        <option value="60">5 años</option>
-                                                        <option value="72">6 años</option>
-                                                        <option value="84">7 años</option>
-                                                        <option value="96">8 años</option>
-
-                                                    </select>
+                                                <td><input name="plazo_month" id="plazo_month" title="Meses" type="number"  required>
                                                 </td>
 
                                                 <td><input type="number"  name="mantenimiento" id="mantenimiento" placeholder="Mant Valor" step=".01" min="0"></td>
@@ -124,8 +102,8 @@ else
                                             <tr>
                                                 <th></th>
                                                 <th></th>
-                                                <th>Comision Total</th>
-                                                <th>Comision</th>
+                                                <th>Comisión Total</th>
+                                                <th>Comisión</th>
                                             </tr>
                                             <tr>
                                                  <td ></td>

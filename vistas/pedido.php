@@ -11,7 +11,7 @@ else
 {
     require 'header.php';
 
-    if ($_SESSION['ventas']==1)
+    if ($_SESSION['Administrador']==1)
     {
         ?>
         <!--Contenido-->

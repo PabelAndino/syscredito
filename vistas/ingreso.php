@@ -13,7 +13,7 @@ else {
 
     require 'header.php';
 
-    if ($_SESSION['compras'] == 1)//si es igual a uno el usuario tiene acceso a este contenido
+    if ($_SESSION['Administrador'] == 1)//si es igual a uno el usuario tiene acceso a este contenido
 
     {
 

@@ -11,7 +11,7 @@ if(!isset($_SESSION["nombre"]))
 else
 {
 
-    if ($_SESSION['acceso'] == 1)
+    if ($_SESSION['Administrador'] == 1)
 
     {
 require 'header.php';

@@ -10,7 +10,7 @@ if (!isset($_SESSION["nombre"]))
 }
 else
 {
-if ($_SESSION['ventas']==1)
+if ($_SESSION['Abono']==1)
 {
 ?>
 <html>

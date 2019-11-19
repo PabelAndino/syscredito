@@ -1,47 +1,42 @@
 <?php
+if (strlen(session_id()) < 1)
+    session_start();
 
-require_once "../modelos/Categoria.php";
+require_once "../modelos/Categorias.php";
 
-$categoria = new Categoria();
+
+$categorias=new Categorias();
+$idusuario=$_SESSION["idusuario"];
 
 $idcategoria = isset($_POST["idcategoria"])? limpiarCadena($_POST["idcategoria"])  : "";//aqui recibo las primeras datos atravez del metodo POST
 $nombre = isset($_POST["nombre"])? limpiarCadena($_POST["nombre"]): "";
 $descripcion = isset($_POST["descripcion"])? limpiarCadena( $_POST["descripcion"]):"";
 
-switch ($_GET["op"])
-{
-    case 'guardaryeditar':
-        if(empty($idcategoria))//si el id esta vacio
-        {
-            $rspta=$categoria->insertar($nombre,$descripcion);
-            echo $rspta ? "Categoria Registrada": "Categoria no se pudo registrar";
 
-        } else {
+switch ($_GET["op"]){
+     //Select methods
 
-            $rspta=$categoria->editar($idcategoria,$nombre,$descripcion);
-            echo $rspta ? "Categoria actualizada" : "categoria no se pudo actualizar";
 
-        }
+        //SAVE METHODS
+   
+        case 'guardaryeditar':
+            if(empty($idcategoria))//si el id esta vacio
+            {
+                $rspta=$categorias->insertar($nombre,$descripcion);
+                echo $rspta ? "Categoria Registrada": "Categoria no se pudo registrar";
+    
+            } else {
+    
+                $rspta=$categorias->editar($idcategoria,$nombre,$descripcion);
+                echo $rspta ? "Categoria actualizada" : "categoria no se pudo actualizar";
+    
+            }
+    
+            break;
 
-        break;
-
-    case 'desactivar':
-         $rspta=$categoria->desactivar($idcategoria);
-        echo $rspta ? "Categoria desactivada" : "categoria no se pudo desactivar";
-        break;
-
-    case 'activar':
-        $rspta=$categoria->activar($idcategoria);
-        echo $rspta ? "Categoria Activada" : "categoria no se pudo activar";
-        break;
-
-    case 'mostrar':
-        $rspta=$categoria->mostrar($idcategoria);
-        echo json_encode($rspta);
-     break;
-
+        //LIST METHODS
     case 'listar':
-        $rspta=$categoria->listar();
+        $rspta=$categorias->listar();
         $data=Array();//almacenara todos los registros que voy a mostrar
         while ($reg=$rspta->fetch_object()) //recorrere todos los registros almacenare en la variable reg y almacenare en el indices cada dato y recorrera todos los registros
         {
@@ -60,7 +55,25 @@ switch ($_GET["op"])
             "aaData"=>$data
             );
         echo json_encode($reult);
+
         break;
-}
+
+        case 'desactivar':
+            $rspta=$categorias->desactivar($idcategoria);
+           echo $rspta ? "Categoria desactivada" : "categoria no se pudo desactivar";
+           break;
+   
+       case 'activar':
+           $rspta=$categorias->activar($idcategoria);
+           echo $rspta ? "Categoria Activada" : "categoria no se pudo activar";
+           break;
+
+        case 'mostrar':
+        $rspta=$categorias->mostrar($idcategoria);
+        echo json_encode($rspta);
+         break;
+    
+
+    }
 
 ?>
