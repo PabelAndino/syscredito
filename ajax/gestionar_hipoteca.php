@@ -7,7 +7,7 @@ require_once "../modelos/Gestionar_Hipoteca.php";
 
 $hipoteca=new Gestionar_Hipoteca();
 $idusuario=$_SESSION["idusuario"];
-
+$fecha_horacreditos=isset($_POST["fecha_horacreditos"])? limpiarCadena($_POST["fecha_horacreditos"]):"";
 
 
 
@@ -200,7 +200,7 @@ switch ($_GET["op"]){
 
     case 'muestraHipotecas':
         $date = date('Y-m-d');
-        $rspta=$hipoteca->muestraHipotecas($date);
+        $rspta=$hipoteca->muestraAbonosDiarios($date);
 
         //Codificar el resultado utilizando json
         echo '<thead style="background-color:#ff6851">
@@ -643,7 +643,7 @@ switch ($_GET["op"]){
         $idhipoteca = $_GET['idhipoteca'];
         $dia_menos = $_GET['dia_menos'];
         $dia_menos_formato = "-".$dia_menos." day";
-        $fechaactual = date("Y-m-d");
+        $fechaactual = $_GET['fecha_horacreditos'];//date("Y-m-d")
         $fechaactual = date("Y-m-d",strtotime($dia_menos_formato,strtotime($fechaactual)));
         $conteo = 1;
         $conteo2 = 0; //para contar despues de los abonos
@@ -1015,7 +1015,7 @@ switch ($_GET["op"]){
                  echo $saldo;
 
             }
-    break;
+     break;
     case 'listarDetallesAbono':
         $id=$_GET['idhipoteca'];
         $rspta = $hipoteca->listarDetallesAbono($id);

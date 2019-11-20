@@ -47,10 +47,10 @@ $recorreres = $restante->fetch_object();
 //Establecemos los datos de la empresa
 
 $empresa = "CrediEmpeño";
-$documento = "2737-00000";
-$direccion = "Sector 3";
-$telefono = "2737-00000";
-$email = "pabelwitt@gmail.com";
+$documento = "";
+$direccion = "Contiguo antena claro sector 3";
+$telefono = "2737-2584";
+
 ?>
 <div class="zona_impresion">
 <!-- codigo imprimir -->
@@ -59,9 +59,10 @@ $email = "pabelwitt@gmail.com";
     <tr>
         <td align="center">
         <!-- Mostramos los datos de la empresa en el documento HTML -->
-        .::<strong> <?php echo $empresa; ?></strong>::.<br>
-        <?php echo $documento; ?><br>
-        <?php echo $direccion .' - '.$telefono; ?><br>
+        <img src="../public/img/logo.png" alt="Logo" style="width:170px; height:70px;"><br>
+       
+        <?php echo $direccion; ?><br>
+        <?php echo $telefono; ?><br>
         </td>
     </tr>
     <!--<tr>
@@ -81,10 +82,10 @@ $email = "pabelwitt@gmail.com";
         <td>Nº de cuenta: <?php echo " - ".$reg->idhipoteca ; ?></td>
     </tr>
     <tr>
-        <td>Fecha de desembolso: <?php echo " - ".$reg->fecha_desembolso ; ?></td>
+        <td>Fecha de desembolso: <?php echo " - ".date('d-m-Y',strtotime($reg->fecha_desembolso)); ?></td>
     </tr>
     <tr>
-        <td>Primer Pago: <?php echo " - ".$reg->fecha_pago ; ?></td>
+        <td>Primer Pago: <?php echo " - ".date('d-m-Y',strtotime($reg->fecha_pago)); ?></td>
     </tr>
 </table>
 <br>

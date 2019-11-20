@@ -13,6 +13,10 @@ lists()
 
 function muestraEstadoCuenta() {
 
+    $('#mantenimiento').show()
+    $('#interes').show()
+    $('#mantenimiento_lab').show()
+    $('#interes_lab').show()
     let plazo = $('#plazo_month').val()
     let monto = $('#monto_ncuenta').val()
     let interes = $('#interes').val()
@@ -102,8 +106,11 @@ function fechaActual() {
 function imprimirArea() {
 
   //  $('#printbtn').hide()
-     $('#btnPlanPago').hide()
-
+    $('#btnPlanPago').hide()
+    $('#mantenimiento').hide()
+    $('#interes').hide()
+    $('#mantenimiento_lab').hide()
+    $('#interes_lab').hide()
         window.print()
 
 }

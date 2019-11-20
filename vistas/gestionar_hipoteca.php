@@ -258,16 +258,22 @@ require 'header.php';
                                                                         <h3>Abonos</h3>
                                                                         <form name="formularioAbono" id="formularioAbono" method="POST" style="height: 100%">
                                                                             <div class="form-group col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                                                                            <label>Buscar Cuenta-Cliente(*):</label>
+                                                                                <label>Buscar Cuenta-Cliente(*):</label>
 
-                                                                            <select title="Busca al Cuenta del cliente" id="buscarClientesAbono" name="buscarClientesAbono" class="form-control selectpicker" data-size="4" data-live-search="true" required>
+                                                                                <select title="Busca al Cuenta del cliente" id="buscarClientesAbono" name="buscarClientesAbono" class="form-control selectpicker" data-size="4" data-live-search="true" required>
 
-                                                                            </select>
+                                                                                </select>
                                                                             </div>
 
+                                                                             
                                                                         <div class="form-group col-lg-2 col-md-2 col-sm-2 col-xs-12">
-                                                                            <label>Fecha(*):</label>
+                                                                            <label>Fecha Para Abono(*):</label>
                                                                             <input type="date" class="form-control" name="fecha_horaAbono" id="fecha_horaAbono">
+                                                                        </div>
+
+                                                                        <div class="form-group col-lg-2 col-md-2 col-sm-2 col-xs-12">
+                                                                            <label style="color: #ff80e8">Fecha Para Creditos(*):</label>
+                                                                            <input type="date" class="form-control" name="fecha_horacreditos" id="fecha_horacreditos">
                                                                         </div>
 
 
@@ -282,23 +288,24 @@ require 'header.php';
                                                                             <input type="hidden" class="form-control" name="ultimoidabono" id="ultimoidabono" maxlength="7" placeholder="test">
                                                                         </div>
 
-                                                                            
+                                                                        
 
                                                                             <div class="form-group col-lg-2 col-md-2 col-sm-2 col-xs-12">
                                                                                 <label>Interes moratorio:</label>
                                                                                 <input type="text" class="form-control" maxlength="10" step=".01" min="0" name="interes_moratorio_abono" id="interes_moratorio_abono" maxlength="7" placeholder="Cuota" VALUE="0.00">
                                                                             </div>
+                                                                            <div class="form-group col-lg-2 col-md-2 col-sm-2 col-xs-6">
+                                                                                
+                                                                                <a data-toggle="modal" href="#modalCuentas">
+                                                                                    <button id="btnBuscarCuenta" type="button" onclick="muestraCuentasPendientesAbono()" class="btn btn-primary"> <span class="fa fa-plus"></span> Creditos</button>
+                                                                                </a>
+                                                                            
+                                                                        </div>
                                                                             <div class="form-group col-lg-2 col-md-2 col-sm-6 col-xs-12">
                                                                                 <label>Amortizacion:</label>
                                                                                 <input type="number" class="form-control" maxlength="10" step=".01" min="0" name="abono_capital" id="abono_capital" maxlength="7" placeholder="Cuota" VALUE="0.00">
                                                                             </div>
-                                                                            <div class="form-group col-lg-2 col-md-2 col-sm-2 col-xs-6" style="border: 5px ;border-color: #0c0c0c">
-                                                                                <div class="well well-sm">
-                                                                                    <a data-toggle="modal" href="#modalCuentas">
-                                                                                        <button id="btnBuscarCuenta" type="button" onclick="muestraCuentasPendientesAbono()" class="btn btn-primary"> <span class="fa fa-plus"></span> Cuentas</button>
-                                                                                    </a>
-                                                                                </div>
-                                                                            </div>
+                                                                            
 
                                                                         <div class="form-group col-lg-2 col-md-2 col-sm-6 col-xs-12">
                                                                             <label>Mant Valor:</label>
@@ -330,13 +337,13 @@ require 'header.php';
                                                                             </div>
 
                                                                             <div class="form-group col-lg-2 col-md-2 col-sm-2 col-xs-12">
-                                                                                <h4 style="color: #6f42c1">Monto Restante:</h4>
+                                                                                <label style="color: #6f42c1">Monto Restante:</label>
                                                                                 <input type="text" class="form-control" name="siguienteMonto" id="siguienteMonto" maxlength="10" placeholder="$0">
                                                                             </div>
                                               
 
                                                                             <div class="form-group col-lg-2 col-md-2 col-sm-2 col-xs-12">
-                                                                            <h5 style="color: #eb6d00">Pendiente:  <span class="badge badge-info" id="label_pendiente">0</span>  </h5>  
+                                                                            <label style="color: #eb6d00">Pendiente:  <span class="badge badge-info" id="label_pendiente">0</span>  </label>  
                                                                             <input type="number" class="form-control" maxlength="10"  step=".01" min="0" id="input_pendiente"> 
                                                                             </div>
 
@@ -351,9 +358,7 @@ require 'header.php';
                                                                                 <label style="color: #ff5252">Saldo Pendiente:</label>
                                                                                 <input type="text" readonly class="form-control" name="pendiente_pago" id="pendiente_pago" maxlength="7" placeholder="$0">
                                                                             </div>
-                                                                            <div class="form-group col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                                                                <button class="btn btn-instagram"  id="remove_day" type="button">Remover Día</button>
-                                                                            </div>
+                                                                            
                                                                             <div class="form-group col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                                                                 <label>Concepto:</label>
                                                                                 <textarea class="form-control" rows="5" id="commentAbono" name="commentAbono" ></textarea>

@@ -76,7 +76,7 @@
                   <li class="user-header">
                     <img src="../files/usuarios/<?php echo $_SESSION['imagen']; ?>" class="img-circle" alt="User Image">
                     <p>
-                      www.pabel.com - Software Development
+                      www.pabeldev.dx.am - Software Development
                       <small>www.youtube.com/pabelwitt</small>
                     </p>
                   </li>
@@ -109,12 +109,12 @@
 
             if ($_SESSION['Administrador']==1)
             {
-                echo '<li>
-              <a href="dashboard.php">
-                <i class="fa fa-columns"></i> <span>Dashboard</span>
-              </a>
+            //     echo '<li>
+            //   <a href="dashboard.php">
+            //     <i class="fa fa-columns"></i> <span>Dashboard</span>
+            //   </a>
               
-            </li>    ';
+            // </li>    ';
             }
             ?>
                 <?php
@@ -149,9 +149,9 @@
               <ul class="treeview-menu">
                
                 <li><a href="gestionar_hipoteca.php"><i class="fa fa-circle-o"></i>Prestamos</a></li>
-                <li><a href="modal.php"><i class="fa fa-circle-o"></i>Modal</a></li>
+                
                  
-                <li><a href="printTest.php"><i class="fa fa-circle-o"></i>Print Test</a></li>
+               
                 
               </ul>
             </li>';
@@ -189,9 +189,8 @@
                 <li><a href="bancos.php"><i class="fa fa-circle-o"></i>Bancos</a></li>
                  <li><a href="socios.php"><i class="fa fa-circle-o"></i>Socios</a></li>
                  <li><a href="solicitud.php"><i class="fa fa-circle-o"></i>Solicitudes</a></li>
-                 <li><a href="garantia.php"><i class="fa fa-circle-o"></i>Garantias</a></li>
-                 <li><a href="cliente.php"><i class="fa fa-circle-o"></i>Clientes</a></li>
                  <li><a href="categorias.php"><i class="fa fa-circle-o"></i>Categorias Garantia</a></li>
+                
                  <li><a href="egresos.php"><i class="fa fa-circle-o"></i>Egresos</a></li>
                 
               </ul>
@@ -199,7 +198,11 @@
               }
               ?>
 
-             <!-- --><?php
+             <!--
+ <li><a href="garantia.php"><i class="fa fa-circle-o"></i>Garantias</a></li>
+                <li><a href="cliente.php"><i class="fa fa-circle-o"></i>Clientes</a></li>
+                
+              --><?php
 /*              if ($_SESSION['ventas']==1)
               {
                   echo '<li class="treeview">

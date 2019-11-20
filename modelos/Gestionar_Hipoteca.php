@@ -319,7 +319,7 @@ Class Gestionar_Hipoteca
         return ejecutarConsulta($sql);
     }
 
-    public function muestraHipotecas($date){
+    public function muestraAbonos($date){
 
 
         $sql="SELECT h.idhipoteca,da.iddetalle_abono as detalle,DATE(da.fecha) as fecha,cl.nombres as cliente,da.abono_capital,da.abono_interes,(da.abono_capital + da.abono_interes) as total_abonado,
@@ -332,6 +332,21 @@ Class Gestionar_Hipoteca
                         INNER JOIN detalle_abono_hipoteca da ON da.idhipoteca=h.idhipoteca 
                 WHERE h.condicion='Pendiente' AND h.estado='Aceptado' 
               ";//AND DATE(da.fecha)='$date'
+        return ejecutarConsulta($sql);
+    }
+    public function muestraAbonosDiarios($date){
+
+
+        $sql="SELECT h.idhipoteca,da.iddetalle_abono as detalle,DATE(da.fecha) as fecha,cl.nombres as cliente,da.abono_capital,da.abono_interes,(da.abono_capital + da.abono_interes) as total_abonado,
+        h.moneda,h.monto 
+        
+                        FROM hipoteca h INNER JOIN solicitud sl ON h.solicitud=sl.idsolicitud 
+                        INNER JOIN cliente cl ON sl.cliente = cl.idcliente 
+                        INNER JOIN usuario us ON h.idusuario=us.idusuario 
+                        
+                        INNER JOIN detalle_abono_hipoteca da ON da.idhipoteca=h.idhipoteca 
+                WHERE h.condicion='Pendiente' AND h.estado='Aceptado' AND DATE(da.fecha)='$date'
+              ";//
         return ejecutarConsulta($sql);
     }
     public function muestratodosAbonos(){

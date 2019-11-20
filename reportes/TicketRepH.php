@@ -17,6 +17,16 @@ if ($_SESSION['Abono']==1)
 <head>
     <meta http-equiv="content-type" content="text/html; charset=utf-8" />
     <link href="../public/css/ticket.css" rel="stylesheet" type="text/css">
+    <style>
+    .titulo,.datos_prestamo {
+      border-collapse: collapse;
+    }
+
+    .titulo,.datos_prestamo {
+      border: 1px solid black;
+}
+</style>
+
 
 </head>
 
@@ -39,22 +49,22 @@ if ($_SESSION['Abono']==1)
     //Establecemos los datos de la empresa
 
     $empresa = "CrediEmpeño";
-    $documento = "2737-00000";
-    $direccion = "Sector 3";
-    $telefono = "2737-00000";
-    $email = "crediemp@gmail.com";
+    $documento = "";
+    $direccion = "Contiguo antena claro sector 3";
+    $telefono = "2737-2584";
   ?>
   
   <!-- codigo imprimir -->
   
       <br>
-      <table border="1"  width="270px">
+      <table border="1"  width="300px" class="titulo">
           <tr>
               <td align="center">
               <!-- Mostramos los datos de la empresa en el documento HTML -->
-              .::<strong> <?php echo $empresa; ?></strong>::.<br>
-              <?php echo $documento; ?><br>
-              <?php echo $direccion .' - '.$telefono; ?><br>
+              <img src="../public/img/logo.png" alt="Logo" style="width:170px; height:70px;"><br>
+            
+              <?php echo $direccion; ?><br>
+              <?php echo $telefono; ?><br>
               </td>
           </tr>
           <!--<tr>
@@ -90,7 +100,7 @@ if ($_SESSION['Abono']==1)
       <br>
       <!-- Mostramos los detalles de la venta en el documento HTML -->
 
-      <table border="1" width="270px">
+      <table border="1" width="270px" class="titulo">
         <tr>
                 <td>Intereses</td>
                 <td>Capital</td>
@@ -120,12 +130,16 @@ if ($_SESSION['Abono']==1)
 
       <table border="0.5">
 
+           <tr>
+              <td align="left"><b>Principal:</b></td>
+              <td><b> <?php echo $recorreres->monto; ?></b></td>
 
+          </tr>
           
           <!-- Mostramos los totales de la venta en el documento HTML -->
           <tr>
 
-            <td align="left"><b>Restante:</b></td>
+            <td align="left"><b>Saldo Actual:</b></td>
             <td><b> <?php
               $restant =$recorreres->restante;
               if (($recorreres->sumaTotal) == 0){
@@ -139,11 +153,7 @@ if ($_SESSION['Abono']==1)
 
           </tr>
 
-          <tr>
-              <td align="left"><b>Principal:</b></td>
-              <td><b> <?php echo $recorreres->monto; ?></b></td>
-
-          </tr>
+        
           <tr>
               <td align="left"><b>Pendiente:</b></td>
               <td><b> <?php echo $recorreres->pendiente; ?></b></td>

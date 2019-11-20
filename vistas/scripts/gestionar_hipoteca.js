@@ -328,6 +328,7 @@ function fechaActual() {
     var today = now.getFullYear()+"-"+(month)+"-"+(day) ;
 
     $('#fecha_horaAbono').val(today);
+    $('#fecha_horacreditos').val(today);
     $('#fechaPago').val(today);
     $('#fechaHipoteca').val(today);
 
@@ -1313,7 +1314,7 @@ console.log("dias menos", dia_menos)
 function calcula_moras(idhipoteca,plazo,monto,amortizacion,dia_menos) {
 
 
-    
+    let fecha_credito = $('#fecha_horacreditos').val()
     $('#detalles_mora').dataTable(
         {
             "aProcessing": true,//Activamos el procesamiento del datatables
@@ -1328,7 +1329,8 @@ function calcula_moras(idhipoteca,plazo,monto,amortizacion,dia_menos) {
                     type : "get",
                     data:{
                         'idhipoteca':idhipoteca,
-                        'dia_menos':dia_menos
+                        'dia_menos':dia_menos,
+                        'fecha_horacreditos':fecha_credito
                     },
                     dataType : "json",
                     

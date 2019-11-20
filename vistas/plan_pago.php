@@ -79,7 +79,7 @@ else
                                                 <th>Moneda</th>
                                                 <th>Plazo</th>
 
-                                                <th>Mantenimiento valor</th>
+                                                <th><label id="mantenimiento_lab">Mantenimiento Valor</label></th>
                                                 <th><label id="interes_lab">Interes</label></th>
                                             </tr>
 
