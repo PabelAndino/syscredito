@@ -252,7 +252,20 @@ function labelsPendientes(pendiente,a_capital){
     $('#commentAbono').text('')
 
 }
+function recalculaInteres(){//si se modifica un campo en el abono, que recalcule el resultado
+    let abonoInteres =parseFloat( $('#abonointeres').val()).toFixed(2)
+    let moratorio =  parseFloat($('#interes_moratorio_abono').val()).toFixed(2)
+    let amort = ($('#abono_capital').val())//amortizacion
+    let mantValor = parseFloat($('#mantValortotal').val()).toFixed(2)
 
+    let saldoPendiente =  parseFloat($('#pendiente_pago').val()).toFixed(2)
+    let intereses = parseFloat(parseFloat(abonoInteres) + parseFloat(moratorio) + parseFloat(mantValor)).toFixed(2)
+    let cuota = parseFloat(parseFloat(amort) + parseFloat(intereses) + parseFloat(saldoPendiente)).toFixed(2)
+
+    $('#intereses').val(intereses)
+    $('#cuota').val(cuota)
+
+}
 //Agrega Comas en tiempo Real mientras se escrirbe
 function mascara(o,f){  
     v_obj=o;  

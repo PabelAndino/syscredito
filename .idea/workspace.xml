@@ -1,7 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="38d333d4-cec9-4059-a53d-b9641f6579ae" name="Default" comment="" />
+    <list default="true" id="38d333d4-cec9-4059-a53d-b9641f6579ae" name="Default" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ajax/gestionar_hipoteca.php" beforeDir="false" afterPath="$PROJECT_DIR$/ajax/gestionar_hipoteca.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vistas/gestionar_hipoteca.php" beforeDir="false" afterPath="$PROJECT_DIR$/vistas/gestionar_hipoteca.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vistas/scripts/gestionar_hipoteca.js" beforeDir="false" afterPath="$PROJECT_DIR$/vistas/scripts/gestionar_hipoteca.js" afterDir="false" />
+    </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -26,274 +33,6 @@
     </option>
     <expand />
     <select />
-  </component>
-  <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/vistas/scripts/gestionar_hipoteca.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="13725">
-              <caret line="959" column="28" selection-start-line="959" selection-start-column="28" selection-end-line="959" selection-end-column="28" />
-              <folding>
-                <element signature="e#483#509#0" />
-                <element signature="e#609#690#0" />
-                <element signature="e#743#807#0" />
-                <element signature="e#861#926#0" />
-                <element signature="e#981#1047#0" />
-                <element signature="e#1102#1168#0" />
-                <element signature="e#1231#1296#0" />
-                <element signature="e#1372#1481#0" />
-                <element signature="e#1584#1685#0" />
-                <element signature="e#1785#1886#0" />
-                <element signature="e#1985#2092#0" />
-                <element signature="e#2200#2292#0" />
-                <element signature="e#2398#2620#0" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/vistas/gestionar_hipoteca.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="45">
-              <caret line="3" selection-start-line="3" selection-end-line="3" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/ajax/gestionar_hipoteca.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="147">
-              <caret line="1023" column="49" selection-start-line="1023" selection-start-column="49" selection-end-line="1023" selection-end-column="49" />
-              <folding>
-                <element signature="e#232#919#0#PHP" />
-                <element signature="e#623#903#0#PHP" />
-                <element signature="e#883#903#0#PHP" />
-                <element signature="e#924#1602#0#PHP" />
-                <element signature="e#1314#1587#0#PHP" />
-                <element signature="e#1571#1587#0#PHP" />
-                <element signature="e#1607#2070#0#PHP" />
-                <element signature="e#1739#2055#0#PHP" />
-                <element signature="e#2039#2055#0#PHP" />
-                <element signature="e#2075#3293#0#PHP" />
-                <element signature="e#2764#3278#0#PHP" />
-                <element signature="e#2809#3065#0#PHP" />
-                <element signature="e#3262#3278#0#PHP" />
-                <element signature="e#3298#4135#0#PHP" />
-                <element signature="e#3631#4120#0#PHP" />
-                <element signature="e#3916#4120#0#PHP" />
-                <element signature="e#4140#4440#0#PHP" />
-                <element signature="e#4184#4425#0#PHP" />
-                <element signature="e#4409#4425#0#PHP" />
-                <element signature="e#4445#5474#0#PHP" />
-                <element signature="e#5176#5360#0#PHP" />
-                <element signature="e#5496#5634#0#PHP" />
-                <element signature="e#5639#5791#0#PHP" />
-                <element signature="e#5815#7655#0#PHP" />
-                <element signature="n#thead#0;n#!!top" />
-                <element signature="e#559#733#0" />
-                <element signature="e#6772#7640#0#PHP" />
-                <element signature="n#tr#0;n#!!top" />
-                <element signature="n#td#0;n#tr#0;n#!!top" />
-                <element signature="e#7660#9308#0#PHP" />
-                <element signature="n#thead#0;n#!!top" />
-                <element signature="e#559#733#0" />
-                <element signature="e#8628#9293#0#PHP" />
-                <element signature="n#tr#0;n#!!top" />
-                <element signature="e#9313#9468#0#PHP" />
-                <element signature="e#10149#10418#0#PHP" />
-                <element signature="e#10320#10402#0#PHP" />
-                <element signature="e#10574#11849#0#PHP" />
-                <element signature="e#10734#11529#0#PHP" />
-                <element signature="n#thead#0;n#!!top" />
-                <element signature="n#tr#0;n#!!top" />
-                <element signature="e#11534#11837#0#PHP" />
-                <element signature="e#13403#23319#0#PHP" />
-                <element signature="n#thead#0;n#!!top" />
-                <element signature="e#15293#23303#0#PHP" />
-                <element signature="e#15569#15799#0#PHP" />
-                <element signature="e#15959#22080#0#PHP" />
-                <element signature="e#16005#21987#0#PHP" />
-                <element signature="e#16155#17383#0#PHP" />
-                <element signature="e#16851#16945#0#PHP" />
-                <element signature="e#17674#19599#0#PHP" />
-                <element signature="e#18099#19122#0#PHP" />
-                <element signature="e#18530#19122#0#PHP" />
-                <element signature="e#20225#21987#0#PHP" />
-                <element signature="e#20565#20979#0#PHP" />
-                <element signature="e#22002#22080#0#PHP" />
-                <element signature="e#22094#23292#0#PHP" />
-                <element signature="n#tr#0;n#!!top" />
-                <element signature="n#style#0;n#thead#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#thead#0;n#!!top" expanded="true" />
-                <element signature="e#27144#28890#0#PHP" />
-                <element signature="n#thead#0;n#!!top" />
-                <element signature="e#27927#28875#0#PHP" />
-                <element signature="n#tr#0;n#!!top" />
-                <element signature="n#td#0;n#tr#0;n#!!top" />
-                <element signature="e#28895#29686#0#PHP" />
-                <element signature="e#29079#29342#0#PHP" />
-                <element signature="e#29136#29331#0#PHP" />
-                <element signature="e#29362#29633#0#PHP" />
-                <element signature="e#29691#31561#0#PHP" />
-                <element signature="n#thead#0;n#!!top" />
-                <element signature="e#30545#31546#0#PHP" />
-                <element signature="n#tr#0;n#!!top" />
-                <element signature="n#td#0;n#tr#0;n#!!top" />
-                <element signature="e#31566#33500#0#PHP" />
-                <element signature="e#31685#33156#0#PHP" />
-                <element signature="e#31859#33145#0#PHP" />
-                <element signature="e#33176#33447#0#PHP" />
-                <element signature="e#33523#33784#0#PHP" />
-                <element signature="e#33597#33769#0#PHP" />
-                <element signature="e#33789#34048#0#PHP" />
-                <element signature="e#33861#34033#0#PHP" />
-                <element signature="e#34053#34291#0#PHP" />
-                <element signature="e#34130#34276#0#PHP" />
-                <element signature="e#34296#34559#0#PHP" />
-                <element signature="e#34375#34544#0#PHP" />
-                <element signature="e#34564#34818#0#PHP" />
-                <element signature="e#34637#34803#0#PHP" />
-                <element signature="e#34823#35110#0#PHP" />
-                <element signature="e#34902#35095#0#PHP" />
-                <element signature="e#35131#36374#0#PHP" />
-                <element signature="e#35361#36031#0#PHP" />
-                <element signature="e#35418#36020#0#PHP" />
-                <element signature="e#36051#36322#0#PHP" />
-                <element signature="e#36379#36633#0#PHP" />
-                <element signature="e#36466#36618#0#PHP" />
-                <element signature="e#38912#39701#0#PHP" />
-                <element signature="e#39297#39679#0#PHP" />
-                <element signature="e#39437#39679#0#PHP" />
-                <element signature="e#39782#44306#0#PHP" />
-                <element signature="e#40092#44000#0#PHP" />
-                <element signature="e#40574#41809#0#PHP" />
-                <element signature="e#42039#44000#0#PHP" />
-                <element signature="e#42526#43761#0#PHP" />
-                <element signature="e#44088#44306#0#PHP" />
-                <element signature="e#46853#47124#0#PHP" />
-                <element signature="e#47183#47414#0#PHP" />
-                <element signature="e#47419#47638#0#PHP" />
-                <element signature="e#47643#51505#0#PHP" />
-                <element signature="e#47761#51505#0#PHP" />
-                <element signature="e#47797#49537#0#PHP" />
-                <element signature="e#49556#49734#0#PHP" />
-                <element signature="e#49747#50413#0#PHP" />
-                <element signature="e#50555#51495#0#PHP" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/modelos/Gestionar_Hipoteca.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="164">
-              <caret line="243" selection-start-line="243" selection-end-line="243" />
-              <folding>
-                <element signature="n#insertar#0;n#Gestionar_Hipoteca#0;n#!!top" />
-                <element signature="n#insertarGarantia#0;n#Gestionar_Hipoteca#0;n#!!top" />
-                <element signature="n#insertarHipoteca#0;n#Gestionar_Hipoteca#0;n#!!top" />
-                <element signature="n#insertarNuevaSolicitur#0;n#Gestionar_Hipoteca#0;n#!!top" />
-                <element signature="n#guardarCliente#0;n#Gestionar_Hipoteca#0;n#!!top" />
-                <element signature="n#selectCliente#0;n#Gestionar_Hipoteca#0;n#!!top" />
-                <element signature="n#selectFiador#0;n#Gestionar_Hipoteca#0;n#!!top" />
-                <element signature="n#selectSector#0;n#Gestionar_Hipoteca#0;n#!!top" />
-                <element signature="n#selectSolicitud#0;n#Gestionar_Hipoteca#0;n#!!top" />
-                <element signature="n#editarAbono#0;n#Gestionar_Hipoteca#0;n#!!top" />
-                <element signature="n#editarAbonoSumaCapital#0;n#Gestionar_Hipoteca#0;n#!!top" />
-                <element signature="n#insertarDetalleAbono#0;n#Gestionar_Hipoteca#0;n#!!top" />
-                <element signature="n#anular#0;n#Gestionar_Hipoteca#0;n#!!top" />
-                <element signature="n#anularDetalle#0;n#Gestionar_Hipoteca#0;n#!!top" />
-                <element signature="n#sumarNumeroFactura#0;n#Gestionar_Hipoteca#0;n#!!top" />
-                <element signature="n#calculaStock#0;n#Gestionar_Hipoteca#0;n#!!top" />
-                <element signature="n#ventacabecera#0;n#Gestionar_Hipoteca#0;n#!!top" />
-                <element signature="n#ventadetalle#0;n#Gestionar_Hipoteca#0;n#!!top" />
-                <element signature="n#selectCategoria#0;n#Gestionar_Hipoteca#0;n#!!top" />
-                <element signature="n#selectGarantia#0;n#Gestionar_Hipoteca#0;n#!!top" />
-                <element signature="n#buscarClientesAbono#0;n#Gestionar_Hipoteca#0;n#!!top" />
-                <element signature="n#mostrarCuentasAbono#0;n#Gestionar_Hipoteca#0;n#!!top" />
-                <element signature="n#listarDetallesAbonoMonto#0;n#Gestionar_Hipoteca#0;n#!!top" />
-                <element signature="n#listarNuevaCuena#0;n#Gestionar_Hipoteca#0;n#!!top" />
-                <element signature="n#muestraHipotecas#0;n#Gestionar_Hipoteca#0;n#!!top" />
-                <element signature="n#muestraHipotecasLista#0;n#Gestionar_Hipoteca#0;n#!!top" />
-                <element signature="n#eliminarDetalleAbono#0;n#Gestionar_Hipoteca#0;n#!!top" />
-                <element signature="n#eliminarHipoteca#0;n#Gestionar_Hipoteca#0;n#!!top" />
-                <element signature="n#cabeceraTicket#0;n#Gestionar_Hipoteca#0;n#!!top" />
-                <element signature="n#abonoDetalle#0;n#Gestionar_Hipoteca#0;n#!!top" />
-                <element signature="n#restanteTicket#0;n#Gestionar_Hipoteca#0;n#!!top" />
-                <element signature="n#ticketNuevaCuenta#0;n#Gestionar_Hipoteca#0;n#!!top" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/config/Conexion.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="164">
-              <caret line="18" selection-start-line="18" selection-end-line="18" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/config/global.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="120">
-              <caret line="13" selection-start-line="13" selection-end-line="13" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/ajax/cuenta_banco.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="75">
-              <caret line="5" lean-forward="true" selection-start-line="5" selection-end-line="5" />
-              <folding>
-                <element signature="n#mostrar#0;n#!!top" />
-                <element signature="e#230#473#0#PHP" />
-                <element signature="e#307#458#0#PHP" />
-                <element signature="e#502#1095#0#PHP" />
-                <element signature="e#836#1080#0#PHP" />
-                <element signature="e#1101#1690#0#PHP" />
-                <element signature="e#1398#1674#0#PHP" />
-                <element signature="e#1718#2803#0#PHP" />
-                <element signature="n#style#0;n#thead#0;n#!!top" expanded="true" />
-                <element signature="e#2190#2787#0#PHP" />
-                <element signature="e#2808#3069#0#PHP" />
-                <element signature="e#2898#3054#0#PHP" />
-                <element signature="e#3098#3361#0#PHP" />
-                <element signature="e#3225#3346#0#PHP" />
-                <element signature="e#3366#3590#0#PHP" />
-                <element signature="e#3492#3574#0#PHP" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/vistas/header.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1635">
-              <caret line="109" selection-start-line="109" selection-end-line="109" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/reportes/TicketRepH.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1335">
-              <caret line="89" column="32" lean-forward="true" selection-start-line="89" selection-start-column="32" selection-end-line="89" selection-end-column="32" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-    </leaf>
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
@@ -327,108 +66,39 @@
       <find>mostrarCuentas</find>
     </findStrings>
   </component>
-  <component name="IdeDocumentHistory">
-    <option name="CHANGED_PATHS">
-      <list>
-        <option value="$PROJECT_DIR$/config/global.php" />
-        <option value="$PROJECT_DIR$/vistas/scripts/modal.js" />
-        <option value="$PROJECT_DIR$/vistas/modal.php" />
-        <option value="$PROJECT_DIR$/vistas/scripts/bancos.js" />
-        <option value="$PROJECT_DIR$/vistas/bancos.php" />
-        <option value="$PROJECT_DIR$/modelos/Cuenta_Banco.php" />
-        <option value="$PROJECT_DIR$/vistas/dashboard.php" />
-        <option value="$PROJECT_DIR$/vistas/scripts/financiamiento.js" />
-        <option value="$PROJECT_DIR$/vistas/scripts/socios.js" />
-        <option value="$PROJECT_DIR$/ajax/socios.php" />
-        <option value="$PROJECT_DIR$/vistas/socios.php" />
-        <option value="$PROJECT_DIR$/ajax/printTest.php" />
-        <option value="$PROJECT_DIR$/vistas/scripts/printTest.js" />
-        <option value="$PROJECT_DIR$/vistas/tests.php" />
-        <option value="$PROJECT_DIR$/vistas/scripts/tests.js" />
-        <option value="$PROJECT_DIR$/ajax/tests.php" />
-        <option value="$PROJECT_DIR$/vistas/printTest.php" />
-        <option value="$PROJECT_DIR$/ajax/cuenta_banco.php" />
-        <option value="$PROJECT_DIR$/vistas/scripts/plan_pago.js" />
-        <option value="$PROJECT_DIR$/vistas/plan_pago.php" />
-        <option value="$PROJECT_DIR$/vistas/header.php" />
-        <option value="$PROJECT_DIR$/vistas/footer.php" />
-        <option value="$PROJECT_DIR$/vistas/scripts/pedido.js" />
-        <option value="$PROJECT_DIR$/reportes/TicketRepH.php" />
-        <option value="$PROJECT_DIR$/vistas/gestionar_hipoteca.php" />
-        <option value="$PROJECT_DIR$/vistas/scripts/gestionar_hipoteca.js" />
-        <option value="$PROJECT_DIR$/modelos/Gestionar_Hipoteca.php" />
-        <option value="$APPLICATION_CONFIG_DIR$/phpstorm.vmoptions" />
-        <option value="$PROJECT_DIR$/ajax/gestionar_hipoteca.php" />
-      </list>
-    </option>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="PhpDebugGeneral" break_at_first_line="true" />
+  <component name="JsFlowSettings">
+    <service-enabled>true</service-enabled>
+    <exe-path />
+    <other-services-enabled>true</other-services-enabled>
+    <auto-save>true</auto-save>
+  </component>
   <component name="PhpServers">
     <servers>
-      <server host="PhpStorm 2019.1.2" id="e97e09a4-d427-44ec-95bb-377f735dfdd2" name="PhpStorm 2019.1.2" port="63342" />
-      <server host="localhost" id="d27af6d1-a6c2-47f9-bfdb-5146a728c307" name="XdebugServ" use_path_mappings="true">
-        <path_mappings>
-          <mapping local-root="$PROJECT_DIR$/ajax/cuenta_banco.php" remote-root="/Applications/XAMPP/xamppfiles/htdocs/system/Credi_em/ajax/cuenta_banco.php" />
-          <mapping local-root="$PROJECT_DIR$/ajax/gestionar_hipoteca.php" remote-root="/Applications/XAMPP/xamppfiles/htdocs/system/Credi_em/ajax/gestionar_hipoteca.php" />
-          <mapping local-root="$PROJECT_DIR$/config/Conexion.php" remote-root="/Applications/XAMPP/xamppfiles/htdocs/System/Credi_em/config/Conexion.php" />
-          <mapping local-root="$PROJECT_DIR$/config/global.php" remote-root="/Applications/XAMPP/xamppfiles/htdocs/System/Credi_em/config/global.php" />
-          <mapping local-root="$PROJECT_DIR$/modelos/Gestionar_Hipoteca.php" remote-root="/Applications/XAMPP/xamppfiles/htdocs/System/Credi_em/modelos/Gestionar_Hipoteca.php" />
-          <mapping local-root="$PROJECT_DIR$/vistas/gestionar_hipoteca.php" remote-root="/Applications/XAMPP/xamppfiles/htdocs/system/Credi_em/vistas/gestionar_hipoteca.php" />
-          <mapping local-root="$PROJECT_DIR$/vistas/header.php" remote-root="/Applications/XAMPP/xamppfiles/htdocs/System/Credi_em/vistas/header.php" />
-        </path_mappings>
-      </server>
+      <server host="127.0.0.1" id="b2faa108-748f-4bbd-80ee-a22289c28f06" name="Xdebug" />
+      <server host="localhost" id="57539ec6-0054-470c-b45c-43a5c7ed52c8" name="localhost" />
     </servers>
   </component>
-  <component name="PhpWorkspaceProjectConfiguration" interpreter_name="PHP 7.1" />
-  <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="1" />
-    <option name="y" value="23" />
-    <option name="width" value="1600" />
-    <option name="height" value="823" />
-  </component>
-  <component name="ProjectView">
-    <navigator proportions="" version="1">
-      <foldersAlwaysOnTop value="true" />
-    </navigator>
-    <panes>
-      <pane id="Scope" />
-      <pane id="ProjectPane">
-        <subPane>
-          <expand>
-            <path>
-              <item name="Credi_em" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Credi_em" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="Credi_em" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Credi_em" type="462c0819:PsiDirectoryNode" />
-              <item name="ajax" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="Credi_em" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Credi_em" type="462c0819:PsiDirectoryNode" />
-              <item name="reportes" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="Credi_em" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Credi_em" type="462c0819:PsiDirectoryNode" />
-              <item name="vistas" type="462c0819:PsiDirectoryNode" />
-            </path>
-          </expand>
-          <select />
-        </subPane>
-      </pane>
-    </panes>
-  </component>
+  <component name="PhpWorkspaceProjectConfiguration" interpreter_name="PHP" />
+  <component name="PhpXdebugProxy" ide_key="PhpStorm" host="localhost" port="80" />
+  <component name="ProjectId" id="1UDmroPcXrca9nyKy98W5s891RK" />
   <component name="PropertiesComponent">
     <property name="SearchEverywhereHistoryKey" value="&#9;FILE&#9;file:///Applications/XAMPP/xamppfiles/htdocs/System/Credi_em/vistas/gestionar_hipoteca.php" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="editor.config.ad.shown" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="node.js.detected.package.eslint" value="true" />
+    <property name="node.js.detected.package.tslint" value="true" />
+    <property name="node.js.path.for.package.eslint" value="project" />
+    <property name="node.js.path.for.package.tslint" value="project" />
+    <property name="node.js.selected.package.eslint" value="(autodetect)" />
+    <property name="node.js.selected.package.tslint" value="(autodetect)" />
     <property name="nodejs.jest.jest_package" value="" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
-    <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
+    <property name="settings.editor.selected.configurable" value="Errors" />
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -443,7 +113,7 @@
     </option>
   </component>
   <component name="RunManager">
-    <configuration name="Debugging.dev" type="PhpWebAppRunConfigurationType" factoryName="PHP Web Application" browser="98ca6316-2f89-46d9-a9e5-fa9e2b0625b3" server_name="XdebugServ" start_url="/System/Credi_em/vistas/">
+    <configuration name="Debugging.dev" type="PhpWebAppRunConfigurationType" factoryName="PHP Web Application" browser="98ca6316-2f89-46d9-a9e5-fa9e2b0625b3" server_name="Xdebug" start_url="/System/Credi_em/vistas/">
       <method v="2" />
     </configuration>
     <configuration default="true" type="PhpWebAppRunConfigurationType" factoryName="PHP Web Application" server_name="XdebugServ" start_url="/System/Credi_em/vistas/">
@@ -534,11 +204,15 @@
       <workItem from="1562526549710" duration="149000" />
       <workItem from="1562527024543" duration="99000" />
       <workItem from="1562527424465" duration="1710000" />
+      <workItem from="1574899753414" duration="343000" />
+      <workItem from="1574900201867" duration="711000" />
+      <workItem from="1574901523764" duration="246000" />
+      <workItem from="1574901970225" duration="1076000" />
+      <workItem from="1574953118215" duration="11582000" />
+      <workItem from="1574995554856" duration="268000" />
+      <workItem from="1575040506618" duration="1761000" />
     </task>
     <servers />
-  </component>
-  <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="321768000" />
   </component>
   <component name="TodoView" selected-index="2">
     <todo-panel id="selected-file">
@@ -549,57 +223,21 @@
       <is-autoscroll-to-source value="true" />
     </todo-panel>
   </component>
-  <component name="ToolWindowManager">
-    <frame x="0" y="23" width="1600" height="821" extended-state="6" />
-    <editor active="true" />
-    <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.14762516" />
-      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
-      <window_info id="Favorites" order="2" side_tool="true" />
-      <window_info anchor="bottom" id="Message" order="0" />
-      <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" id="Run" order="2" />
-      <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.5038511" weight="0.054869685" />
-      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
-      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
-      <window_info anchor="bottom" id="TODO" order="6" weight="0.32965517" />
-      <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Database Changes" order="8" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Terminal" order="9" weight="0.19586207" />
-      <window_info anchor="bottom" id="Version Control" order="10" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Event Log" order="11" sideWeight="0.4961489" side_tool="true" weight="0.3089655" />
-      <window_info anchor="bottom" id="PHP-CGI Server" order="12" />
-      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
-      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
-      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
-      <window_info anchor="right" id="Database" order="3" weight="0.32987013" />
-      <window_info anchor="right" x="0" y="0" width="408" height="1109" id="Documentation" order="4" side_tool="true" weight="0.32960895" />
-    </layout>
-    <layout-to-restore>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.13735558" />
-      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
-      <window_info id="Favorites" order="2" side_tool="true" />
-      <window_info anchor="bottom" id="Message" order="0" />
-      <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" id="Run" order="2" />
-      <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.5038511" weight="0.067586206" />
-      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
-      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
-      <window_info anchor="bottom" id="TODO" order="6" weight="0.32965517" />
-      <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Database Changes" order="8" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Terminal" order="9" weight="0.19586207" />
-      <window_info anchor="bottom" id="Version Control" order="10" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Event Log" order="11" sideWeight="0.4961489" side_tool="true" weight="0.3089655" />
-      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
-      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
-      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
-      <window_info anchor="right" id="Database" order="3" weight="0.32987013" />
-      <window_info anchor="right" x="0" y="0" width="408" height="1109" id="Documentation" order="4" side_tool="true" weight="0.32960895" />
-    </layout-to-restore>
-  </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="COLUMN_ORDER" />
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -611,585 +249,5 @@
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
-  </component>
-  <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/ajax/consultas.php">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/ajax/solares.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="8970">
-          <caret line="598" column="12" selection-start-line="598" selection-start-column="12" selection-end-line="598" selection-end-column="12" />
-          <folding>
-            <element signature="e#27721#35285#0#PHP" />
-            <element signature="e#35290#42307#0#PHP" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/ajax/financiamiento.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="565">
-          <caret line="229" column="34" lean-forward="true" selection-start-line="229" selection-start-column="34" selection-end-line="229" selection-end-column="34" />
-          <folding>
-            <element signature="n#style#0;n#thead#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#thead#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#thead#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#thead#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#thead#0;n#!!top" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/ajax/cuentascobrar.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <folding>
-            <element signature="n#style#0;n#thead#0;n#!!top" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../../../phpmyadmin/libraries/vendor_config.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="285">
-          <caret line="19" selection-start-line="19" selection-end-line="19" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../../../phpmyadmin/libraries/common.inc.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="355">
-          <caret line="73" selection-start-line="73" selection-end-line="73" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/modelos/Venta.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1020">
-          <caret line="68" column="20" selection-start-line="68" selection-start-column="20" selection-end-line="68" selection-end-column="20" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/vistas/scripts/abono.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="75">
-          <caret line="5" column="53" selection-start-line="5" selection-start-column="53" selection-end-line="5" selection-end-column="53" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/vistas/scripts/cliente.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="45">
-          <caret line="3" column="6" selection-start-line="3" selection-start-column="6" selection-end-line="3" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/vistas/scripts/comprasfecha.js">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/vistas/scripts/cuentascobrar.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="30">
-          <caret line="2" column="6" selection-start-line="2" selection-start-column="6" selection-end-line="2" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/vistas/scripts/financiamiento.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="655">
-          <caret line="211" column="23" selection-start-line="191" selection-start-column="10" selection-end-line="211" selection-end-column="23" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/vistas/scripts/ingreso.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="45">
-          <caret line="3" column="6" selection-start-line="3" selection-start-column="6" selection-end-line="3" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/vistas/scripts/permiso.js">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/vistas/scripts/usuario.js">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/vistas/scripts/um.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1065" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/vistas/scripts/solares.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <folding>
-            <element signature="n#style#0;n#td#1;n#tr#0;n#!!top" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/vistas/scripts/socios.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="944">
-          <caret line="213" column="22" selection-start-line="213" selection-start-column="22" selection-end-line="213" selection-end-column="22" />
-          <folding>
-            <element signature="n#!!block;n#guardarSocios#0" />
-            <element signature="n#!!block;n#editSocio#0" />
-            <element signature="n#!!block;n#anularSocio#0" />
-            <element signature="n#!!block;n#activarSocio#0" />
-            <element signature="n#!!block;n#cargarSocios#0" />
-            <element signature="n#!!block;n#cargarFecha#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/vistas/scripts/venta.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-270" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/vistas/socios.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="333">
-          <caret line="29" column="60" selection-start-line="29" selection-start-column="60" selection-end-line="29" selection-end-column="60" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/ajax/socios.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="595">
-          <caret line="40" column="18" selection-start-line="40" selection-start-column="18" selection-end-line="40" selection-end-column="18" />
-          <folding>
-            <element signature="n#style#0;n#tr#0;n#!!top" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/vistas/scripts/bancos.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="285">
-          <caret line="49" column="37" selection-start-line="49" selection-start-column="37" selection-end-line="49" selection-end-column="37" />
-          <folding>
-            <element signature="n#!!block;n#guardarSocios#0" />
-            <element signature="n#!!block;n#guardarNuevaCuentaBancos#0" />
-            <element signature="n#!!block;n#listarCuentasBancos#0" />
-            <element signature="n#!!block;n#cargarSocios#0" />
-            <element signature="n#!!block;n#hideMontoseditar#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/vistas/bancos.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1158">
-          <caret line="159" column="28" selection-start-line="159" selection-start-column="28" selection-end-line="159" selection-end-column="34" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/ajax/printTest.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="675">
-          <caret line="45" column="37" selection-start-line="45" selection-start-column="37" selection-end-line="45" selection-end-column="37" />
-          <folding>
-            <element signature="n#style#0;n#tr#0;n#!!top" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/ajax/tests.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1634">
-          <caret line="163" column="21" selection-start-line="163" selection-start-column="21" selection-end-line="163" selection-end-column="23" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/vistas/tests.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="247">
-          <caret line="49" column="66" selection-start-line="49" selection-start-column="66" selection-end-line="49" selection-end-column="66" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/vistas/scripts/tests.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="315">
-          <caret line="21" column="21" selection-start-line="21" selection-start-column="21" selection-end-line="21" selection-end-column="21" />
-          <folding>
-            <element signature="n#!!block;n#planPagos#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/vistas/printTest.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="587">
-          <caret line="90" column="46" lean-forward="true" selection-start-line="51" selection-start-column="40" selection-end-line="90" selection-end-column="46" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/vistas/scripts/printTest.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="452">
-          <caret line="187" column="3" lean-forward="true" selection-start-line="187" selection-start-column="3" selection-end-line="189" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../../../phpmyadmin/sql.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="209">
-          <caret line="19" selection-start-line="19" selection-end-line="19" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/modelos/Cuenta_Banco.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="615">
-          <caret line="41" column="20" selection-start-line="41" selection-start-column="20" selection-end-line="41" selection-end-column="20" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/vistas/scripts/ventasfecha.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="126">
-          <caret line="118" column="13" lean-forward="true" selection-start-line="56" selection-start-column="12" selection-end-line="118" selection-end-column="13" />
-          <folding>
-            <element signature="e#1543#3683#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/ajax/abono.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="300">
-          <caret line="20" selection-start-line="20" selection-end-line="20" />
-          <folding>
-            <element signature="e#1104#1319#0#PHP" />
-            <element signature="e#1325#1516#0#PHP" />
-            <element signature="e#1522#1772#0#PHP" />
-            <element signature="e#1777#1915#0#PHP" />
-            <element signature="e#1921#2073#0#PHP" />
-            <element signature="e#2079#2235#0#PHP" />
-            <element signature="e#2241#2510#0#PHP" />
-            <element signature="e#2517#3881#0#PHP" />
-            <element signature="n#style#0;n#thead#0;n#!!top" expanded="true" />
-            <element signature="e#3887#5145#0#PHP" />
-            <element signature="e#5151#6314#0#PHP" />
-            <element signature="e#6365#7494#0#PHP" />
-            <element signature="e#7500#8800#0#PHP" />
-            <element signature="n#style#0;n#thead#0;n#!!top" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../../../phpmyadmin/index.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
-          <caret line="26" selection-start-line="26" selection-end-line="26" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../../../phpmyadmin/tbl_structure.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="165">
-          <caret line="13" selection-start-line="13" selection-end-line="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/vistas/scripts/plan_pago.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="734">
-          <caret line="55" selection-start-line="55" selection-end-line="55" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$APPLICATION_HOME_DIR$/plugins/php/lib/php.jar!/stubs/standard/standard_8.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="15">
-          <caret line="643" column="9" selection-start-line="643" selection-start-column="9" selection-end-line="643" selection-end-column="68" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/vistas/plan_pago.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="885">
-          <caret line="59" column="65" selection-start-line="59" selection-start-column="47" selection-end-line="59" selection-end-column="65" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/vistas/scripts/pedido.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="417">
-          <caret line="50" column="32" lean-forward="true" selection-start-line="45" selection-start-column="4" selection-end-line="50" selection-end-column="32" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../../../phpmyadmin/db_sql.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
-          <caret line="14" selection-start-line="14" selection-end-line="14" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/vistas/footer.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="360">
-          <caret line="24" column="61" lean-forward="true" selection-start-line="24" selection-start-column="61" selection-end-line="24" selection-end-column="61" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/vistas/scripts/gestionar_hipoteca.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="13725">
-          <caret line="959" column="28" selection-start-line="959" selection-start-column="28" selection-end-line="959" selection-end-column="28" />
-          <folding>
-            <element signature="e#483#509#0" />
-            <element signature="e#609#690#0" />
-            <element signature="e#743#807#0" />
-            <element signature="e#861#926#0" />
-            <element signature="e#981#1047#0" />
-            <element signature="e#1102#1168#0" />
-            <element signature="e#1231#1296#0" />
-            <element signature="e#1372#1481#0" />
-            <element signature="e#1584#1685#0" />
-            <element signature="e#1785#1886#0" />
-            <element signature="e#1985#2092#0" />
-            <element signature="e#2200#2292#0" />
-            <element signature="e#2398#2620#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/vistas/header.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1635">
-          <caret line="109" selection-start-line="109" selection-end-line="109" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/reportes/TicketRepH.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1335">
-          <caret line="89" column="32" lean-forward="true" selection-start-line="89" selection-start-column="32" selection-end-line="89" selection-end-column="32" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$APPLICATION_CONFIG_DIR$/phpstorm.vmoptions">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="285">
-          <caret line="19" selection-start-line="19" selection-end-line="19" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/ajax/cuenta_banco.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="75">
-          <caret line="5" lean-forward="true" selection-start-line="5" selection-end-line="5" />
-          <folding>
-            <element signature="n#mostrar#0;n#!!top" />
-            <element signature="e#230#473#0#PHP" />
-            <element signature="e#307#458#0#PHP" />
-            <element signature="e#502#1095#0#PHP" />
-            <element signature="e#836#1080#0#PHP" />
-            <element signature="e#1101#1690#0#PHP" />
-            <element signature="e#1398#1674#0#PHP" />
-            <element signature="e#1718#2803#0#PHP" />
-            <element signature="n#style#0;n#thead#0;n#!!top" expanded="true" />
-            <element signature="e#2190#2787#0#PHP" />
-            <element signature="e#2808#3069#0#PHP" />
-            <element signature="e#2898#3054#0#PHP" />
-            <element signature="e#3098#3361#0#PHP" />
-            <element signature="e#3225#3346#0#PHP" />
-            <element signature="e#3366#3590#0#PHP" />
-            <element signature="e#3492#3574#0#PHP" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/vistas/gestionar_hipoteca.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="45">
-          <caret line="3" selection-start-line="3" selection-end-line="3" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/config/global.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="120">
-          <caret line="13" selection-start-line="13" selection-end-line="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/modelos/Gestionar_Hipoteca.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="164">
-          <caret line="243" selection-start-line="243" selection-end-line="243" />
-          <folding>
-            <element signature="n#insertar#0;n#Gestionar_Hipoteca#0;n#!!top" />
-            <element signature="n#insertarGarantia#0;n#Gestionar_Hipoteca#0;n#!!top" />
-            <element signature="n#insertarHipoteca#0;n#Gestionar_Hipoteca#0;n#!!top" />
-            <element signature="n#insertarNuevaSolicitur#0;n#Gestionar_Hipoteca#0;n#!!top" />
-            <element signature="n#guardarCliente#0;n#Gestionar_Hipoteca#0;n#!!top" />
-            <element signature="n#selectCliente#0;n#Gestionar_Hipoteca#0;n#!!top" />
-            <element signature="n#selectFiador#0;n#Gestionar_Hipoteca#0;n#!!top" />
-            <element signature="n#selectSector#0;n#Gestionar_Hipoteca#0;n#!!top" />
-            <element signature="n#selectSolicitud#0;n#Gestionar_Hipoteca#0;n#!!top" />
-            <element signature="n#editarAbono#0;n#Gestionar_Hipoteca#0;n#!!top" />
-            <element signature="n#editarAbonoSumaCapital#0;n#Gestionar_Hipoteca#0;n#!!top" />
-            <element signature="n#insertarDetalleAbono#0;n#Gestionar_Hipoteca#0;n#!!top" />
-            <element signature="n#anular#0;n#Gestionar_Hipoteca#0;n#!!top" />
-            <element signature="n#anularDetalle#0;n#Gestionar_Hipoteca#0;n#!!top" />
-            <element signature="n#sumarNumeroFactura#0;n#Gestionar_Hipoteca#0;n#!!top" />
-            <element signature="n#calculaStock#0;n#Gestionar_Hipoteca#0;n#!!top" />
-            <element signature="n#ventacabecera#0;n#Gestionar_Hipoteca#0;n#!!top" />
-            <element signature="n#ventadetalle#0;n#Gestionar_Hipoteca#0;n#!!top" />
-            <element signature="n#selectCategoria#0;n#Gestionar_Hipoteca#0;n#!!top" />
-            <element signature="n#selectGarantia#0;n#Gestionar_Hipoteca#0;n#!!top" />
-            <element signature="n#buscarClientesAbono#0;n#Gestionar_Hipoteca#0;n#!!top" />
-            <element signature="n#mostrarCuentasAbono#0;n#Gestionar_Hipoteca#0;n#!!top" />
-            <element signature="n#listarDetallesAbonoMonto#0;n#Gestionar_Hipoteca#0;n#!!top" />
-            <element signature="n#listarNuevaCuena#0;n#Gestionar_Hipoteca#0;n#!!top" />
-            <element signature="n#muestraHipotecas#0;n#Gestionar_Hipoteca#0;n#!!top" />
-            <element signature="n#muestraHipotecasLista#0;n#Gestionar_Hipoteca#0;n#!!top" />
-            <element signature="n#eliminarDetalleAbono#0;n#Gestionar_Hipoteca#0;n#!!top" />
-            <element signature="n#eliminarHipoteca#0;n#Gestionar_Hipoteca#0;n#!!top" />
-            <element signature="n#cabeceraTicket#0;n#Gestionar_Hipoteca#0;n#!!top" />
-            <element signature="n#abonoDetalle#0;n#Gestionar_Hipoteca#0;n#!!top" />
-            <element signature="n#restanteTicket#0;n#Gestionar_Hipoteca#0;n#!!top" />
-            <element signature="n#ticketNuevaCuenta#0;n#Gestionar_Hipoteca#0;n#!!top" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/config/Conexion.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="164">
-          <caret line="18" selection-start-line="18" selection-end-line="18" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/ajax/gestionar_hipoteca.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="147">
-          <caret line="1023" column="49" selection-start-line="1023" selection-start-column="49" selection-end-line="1023" selection-end-column="49" />
-          <folding>
-            <element signature="e#232#919#0#PHP" />
-            <element signature="e#623#903#0#PHP" />
-            <element signature="e#883#903#0#PHP" />
-            <element signature="e#924#1602#0#PHP" />
-            <element signature="e#1314#1587#0#PHP" />
-            <element signature="e#1571#1587#0#PHP" />
-            <element signature="e#1607#2070#0#PHP" />
-            <element signature="e#1739#2055#0#PHP" />
-            <element signature="e#2039#2055#0#PHP" />
-            <element signature="e#2075#3293#0#PHP" />
-            <element signature="e#2764#3278#0#PHP" />
-            <element signature="e#2809#3065#0#PHP" />
-            <element signature="e#3262#3278#0#PHP" />
-            <element signature="e#3298#4135#0#PHP" />
-            <element signature="e#3631#4120#0#PHP" />
-            <element signature="e#3916#4120#0#PHP" />
-            <element signature="e#4140#4440#0#PHP" />
-            <element signature="e#4184#4425#0#PHP" />
-            <element signature="e#4409#4425#0#PHP" />
-            <element signature="e#4445#5474#0#PHP" />
-            <element signature="e#5176#5360#0#PHP" />
-            <element signature="e#5496#5634#0#PHP" />
-            <element signature="e#5639#5791#0#PHP" />
-            <element signature="e#5815#7655#0#PHP" />
-            <element signature="n#thead#0;n#!!top" />
-            <element signature="e#559#733#0" />
-            <element signature="e#6772#7640#0#PHP" />
-            <element signature="n#tr#0;n#!!top" />
-            <element signature="n#td#0;n#tr#0;n#!!top" />
-            <element signature="e#7660#9308#0#PHP" />
-            <element signature="n#thead#0;n#!!top" />
-            <element signature="e#559#733#0" />
-            <element signature="e#8628#9293#0#PHP" />
-            <element signature="n#tr#0;n#!!top" />
-            <element signature="e#9313#9468#0#PHP" />
-            <element signature="e#10149#10418#0#PHP" />
-            <element signature="e#10320#10402#0#PHP" />
-            <element signature="e#10574#11849#0#PHP" />
-            <element signature="e#10734#11529#0#PHP" />
-            <element signature="n#thead#0;n#!!top" />
-            <element signature="n#tr#0;n#!!top" />
-            <element signature="e#11534#11837#0#PHP" />
-            <element signature="e#13403#23319#0#PHP" />
-            <element signature="n#thead#0;n#!!top" />
-            <element signature="e#15293#23303#0#PHP" />
-            <element signature="e#15569#15799#0#PHP" />
-            <element signature="e#15959#22080#0#PHP" />
-            <element signature="e#16005#21987#0#PHP" />
-            <element signature="e#16155#17383#0#PHP" />
-            <element signature="e#16851#16945#0#PHP" />
-            <element signature="e#17674#19599#0#PHP" />
-            <element signature="e#18099#19122#0#PHP" />
-            <element signature="e#18530#19122#0#PHP" />
-            <element signature="e#20225#21987#0#PHP" />
-            <element signature="e#20565#20979#0#PHP" />
-            <element signature="e#22002#22080#0#PHP" />
-            <element signature="e#22094#23292#0#PHP" />
-            <element signature="n#tr#0;n#!!top" />
-            <element signature="n#style#0;n#thead#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#thead#0;n#!!top" expanded="true" />
-            <element signature="e#27144#28890#0#PHP" />
-            <element signature="n#thead#0;n#!!top" />
-            <element signature="e#27927#28875#0#PHP" />
-            <element signature="n#tr#0;n#!!top" />
-            <element signature="n#td#0;n#tr#0;n#!!top" />
-            <element signature="e#28895#29686#0#PHP" />
-            <element signature="e#29079#29342#0#PHP" />
-            <element signature="e#29136#29331#0#PHP" />
-            <element signature="e#29362#29633#0#PHP" />
-            <element signature="e#29691#31561#0#PHP" />
-            <element signature="n#thead#0;n#!!top" />
-            <element signature="e#30545#31546#0#PHP" />
-            <element signature="n#tr#0;n#!!top" />
-            <element signature="n#td#0;n#tr#0;n#!!top" />
-            <element signature="e#31566#33500#0#PHP" />
-            <element signature="e#31685#33156#0#PHP" />
-            <element signature="e#31859#33145#0#PHP" />
-            <element signature="e#33176#33447#0#PHP" />
-            <element signature="e#33523#33784#0#PHP" />
-            <element signature="e#33597#33769#0#PHP" />
-            <element signature="e#33789#34048#0#PHP" />
-            <element signature="e#33861#34033#0#PHP" />
-            <element signature="e#34053#34291#0#PHP" />
-            <element signature="e#34130#34276#0#PHP" />
-            <element signature="e#34296#34559#0#PHP" />
-            <element signature="e#34375#34544#0#PHP" />
-            <element signature="e#34564#34818#0#PHP" />
-            <element signature="e#34637#34803#0#PHP" />
-            <element signature="e#34823#35110#0#PHP" />
-            <element signature="e#34902#35095#0#PHP" />
-            <element signature="e#35131#36374#0#PHP" />
-            <element signature="e#35361#36031#0#PHP" />
-            <element signature="e#35418#36020#0#PHP" />
-            <element signature="e#36051#36322#0#PHP" />
-            <element signature="e#36379#36633#0#PHP" />
-            <element signature="e#36466#36618#0#PHP" />
-            <element signature="e#38912#39701#0#PHP" />
-            <element signature="e#39297#39679#0#PHP" />
-            <element signature="e#39437#39679#0#PHP" />
-            <element signature="e#39782#44306#0#PHP" />
-            <element signature="e#40092#44000#0#PHP" />
-            <element signature="e#40574#41809#0#PHP" />
-            <element signature="e#42039#44000#0#PHP" />
-            <element signature="e#42526#43761#0#PHP" />
-            <element signature="e#44088#44306#0#PHP" />
-            <element signature="e#46853#47124#0#PHP" />
-            <element signature="e#47183#47414#0#PHP" />
-            <element signature="e#47419#47638#0#PHP" />
-            <element signature="e#47643#51505#0#PHP" />
-            <element signature="e#47761#51505#0#PHP" />
-            <element signature="e#47797#49537#0#PHP" />
-            <element signature="e#49556#49734#0#PHP" />
-            <element signature="e#49747#50413#0#PHP" />
-            <element signature="e#50555#51495#0#PHP" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
   </component>
 </project>

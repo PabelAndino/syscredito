@@ -300,7 +300,8 @@ require 'header.php';
                                                                                     <button id="btnBuscarCuenta" type="button" onclick="muestraCuentasPendientesAbono()" class="btn btn-primary"> <span class="fa fa-plus"></span> Creditos</button>
                                                                                 </a>
                                                                             
-                                                                        </div>
+                                                                             </div>
+
                                                                             <div class="form-group col-lg-2 col-md-2 col-sm-6 col-xs-12">
                                                                                 <label>Amortizacion:</label>
                                                                                 <input type="number" class="form-control" maxlength="10" step=".01" min="0" name="abono_capital" id="abono_capital" maxlength="7" placeholder="Cuota" VALUE="0.00">
@@ -334,6 +335,13 @@ require 'header.php';
                                                                             <div class="form-group col-lg-2 col-md-2 col-sm-2 col-xs-12">
                                                                                 <label>Monto a Pagar:</label>
                                                                                 <input type="text"  class="form-control" name="monto_pago" id="monto_pago" maxlength="10" placeholder="$0">
+                                                                            </div>
+                                                                            <div class="form-group col-lg-1 col-md-1 col-sm-1 col-xs-6">
+
+
+                                                                                    <button id="btnBuscarCuenta" type="button" onclick="recalculaInteres()" class="btn btn-primary"> <span class="fa fa-repeat"></span></button>
+
+
                                                                             </div>
 
                                                                             <div class="form-group col-lg-2 col-md-2 col-sm-2 col-xs-12">
