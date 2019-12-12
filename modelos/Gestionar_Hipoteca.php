@@ -1,4 +1,3 @@
-
 <?php
 //Incluímos inicialmente la conexión a la base de datos
 require "../config/Conexion.php";
@@ -73,21 +72,21 @@ Class Gestionar_Hipoteca
     public function guardarHipoteca($idusuario,$idfiador,$garantia,$fecha_desembolso,$fecha_pago,$tipo,$monto,$interes,$plazo,$interes_moratorio,
                                     $moneda,$nota,$comision,$mantenimiento_valor,$cuenta_desenbolso,$solicitud,$no_credito,$monto_a_actualizar,$monto_prestamo){
 
-        $sql = "INSERT INTO hipoteca(idusuario,idfiador,idarticulo_garantia,fecha_desembolso,fecha_pago,tipo,monto,interes,plazo,interes_moratorio,moneda,nota,comision,mantenimiento_valor,cuenta_desembolso,solicitud,condicion,estado,no_credito,cantidad_debitada) VALUES (
-                                     '$idusuario','$idfiador','$garantia','$fecha_desembolso','$fecha_pago','$tipo','$monto_prestamo','$interes','$plazo','$interes_moratorio','$moneda','$nota','$comision','$mantenimiento_valor','$cuenta_desenbolso','$solicitud','Pendiente','Aceptado','$no_credito','$monto')";
+            $sql = "INSERT INTO hipoteca(idusuario,idfiador,idarticulo_garantia,fecha_desembolso,fecha_pago,tipo,monto,interes,plazo,interes_moratorio,moneda,nota,comision,mantenimiento_valor,cuenta_desembolso,solicitud,condicion,estado,no_credito,cantidad_debitada) VALUES (
+                                         '$idusuario','$idfiador','$garantia','$fecha_desembolso','$fecha_pago','$tipo','$monto_prestamo','$interes','$plazo','$interes_moratorio','$moneda','$nota','$comision','$mantenimiento_valor','$cuenta_desenbolso','$solicitud','Pendiente','Aceptado','$no_credito','$monto')";
 
-        $returnid = ejecutarConsulta_retornarID($sql) ;
+            $returnid = ejecutarConsulta_retornarID($sql) ;
 
-        if($returnid){
-            
-            
-            $this->actualizaMontoSocio($cuenta_desenbolso,$monto_a_actualizar);
-            $this->ingresoNCuenta($returnid);
-            $this->cambiaEstadoGarantia($garantia);
-             return $returnid;
-        }else{
-            return $returnid;
-        }
+            if($returnid){
+
+
+                $this->actualizaMontoSocio($cuenta_desenbolso,$monto_a_actualizar);
+                $this->ingresoNCuenta($returnid);
+                $this->cambiaEstadoGarantia($garantia);
+                 return $returnid;
+            }else{
+                return $returnid;
+            }
   
     }
     function ingresoNCuenta($idhipoteca){//ingresa el estado de cada cuenta si esta en el estado de sin abono o abonado
@@ -102,9 +101,15 @@ Class Gestionar_Hipoteca
         $sql = "UPDATE cuentas_bancos SET monto = '$monto' WHERE idcuentas_bancos = '$idBanco'";
         return ejecutarConsulta($sql);
     }
-    public function updateBanco($idbanco,$monto)
+    public function editarHipoteca($idhipoteca,$idusuario,$fiador,$fecha_desembolso,$fecha_pago,$tipo,
+                                   $interes,$plazo,$interes_moratorio,$moneda,$nota,$comision,$manteminiento_valor,$solicitud)
     {
-        $sql ="UPDATE ";
+
+       $sql = "UPDATE hipoteca SET idusuario='$idusuario',idfiador='$fiador',fecha_desembolso='$fecha_desembolso',fecha_pago='$fecha_pago',tipo='$tipo',
+               interes='$interes',plazo='$plazo',interes_moratorio='$interes_moratorio',moneda='$moneda',nota='$nota',comision='$comision',mantenimiento_valor='$manteminiento_valor',solicitud='$solicitud' WHERE idhipoteca='$idhipoteca'";
+
+       return ejecutarConsulta($sql);
+
     }
 
     public function calcula_mora($idhipoteca){
@@ -158,8 +163,8 @@ Class Gestionar_Hipoteca
         return  ejecutarConsulta($sqlupdate_ncuenta);
     }
 
-    public function guardarCliente($nombre,$direccion,$genero,$estado_civil,$tipo_documento,$num_documento){
-        $sql="INSERT INTO cliente (nombres, direccion,genero, estado_civil,tipo_documento,num_documento,tipo,estado) VALUES('$nombre','$direccion','$genero','$estado_civil','$tipo_documento','$num_documento','Cliente','Aceptado')";
+    public function guardarCliente($nombre,$direccion,$genero,$estado_civil,$tipo_documento,$num_documento,$telefono,$correo){
+        $sql="INSERT INTO cliente (nombres, direccion,genero, estado_civil,tipo_documento,num_documento,telefono,correo,tipo,estado) VALUES('$nombre','$direccion','$genero','$estado_civil','$tipo_documento','$num_documento','$telefono','$correo','Cliente','Aceptado')";
         return ejecutarConsulta($sql);
     }
     public function guardarFiador($nombre,$direccion,$genero,$estado_civil,$tipo_documento,$num_documento,$ingresos){
@@ -272,8 +277,8 @@ Class Gestionar_Hipoteca
         return ejecutarConsulta($sql);
     }
     public function listarDetallesAbono($idhipoteca){
-      $sql="SELECT da.iddetalle_abono as iddetalle,DATE(da.fecha) as fecha,da.nota as nota,da.abono_interes,da.abono_capital,da.abono_interes_moratorio,da.interes_pendiente as saldo,h.moneda 
-      FROM detalle_abono_hipoteca da INNER JOIN hipoteca h ON da.idhipoteca=h.idhipoteca WHERE da.idhipoteca= '$idhipoteca' ORDER BY da.fecha ASC";
+      $sql="SELECT da.iddetalle_abono as iddetalle,DATE(da.fecha) as fecha,da.nota as nota,da.abono_interes,da.abono_capital,da.abono_interes_moratorio,da.interes_pendiente as saldo,da.mantenimiento_valor as mantenimiento,h.moneda,h.idhipoteca 
+      FROM detalle_abono_hipoteca da INNER JOIN hipoteca h ON da.idhipoteca=h.idhipoteca WHERE da.idhipoteca= '$idhipoteca' ";
       return ejecutarConsulta($sql);
     }
     public function listarDetallesAbonoMonto($id){
@@ -334,19 +339,15 @@ Class Gestionar_Hipoteca
               ";//AND DATE(da.fecha)='$date'
         return ejecutarConsulta($sql);
     }
-    public function muestraAbonosDiarios($date){
+    public function muestraAbonosDiarios($date){//Abonos Diarios
 
 
-        $sql="SELECT h.idhipoteca,da.iddetalle_abono as detalle,DATE(da.fecha) as fecha,cl.nombres as cliente,da.abono_capital,da.abono_interes,(da.abono_capital + da.abono_interes) as total_abonado,
-        h.moneda,h.monto 
-        
-                        FROM hipoteca h INNER JOIN solicitud sl ON h.solicitud=sl.idsolicitud 
-                        INNER JOIN cliente cl ON sl.cliente = cl.idcliente 
-                        INNER JOIN usuario us ON h.idusuario=us.idusuario 
-                        
-                        INNER JOIN detalle_abono_hipoteca da ON da.idhipoteca=h.idhipoteca 
-                WHERE h.condicion='Pendiente' AND h.estado='Aceptado' AND DATE(da.fecha)='$date'
-              ";//
+        $sql="SELECT h.idhipoteca,da.iddetalle_abono as detalle,DATE(da.fecha) as fecha,cl.nombres as cliente,da.abono_capital,da.abono_interes,da.mantenimiento_valor as mantenimiento,da.abono_interes_moratorio as moratorio,da.interes_pendiente as pendiente,
+            (da.abono_capital + da.abono_interes + da.mantenimiento_valor + da.interes_pendiente + da.abono_interes_moratorio) as total_abonado, h.moneda,h.monto 
+            FROM hipoteca h INNER JOIN solicitud sl ON h.solicitud=sl.idsolicitud INNER JOIN cliente cl ON sl.cliente = cl.idcliente 
+            INNER JOIN usuario us ON h.idusuario=us.idusuario INNER JOIN detalle_abono_hipoteca da ON da.idhipoteca=h.idhipoteca
+            WHERE h.condicion='Pendiente' AND h.estado='Aceptado' AND DATE(da.fecha)='$date' ORDER BY da.fecha DESC
+        ";//
         return ejecutarConsulta($sql);
     }
     public function muestratodosAbonos(){
@@ -368,9 +369,21 @@ Class Gestionar_Hipoteca
         return ejecutarConsulta($sql);
     }
 
-    function eliminarDetalleAbono($iddetalle){
-        $sql="DELETE FROM detalle_abono_hipoteca WHERE iddetalle_abono = '$iddetalle'";
-        return ejecutarConsulta($sql);
+    function eliminarDetalleAbono($iddetalle,$idhipoteca){
+        if(empty($idhipoteca)){
+            $sql="DELETE FROM detalle_abono_hipoteca WHERE iddetalle_abono = '$iddetalle'";
+            $result =  ejecutarConsulta($sql);
+            return $result;
+        }else{
+            $sql="DELETE FROM detalle_abono_hipoteca WHERE iddetalle_abono = '$iddetalle'";
+            $result =  ejecutarConsulta($sql);
+            if($result){
+                $sqlupdate = "UPDATE nuevacuenta_hipoteca SET estado = 'sin_abono' WHERE nidhipoteca = '$idhipoteca' ";
+                return  ejecutarConsulta( $sqlupdate);
+            }
+        }
+
+
     }
     function eliminarHipoteca($idhipoteca){
         $sql="UPDATE hipoteca SET estado='Anulado' WHERE idhipoteca='$idhipoteca'";
@@ -395,14 +408,14 @@ Class Gestionar_Hipoteca
 
     function abonoDetalle($id){
         $sql="SELECT h.idhipoteca,da.iddetalle_abono as detalle,da.fecha,cl.nombres as cliente,cl.tipo_documento,cl.num_documento,h.idhipoteca as num_cuenta, 
-        da.abono_capital,(da.abono_interes + da.abono_interes_moratorio + da.mantenimiento_valor) as intereses,(da.abono_interes + da.abono_interes_moratorio + da.mantenimiento_valor) as total_abonado,
+        da.abono_capital,da.abono_interes , da.abono_interes_moratorio as moratorio, da.mantenimiento_valor as mantenimiento,(da.abono_capital + da.abono_interes + da.abono_interes_moratorio + da.mantenimiento_valor + da.interes_pendiente) as total_abonado,
         h.moneda,(da.interes_pendiente) as pendiente 
         FROM hipoteca h 
         INNER JOIN solicitud sl ON h.solicitud=sl.idsolicitud 
         INNER JOIN cliente cl ON sl.cliente = cl.idcliente 
         INNER JOIN usuario us ON h.idusuario=us.idusuario 
         
-        INNER JOIN detalle_abono_hipoteca da ON da.idhipoteca=h.idhipoteca 
+        INNER JOIN detalle_abono_hipoteca da ON da.idhipoteca=h.idhipoteca
         WHERE da.iddetalle_abono =  '$id'";
         return ejecutarConsulta($sql);
     }

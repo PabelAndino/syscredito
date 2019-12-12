@@ -23,11 +23,12 @@ switch ($_GET["op"]){
             $estado_civil=$_GET['estado_civil'];
             $tipo_documento=$_GET['tipo_documento'];
             $num_documento=$_GET['num_documento'];
-
+            $telefono = $_GET['telefono'];
+            $correo = $_GET['email'];
 
 
             if(empty($idcliente)){
-               $repuesta=$hipoteca->guardarCliente($nombre,$direccion,$genero,$estado_civil,$tipo_documento,$num_documento);
+               $repuesta=$hipoteca->guardarCliente($nombre,$direccion,$genero,$estado_civil,$tipo_documento,$num_documento,$telefono,$correo);
                echo $repuesta ? "Cliente Ingresado" : "Cliente no se pudo ingresar correctamente";
             }else{
 
@@ -114,7 +115,10 @@ switch ($_GET["op"]){
             echo $rspta ? "Cuenta guardada correctamente":"No se pudo guardar la cuenta";
           
         }else {
-            
+            $rspta=$hipoteca->editarHipoteca($idhipoteca,$idusuario,$fiador,$fecha_desembolso,$fecha_pago,$tipo,
+                $interes,$plazo,$interes_moratorio,$moneda,$nota,$comision,$manteminiento_valor,$solicitud);
+            echo $rspta ? "Cuenta Editada correctamente":"No se pudo Editar la cuenta";
+
         }
         break;
 
@@ -160,6 +164,7 @@ switch ($_GET["op"]){
         else {
         }
         break;
+
     case 'guardarSolicitud':
         $idsolicitud=$_GET['idsolicitud'];
         $idcliente=$_GET['idcliente'];
@@ -198,18 +203,21 @@ switch ($_GET["op"]){
         break;
         //Mostrar
 
-    case 'muestraHipotecas':
+    case 'muestraHipotecas': //muestras los abonos diarios
         $date = date('Y-m-d');
         $rspta=$hipoteca->muestraAbonosDiarios($date);
 
-        //Codificar el resultado utilizando json
-        echo '<thead style="background-color:#ff6851">
+        //Codificar el resultado utilizando json    QUE RECARGUE LOS ABONOS Y LIMPIE EL FORMULARIO AL GUARDAR UN ABONO
+        echo '<thead style="background-color:#ffe6e5">
 
                                             <th>Opciones</th>
                                             <th>Fecha</th>
                                             <th>Cliente</th>
                                             <th>Abono Capital</th>
                                             <th>Abono Interes</th>
+                                            <th>Mantenimiento</th>
+                                            <th>Moratorio</th>
+                                             <th>Pendiente</th>
                                             <th>Total Abonado</th>
                                             <th>Moneda</th>
                                     
@@ -224,13 +232,16 @@ switch ($_GET["op"]){
             $urlTICKET='../reportes/TicketRepH.php?id='.$reg->detalle.'&idhipo= '.$reg->idhipoteca.' ';
               
             echo '<tr>
-                   <td><a target="_blank" href="'.$urlTICKET.'">   <button class="btn btn-info" type="button"><i class="fa fa-print"></i></button></a>
+                   <td>
                    <a data-toggle="modal" href="#modalCuentasAbonos"><button class="btn btn-bitbucket" type="button" onclick="mostrarAbonoInfo('.$reg->idhipoteca.','.$reg->monto.')"><i class="fa fa-info"></i></button></a>
                    </td>
                    <td>'.$reg->fecha.'</td>
                    <td>'.$reg->cliente.'</td>
                    <td>'.$reg->abono_capital.'</td>
                    <td>'.$reg->abono_interes.'</td>
+                   <td>'.$reg->mantenimiento.'</td>
+                   <td>'.$reg->moratorio.'</td>
+                   <td>'.$reg->pendiente.'</td>
                    <td>'.$reg->total_abonado.'</td>
                    <td>'.$reg->moneda.'</td>
                    </tr>';
@@ -556,7 +567,6 @@ switch ($_GET["op"]){
                                    
      
         break;
-
         case 'muestraEstado--old':
             $fecha_actual = date('Y-m-d');
             $fechaPago = $_GET['fechaPago'];
@@ -776,9 +786,9 @@ switch ($_GET["op"]){
     case 'calcula_moras':
         $idhipoteca = $_GET['idhipoteca'];
         $dia_menos = $_GET['dia_menos'];
-        $dia_menos_formato = "-".$dia_menos." day";
-        $fechaactual = $_GET['fecha_horacreditos'];//date("Y-m-d")
-        $fechaactual = date("Y-m-d",strtotime($dia_menos_formato,strtotime($fechaactual)));
+        $dia_menos_formato = "-".$dia_menos." day";//la cantidad de dias que quisiera restar, aunque ya no es necesario porque la fechaactual que se pasa puede quitar hasta meses si se desea
+        $fechaactual = $_GET['fecha_horacreditos'];//fecha para revisar cuantos meses o dias han pasado o no han pasado, recibe fechas futuras o anteriores para pruebas si se desea
+        $fechaactual = date("Y-m-d",strtotime($dia_menos_formato,strtotime($fechaactual)));//por si le quitara un dia o mas
         $conteo = 1;
         $conteo2 = 0; //para contar despues de los abonos
         $conteo_moratorio = 1;
@@ -795,6 +805,7 @@ switch ($_GET["op"]){
         $rspta = $hipoteca->calcula_mora($idhipoteca);
         $data = Array();
 
+
         while ($reg = $rspta->fetch_object()){
             $fActual= date('Y-m-d');
             $estado = $reg->estado;
@@ -806,7 +817,7 @@ switch ($_GET["op"]){
             $dia_desembolso = date('d',strtotime($reg->fecha_desembolso));
             $mes_desembolso = date('m',strtotime($reg->fecha_desembolso));
             $anio_desembolso = date('Y',strtotime($reg->fecha_desembolso));
-
+            $moratorio = 0;//la cantidad de interes moratorio que se abono la ultima vez y que se ra reasignada en la consulta
             $fecha_pago = date("Y-m-d",strtotime($reg->fecha_pago));
             $mes_pago = date('m',strtotime($reg->fecha_pago));
             $fecha_pago_mesanio = date('Y-m',strtotime($reg->fecha_pago));
@@ -878,9 +889,9 @@ switch ($_GET["op"]){
 
                 while ($reg = $ultimos_datos_abono->fetch_object()){
 
-                    $ultima_fecha = date('Y-m-d',strtotime($reg->fecha));
-                    $fechaInicio =  $ultima_fecha;
-                    $fechainicioMora = $ultima_fecha;
+                    $ultima_fecha = date('Y-m-d',strtotime($reg->fecha));//ultimo abono
+                    $fechaInicio =  $ultima_fecha;//ultimo abono
+                    $moratorio = $reg->abono_interes_moratorio;
 
                 }
 
@@ -899,11 +910,14 @@ switch ($_GET["op"]){
                     //Asignacion moratorio fecha,...  el año actual, -- el mess actual y el dia de pago para sacar el moratorio
                     $date_mora_anio = date('Y',strtotime($fechaInicio));
                     $date_mora_mes = date('m',strtotime($fechaInicio));// date('m',strtotime($fechaInicio));//
-                    $date_mora_dia = date('d',strtotime("+1 day",strtotime($fecha_pago)));
+                    $date_mora_mes_siguiente = date('m',strtotime("+1 month",strtotime($fechaInicio)));//que comience a cobrar al siguiente mes de la ultima fecha de pago
+                    $date_mora_dia = date('d',strtotime("+1 day",strtotime($fecha_pago)));//y que se comience en el siguiente dia de la fecha de pago
                     $date_mora = ($date_mora_anio) ."-". ( $date_mora_mes)."-".($date_mora_dia) ;
+                    $date_mora_siguiente = ($date_mora_anio) ."-". ($date_mora_mes_siguiente )."-".($date_mora_dia);//la fecha de mora cuando el ultimo pago es antes del mes
                     $ultimoMesAbonado = date('Y-m',strtotime("+1 month",strtotime($fechaInicio)));//si abono el mes pasado + 1 para compararlo con este mes si son iguales
-                    $mesActual = date('Y-m');
+                    $mesActual = date('Y-m',strtotime($fechaactual));
                     $valorPruebaMor = "No le toca";// echo  $date_mora;
+                    $mes_ultimo_abono = date('Y-m',strtotime($fechaInicio));
                     while(date('Y-m-d',strtotime($fechaInicio))   <=  date('Y-m-d',strtotime($fechaFin) ) ){//recorrera el siguiente del ultimo fecha de abono hasta el dia actual o la fecha que se le  asigne
 
                         $totalInteres = round( ( ($capital * $interes)/100),2);//calcula el interes a pagar
@@ -924,18 +938,28 @@ switch ($_GET["op"]){
                         
 
                                 //Primero verificar que mes debe
-                              if(strtotime($ultimoMesAbonado) == strtotime($mesActual)){ //si el mes que le toca la cuota es el actual
-                                  $valorPruebaMor = "Este mes le toca cuota";
-                                  if(strtotime($fechaInicio) >=  strtotime($date_mora)){//la ficha inicio va aumentando un dia, luego cuando sea mayor que la fecha de pago cobrara el moratorio
+
+                            if(strtotime($mes_ultimo_abono) < strtotime($mesActual)){//Si el abono se hizo meses pasados
+
+                                $valorPruebaMor = " Fue antes de este mes";
+
+                                    if(strtotime($fechaInicio) >=  strtotime($date_mora_siguiente)){//la ficha inicio va aumentando un dia, luego cuando sea mayor que la fecha de pago cobrara el moratorio
 
 
-                                      $interesM = round((($interes_moratorio * $capital)/100),2);
-                                      $interesM = round(($interesM / $primerosdias),2);
-                                      array_push($moratorio_primerosdias,$interesM);
+                                        $interesM = round((($interes_moratorio * $capital)/100),2);
+                                        $interesM = round(($interesM / $primerosdias),2);
+                                        array_push($moratorio_primerosdias,$interesM);
 
-                                  }
+                                    }
 
-                              }
+
+
+                            }
+                            if(strtotime($mes_ultimo_abono) == strtotime($mesActual) && $moratorio > 0 ){ //si pago este mes y tambien pago interes moratorio
+                                $valorPruebaMor = " PAGO MORA";
+
+                            }
+
 
 //                        if(strtotime($fechaInicio) >=  strtotime($date_mora)){//la ficha inicio va aumentando un dia, luego cuando sea mayor que la fecha de pago cobrara el moratorio
 //
@@ -953,7 +977,7 @@ switch ($_GET["op"]){
                         "0"=>$conteo,//$conteo2,//meses
                         "1"=>$fechaInicio,//$fechaInicio,//fechas
                         "2"=>$totalInteres,//$totalInteres,
-                        "3"=>$valorPruebaMor." - ".$interesM,//$interesM,//$totalInteresMoratorio,//interes Moratorio
+                        "3"=>$interesM,//$interesM,//$totalInteresMoratorio,//interes Moratorio
                         "4"=>$manteminiento_valor_primeros_dias,//$totalMantenimiento /* round((($mantenimiento * $capital)/100 ),2 ) */,
                         "5"=>round(($totalInteres + $interesM + $manteminiento_valor_primeros_dias),2),//round(($totalInteres + $totalInteresMoratorio + $totalMantenimiento ),2),
                         "6"=>$moneda,//$moneda.$dia_menos
@@ -982,13 +1006,14 @@ switch ($_GET["op"]){
 
         echo json_encode($results);
      break;
+
     case 'planPago'://Case de prueba****
         //     $fecha_actual = date('Y-m-d');
         //     $fechaPago = $_GET['fechaPago'];
         //     $plazo = $_GET['plazos'];
         //     $interes = $_GET['interes'];
 
-        //     $monto = $_GET['monto']; //el monto para calcular mensaualidades del capital
+        /*//     $monto = $_GET['monto']; //el monto para calcular mensaualidades del capital
         //     $monto2 = $_GET['monto']; //el monto para calcular el interes
         //     $moneda = $_GET['moneda'];
         //     $mantenimiento_valor = $_GET['mValor'];
@@ -1122,9 +1147,9 @@ switch ($_GET["op"]){
 
         //         }
 
-        //     }
+        //     }*/
 
-     break;
+      break;
         //LIST METHODS
 
     case 'listarDetallesCuenta':
@@ -1181,17 +1206,19 @@ switch ($_GET["op"]){
         $rspta = $hipoteca->listarDetallesAbono($id);
         $total=0;
         $total=0;
+        $no_abono = 1; //numero de abonos,dato que se pasara para saber que es el ultimo y unico abono
         $opciones="Opciones";
-
+        $fecha_actual = $_GET['fecha'];
         echo '<thead style="background-color:#6ce393">
                                     <th>Opciones</th>
                                     <th>Fecha</th>
                                     <th style="white-space: nowrap;min-width: 200px;max-width: 200px;overflow: scroll">Concepto</th>
                                     <th>Interes</th>
-                                    <th>Interes Mor</th>
+                                    <th>Mantenimiento</th>
+                                    <th>Morar</th>
                                     <th>Capital</th>
-                                    <th>Pendiente Capital</th>
-                                    <th>Saldo Pendiente</th>
+                                    <th>Saldo</th>
+                                    <th>Pendiente</th>
                                     <th>Moneda</th>    
                                 </thead>';
 
@@ -1204,24 +1231,30 @@ switch ($_GET["op"]){
 
             $total =   $montoS - $reg->abono_capital;
             $montoS=   $total;
-
-
-
+            $urlTICKET='../reportes/TicketAbono.php?id='.$reg->iddetalle.'&idhipo= '.$reg->idhipoteca.'&capital='.$reg->abono_capital.'&interes='.$reg->abono_interes.'
+                          &moratorio='.$reg->abono_interes_moratorio.'&mantenimiento='.$reg->mantenimiento.'&saldo='.$total.'&pendiente='.$reg->saldo.'&moneda='.$reg->moneda.'   ';
+            $print = '<a target="_blank" href="'.$urlTICKET.'">   <button class="btn btn-info" type="button"><i class="fa fa-print"></i></button></a> ';
+            // $valor = 2345.21;
+            // number_format($valor, 2, '.',',' )
+            $eliminar = $reg->fecha == $fecha_actual ? '<button class="btn btn-danger" type="button" onclick="eliminarAbonoH('.$reg->iddetalle.','.$no_abono.','.$reg->idhipoteca.')"><i class="fa fa-eraser"></i></button>' : " ";
+            $editar = '<button class="btn btn-warning" type="button" onclick="editarAbono('.$reg->iddetalle.',\''.$reg->nota.'\', \''.$reg->abono_interes.'\',  \''.$reg->abono_capital.'\',\''.$reg->moneda.'\')"><i class="fa fa-edit"></i></button>';
             echo '<tr>
-                       <td><button class="btn btn-warning" type="button" onclick="editarAbono('.$reg->iddetalle.',\''.$reg->nota.'\', \''.$reg->abono_interes.'\',  \''.$reg->abono_capital.'\',\''.$reg->moneda.'\')"><i class="fa fa-edit"></i></button>
-                       <button class="btn btn-danger" type="button" onclick="eliminarAbonoH('.$reg->iddetalle.')"><i class="fa fa-trash"></i></button>
+                       <td>
+                       '.$print.'
+                       '.$eliminar.'
                        </td>
                        <td><input type="hidden" id="fechaA" value="'.$reg->fecha.'">'.$reg->fecha.'</td>
                        <td><input type="hidden" id="notaA" value="'.$reg->nota.'">'.$reg->nota.'</td>
                        <td><input type="hidden" id="interesA" value="'.$reg->abono_interes.'">'.$reg->abono_interes.'</td>
+                        <td><input type="hidden" id="mantenimientoA" value="'.$reg->mantenimiento.'">'.$reg->mantenimiento.'</td>
                        <td><input type="hidden" id="interesA" value="'.$reg->abono_interes_moratorio.'">'.$reg->abono_interes_moratorio.'</td>
                        
                        <td><input type="hidden" id="capitalA" value="'.$reg->abono_capital.'">'.$reg->abono_capital.'</td>
-                       <td><input type="hidden" id="totalA" value="'.$total.'"> '.$total.'</td>
-                       <td><input type="hidden" id="saldoA" value="'.$total.'"> '.$reg->saldo.'</td>
+                       <td><input type="hidden" id="totalA" value="'.$total.'"> '.number_format($total, 2, '.',',' ).'</td>
+                       <td><input type="hidden" id="saldoA" value="'.$total.'"> '.$reg->saldo.'</td> <!--Pendiente de pagar....cuando queda un saldo de interes pendiente -->
                        <td><input type="hidden" id="monedaA" value="'.$reg->moneda.'">'.$reg->moneda.'</td>   
                    </tr>';
-
+                $no_abono ++;//cada que encuentre un abono ira sumando de uno en uno
 
         }
         break;
@@ -1381,9 +1414,11 @@ switch ($_GET["op"]){
         $cuentas = new Cuentas();
 
         $rspta=$cuentas->listarCuentaDia();
+
+
        
         echo '
-                <thead>
+                <thead style="background-color: #aed3ff">
                 <th>Opciones</th>
                 <th>Solicitud</th>
                 <th>Cuenta</th>
@@ -1401,23 +1436,27 @@ switch ($_GET["op"]){
         ';
         while ($reg=$rspta->fetch_object()) //recorrere todos los registros almacenare en la variable reg y almacenare en el indices cada dato y recorrera todos los registros
         {
-           $condition = '';
-           $state = '';
-           $color = '';
-           $urlTICKET='../reportes/TicketRepHLista.php?id=';
-           $editar = '<button type="button" onclick="editarHipoteca('.$reg->idhipoteca.',\''.$reg->fecha_desembolso.'\',\''.$reg->fecha_pago.'\',\''.$reg->solicitud.'\',\''.$reg->no_credito.'\',\''.$reg->monto.'\',\''.$reg->interes.'\',\''.$reg->mantenimiento_valor.'\',\''.$reg->solicitud.'\'
-           ,\''.$reg->interes_moratorio.'\',\''.$reg->moneda.'\')"><i class="fa fa-edit"></i></button>';
+            //$option = '<button class="btn btn-warning" type="button" onclick="editarHipoteca('.$reg->idhipoteca.')"><i class="fa fa-edit"></i></button>';
+            $condition = '';
+            $state = '';
+            $color = '';
+            $urlTICKET='../reportes/TicketRepHLista.php?id=';
+            $editar = /** @lang text */
+                '<button type="button" class="btn btn-warning" onclick="editarHipoteca('.$reg->idhipoteca.',\''.date('Y-m-d',strtotime($reg->fecha_desembolso)).'\',\''.date('Y-m-d',strtotime($reg->fecha_pago)).'\',\''.$reg->solicitud.'\',\''.$reg->idfiador.'\',\''.$reg->idgarantia.'\',\''
+                .$reg->monto.'\',\''.$reg->interes.'\',\''.$reg->interes_moratorio.'\',\''.$reg->mantenimiento_valor.'\',\''.$reg->comision.'\',\''.$reg->plazo.'\',\''.$reg->nota.'\',\''.$reg->tipo.'\',\''.$reg->moneda.'\')"><i class="fa fa-edit"></i></button>';
            if (($reg->estado) == 'Aceptado'){
-            $state = '<button class="btn btn-danger" type="button" onclick="eliminarHipoteca('.$reg->idhipoteca.',\''.$reg->cuenta_desembolso.'\',\''.$reg->no_credito.'\',\''.$reg->cantidad_debitada.'\',\''.$reg->solicitud.'\')"><i class="fa fa-trash"></i>Eliminar</button> ';
+            $state = /** @lang text */
+                '<button class="btn btn-danger" type="button" onclick="eliminarHipoteca('.$reg->idhipoteca.',\''.$reg->cuenta_desembolso.'\',\''.$reg->no_credito.'\',\''.$reg->cantidad_debitada.'\',\''.$reg->solicitud.'\')"><i class="fa fa-trash"></i>Eliminar</button> ';
            }else if(($reg->estado) == 'Cancelado'){
-            $state = '<button class="btn btn-twitter" type="button" onclick="restaurar('.$reg->idhipoteca.')" ><i class="fa fa-truck"></i>Regresar</button>';
+            $state = /** @lang text */
+                '<button class="btn btn-twitter" type="button" onclick="restaurar('.$reg->idhipoteca.')" ><i class="fa fa-truck"></i>Regresar</button>';
            }
 
             
 
            echo '
                 <tr>
-                <td>'. $state.' <a target="_blank" href="'.$urlTICKET.$reg->idhipoteca.'"> <button class="btn btn-flickr" type="button"><i class="fa fa-file-text"></i></button></a> </td>
+                <td> '.$editar.' '. $state.' <a target="_blank" href="'.$urlTICKET.$reg->idhipoteca.'"> <button class="btn btn-flickr" type="button"><i class="fa fa-file-text"></i></button></a> </td>
                 <td>'.$reg->solicitud.'</td>
                 <td>'.$reg->idhipoteca.'</td>
                 <td>'.$reg->no_credito.'</td>
@@ -1807,8 +1846,18 @@ switch ($_GET["op"]){
         break;
     case 'eliminarAbono':
         $iddetalleF=$_GET['id'];
-        $rpsta=$hipoteca->eliminarDetalleAbono($iddetalleF);
-        echo $rpsta ? " Abono Eliminado Correctamente " : " No se pudo eliminar ";
+        $no_abono =$_GET['numero_abono'];
+        $idhipoteca = $_GET['idhipoteca'];
+        if($no_abono == 1){//si es uno quiere decir que es el unico abono que se a realizado
+            $rpsta=$hipoteca->eliminarDetalleAbono($iddetalleF,$idhipoteca);//recibe el idhipoteca la cual se actualizara a sin_abono en caso de que el abono que se elimine sea el unico que se haya realizado
+            echo $rpsta ? " Abono Eliminado Correctamente " : " No se pudo eliminar ";
+        }
+        if($no_abono > 1){//si es mayor que uno entonces hay mas abonos realizados
+
+             $rpsta=$hipoteca->eliminarDetalleAbono($iddetalleF,$idhipoteca);//recibe el idhipoteca la cual se actualizara a sin_abono en caso de que el abono que se elimine sea el unico que se haya realizado
+             echo $rpsta ? " Abono Eliminado Correctamente " : " No se pudo eliminar ";
+        }
+
         break;
 
 
@@ -1861,12 +1910,6 @@ switch ($_GET["op"]){
 
 
      }
-
-
-
-
-
-
 
      
 ?>

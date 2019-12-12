@@ -100,45 +100,49 @@ if ($_SESSION['Abono']==1)
       <br>
       <!-- Mostramos los detalles de la venta en el documento HTML -->
 
-      <table border="1" width="270px" class="titulo">
-        <tr>
 
-                <td>Capital</td>
-                <td>Interes</td>
-                <td>Mantenimiento</td>
-
-            </tr>
-
-            <tr>
-              <!-- <td colspan="3">----------------------------</td> -->
-            </tr>
             <?php
 
-              $rsptad = $hipoteca->abonoDetalle($_GET["id"]);
-              $cantidad=0;
 
-              while ($regd = $rsptad->fetch_object()) {
-                  echo "<tr>";
-                  echo "<td>".$regd->abono_capital;
-                  echo "<td>".$regd->abono_interes."</td>";
-                  echo "<td>".$regd->mantenimiento."</td>";
-                  echo "</tr>";
-                  echo "<tr>";
-                  echo "
-                     <td>Mora</td>
-                    <td>Total</td>
-                     <td>Moneda</td>
-                  ";
-                  echo "</tr>";
-                  echo "<tr>";
-                  echo "<td > ".$regd->moratorio."</td>";
-                  echo "<td > ".round((($regd->total_abonado)+($regd->abono_capital)),2)."</td>";
-                  echo "<td > ".$regd->moneda."</td>";
-                  echo "</tr>";
+                $capital = $_GET['capital'];
+                $interes = $_GET['interes'];
+                $mantenimiento = $_GET['mantenimiento'];
+                $saldo = $_GET['saldo'];
+                $pendiente = $_GET['pendiente'];
+                $moratorio = $_GET['moratorio'];
+                $moneda = $_GET['moneda'];
+                $cantidad=0;
+                $total =(round((($moratorio)+($interes)+($mantenimiento)+($pendiente)+($capital)),2));
 
+                echo '<table border="2" width="300px" class="titulo">
+                      <tr>
+                            <td>Capital</td>
+                            <td>Interes</td>
+                            <td>Mantenimiento</td>
+        
+                      </tr>
+        
+                     <tr>
+                      <!-- <td colspan="3">----------------------------</td> -->
+                     </tr>';
+                echo "<tr>";
+                echo "<td><i>".number_format($capital,2,'.',',')."</i></td>";
+                echo "<td><i>".$interes."</i></td>";
+                echo "<td><i>".$mantenimiento."</i></td>";
+                echo "</tr>";
+                echo "<tr>
+               
+                         <td>Mora</td>
+                         <td>Total</td>
+                         <td>Moneda</td>
+                     
+                      </tr>";
+                echo "<tr>";
+                echo "<td><i> ".$moratorio."</i></td>";
+                echo "<td><i> ".number_format($total,2,'.',',')."</i></td>";
+                echo "<td><i> ".$moneda."</i></td>";
+                echo "</tr>";
 
-
-              }
 
             ?>
       </table>
@@ -146,43 +150,32 @@ if ($_SESSION['Abono']==1)
       <table border="0.5">
 
            <tr>
-              <td align="left"><b>Principal:</b></td>
-              <td><b> <?php echo $recorreres->monto; ?></b></td>
+              <td align="left"><b>Saldo:</b></td>
+               <td></td>
+               <td></td>
+               <td><i><b> <?php echo  $saldo = $_GET['saldo']; ?></b></i></td>
 
           </tr>
           
           <!-- Mostramos los totales de la venta en el documento HTML -->
+
           <tr>
+              <td align="left" colspan="3"><b>Pendiente:</b></td>
 
-            <td align="left"><b>Saldo Actual:</b></td>
-            <td><b> <?php
-              $restant =$recorreres->restante;
-              if (($recorreres->sumaTotal) == 0){
-               
-               $rst = $hipoteca->restanteTicketHipoteca($_GET["idhipo"]);
-               $rr = $rst->fetch_object();
-               $restant = $rr->restante;
-              }
-            
-            echo $restant; ?></b></td>
-
-          </tr>
-
-        
-          <tr>
-              <td align="left"><b>Pendiente:</b></td>
-              <td><b> <?php echo $recorreres->pendiente; ?></b></td>
-
+              <td><i><b> <?php echo $recorreres = $_GET['pendiente']; ?></b></i> </td>
           </tr>
 
 
           <tr>
-            <td colspan="3">Nº de abono: <?php echo $reg->detalle; ?></td>
+              <td>Nº de abono: </td>
+
+              <td ><?php echo  $saldo = $_GET['id']; ?></td>
+
           </tr>
           <tr>
             <td colspan="3">&nbsp;</td>
           </tr>
-         
+          <tr>
             <td colspan="3">&nbsp;</td>
           </tr>
 

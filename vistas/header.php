@@ -117,23 +117,6 @@
             // </li>    ';
             }
             ?>
-                <?php
-              if ($_SESSION['Administrador']==1)
-              {
-            //   echo '<li class="treeview">
-            //   <a href="#">
-            //     <i class="fa fa-laptop"></i>
-            //     <span>Inventario</span>
-            //     <i class="fa fa-angle-left pull-right"></i>
-            //   </a>
-            //   <ul class="treeview-menu">
-            //     <li><a href="articulo.php"><i class="fa fa-circle-o"></i> Artículos</a></li>
-            //      <li><a href="ingreso.php"><i class="fa fa-circle-o"></i> Ingreso de artículos</a></li>
-            //     <li><a href="categoria.php"><i class="fa fa-circle-o"></i> Categorías</a></li>
-            //   </ul>
-            // </li>';
-              }
-              ?>
 
 
 
@@ -190,7 +173,8 @@
                  <li><a href="socios.php"><i class="fa fa-circle-o"></i>Socios</a></li>
                  <li><a href="solicitud.php"><i class="fa fa-circle-o"></i>Solicitudes</a></li>
                  <li><a href="categorias.php"><i class="fa fa-circle-o"></i>Categorias Garantia</a></li>
-                
+                <li><a href="cliente.php"><i class="fa fa-circle-o"></i>Cliente</a></li>
+                <li><a href="fiador.php"><i class="fa fa-circle-o"></i>Fiador</a></li>
                  <li><a href="egresos.php"><i class="fa fa-circle-o"></i>Egresos</a></li>
                 
               </ul>
@@ -198,121 +182,7 @@
               }
               ?>
 
-             <!--
- <li><a href="garantia.php"><i class="fa fa-circle-o"></i>Garantias</a></li>
-                <li><a href="cliente.php"><i class="fa fa-circle-o"></i>Clientes</a></li>
-                
-              --><?php
-/*              if ($_SESSION['ventas']==1)
-              {
-                  echo '<li class="treeview">
-              <a href="#">
-                <i class="fa fa-shopping-cart "></i>
-                <span>Ventas</span>
-                 <i class="fa fa-angle-left pull-right"></i>
-              </a>
-              <ul class="treeview-menu">
-                <li><a href="venta.php"><i class="fa fa-circle-o"></i> Ventas</a></li>
-                <li><a href="cliente.php"><i class="fa fa-circle-o"></i> Clientes</a></li>
-                <li><a href="proveedor.php"><i class="fa fa-circle-o"></i> Proveedores</a></li>
-                <li><a href="abonos.php"><i class="fa fa-circle-o"></i> Abonos</a></li>
-                <li><a href="reparacion.php"><i class="fa fa-circle-o"></i> Reparaciones</a></li>
-              </ul>
-            </li>   ';
-              }
-              */?>
-
-
-              <?php
-/*              if ($_SESSION['ventas']==1)
-              {
-                  echo '<li class="treeview">
-              <a href="#">
-                <i class="fa fa-sellsy "></i>
-                <span>Pedido</span>
-                 <i class="fa fa-angle-left pull-right"></i>
-              </a>
-              <ul class="treeview-menu">
-                <li><a href="pedido.php"><i class="fa fa-circle-o"></i> Pedidos</a></li>
-                
-              </ul>
-            </li>   ';
-              }
-              */?>
-
-
-
-              <?php
-/*              if ($_SESSION['ventas']==1)
-              {
-                  echo '<li class="treeview">
-              <a href="#">
-                <i class="fa fa-file-excel-o "></i>
-                <span>Proforma</span>
-                 <i class="fa fa-angle-left pull-right"></i>
-              </a>
-              <ul class="treeview-menu">
-                <li><a href="proforma.php"><i class="fa fa-circle-o"></i> Proforma</a></li>
-                
-              </ul>
-            </li>   ';
-              }
-              */?>
-
-
-              <?php
-/*              if ($_SESSION['consultac']==1)
-              {
-                  echo '<li class="treeview">
-              <a href="#">
-                <i class="fa fa-bar-chart"></i> <span>Consulta Compras</span>
-                <i class="fa fa-angle-left pull-right"></i>
-              </a>
-              <ul class="treeview-menu">
-                <li><a href="comprasfecha.php"><i class="fa fa-circle-o"></i> Consulta Compras</a></li>                
-              </ul>
-            </li>';
-              }
-              */?>
-
-
-             <!-- --><?php
-/*              if ($_SESSION['consultav1']==1)
-              {
-                  echo '<li class="treeview">
-              <a href="#">
-                <i class="fa fa-balance-scale"></i> <span>Consulta Ventas</span>
-                <i class="fa fa-angle-left pull-right"></i>
-              </a>
-              <ul class="treeview-menu">
-                <li><a href="ventasfecha.php"><i class="fa fa-circle-o"></i> Consulta Ventas</a></li> 
-                 <li><a href="ventasfechacliente.php"><i class="fa fa-circle-o"></i> Consulta Ventas Cliente</a></li>                 
-              </ul>
-            </li>
-            <li>';
-              }
-              */?>
-
-              <?php
-/*              if ($_SESSION['almacen']==1)
-              {
-                  echo '<li class="treeview">
-              <a href="#">
-                <i class="fa fa-bar-chart"></i> <span>Reportes</span>
-                <i class="fa fa-angle-left pull-right"></i>
-              </a>
-              <ul class="treeview-menu">
-                <li><a href="Cartera.php"><i class="fa fa-circle-o"></i> Cartera</a></li>  
-                <li><a href="Clientes_mora.php"><i class="fa fa-circle-o"></i> Clientes en mora</a></li>  
-                <li><a href="Solar_Abonos.php"><i class="fa fa-circle-o"></i> Abono a Solares</a></li>  
-                 <li><a href="Solar_Vendido.php"><i class="fa fa-circle-o"></i> Solares Vendidos</a></li>             
-              </ul>
-            </li>';
-              }
-              */?>
-
-
-              <?php
+         <?php
               if ($_SESSION['Administrador']==1)
               {
                   echo '<li class="treeview">
@@ -333,13 +203,13 @@
               {
                   echo '<li class="treeview">
               <a href="#">
-                <i class="fa fa-bar-chart"></i> <span>Reportes</span>
+                <i class="fa fa-pie-chart"></i> <span>Reportes</span>
                 <i class="fa fa-angle-left pull-right"></i>
               </a>
               <ul class="treeview-menu">
-                <li><a href="cuentascobrarh.php"><i class="fa fa-circle-o"></i> Cuentas Cobro Prestamos</a></li>  
-                <li><a href="cuentascobrarf.php"><i class="fa fa-circle-o"></i> Cuentas Cobro Financiamiento</a></li> 
-                <li><a href="cuentascobrars.php"><i class="fa fa-circle-o"></i> Cuentas Cobro Solares</a></li>   
+                <li><a href="cuentascobrarh.php"><i class="fa fa-circle-o"></i>Cartera-Cuentas Activas</a></li>  
+                <li><a href="abonos.php"><i class="fa fa-circle-o"></i>Abonos</a></li> 
+                
                            
               </ul>
             </li>';

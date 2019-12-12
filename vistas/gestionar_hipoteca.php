@@ -70,14 +70,14 @@ require 'header.php';
 
                                     <div class="form-group col-lg-3 col-md-3 col-sm-3 col-xs-6">
                                         <label>Garantía(*):</label>
-                                        <select  title="Busca al Garantia" name="idgarantia" id="idgarantia" class="form-control selectpicker" data-size="4" data-live-search="true" required>
+                                        <select  title="Busca al Garantia" name="idgarantia" id="idgarantia" class="form-control selectpicker" data-size="4" data-live-search="true">
 
                                         </select>
                                     </div>
 
                                     <div class="form-group col-lg-3 col-md-3 col-sm-3 col-xs-6">
                                         <label>Cuenta Socio(*):</label>
-                                        <select  title="Buscar cuentas de banco" name="idbancos" id="idbancos" class="form-control selectpicker" data-size="4" data-live-search="true" required>
+                                        <select  title="Buscar cuentas de banco" name="idbancos" id="idbancos" class="form-control selectpicker" data-size="4" data-live-search="true">
                                         </select>
                                         
                                     </div>
@@ -141,10 +141,6 @@ require 'header.php';
 
                                     </div>
 
-
-
-
-
                                     <div class="form-group col-lg-2 col-md-2 col-sm-6 col-xs-12">
                                         <label>Saldo del Banco:</label>
                                         <input  class="form-control"  type="number" name="saldo_banco" id="saldo_banco"  step=".01" min="0" >
@@ -153,7 +149,7 @@ require 'header.php';
 
                                     <div class="form-group col-lg-2 col-md-2 col-sm-6 col-xs-12">
                                         <label>Debitar a cuenta:</label>
-                                        <input  class="form-control"  type="text" name="cambio" id="cambio" required  >
+                                        <input  class="form-control"  type="text" name="cambio" id="cambio"   >
                                         <!-- <label id="banco_moneda">MONEDA</label> -->
                                     </div>
 
@@ -221,7 +217,7 @@ require 'header.php';
 
 
                                    <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
-                                       <h4 class="badge badge-dark">Detalles de Cuenta</h4>
+                                       <h3 class="h3">Creditos que no han sido abonados</h3>
                                        <table id="detallesNuevaCuenta"  class="table table-striped table-bordered table-condensed table-hover">
                                            <thead style="background-color: #8fff87">
 
@@ -263,6 +259,9 @@ require 'header.php';
                                                                                 <select title="Busca al Cuenta del cliente" id="buscarClientesAbono" name="buscarClientesAbono" class="form-control selectpicker" data-size="4" data-live-search="true" required>
 
                                                                                 </select>
+                                                                                <input type="hidden" id="hipoteca_hide"><!--Estos input guardaran temporal el idhipoteca y un monto para que al guardar un abono pueda ser llamada la funcion que actualice la tabla que muestra los abonos-->
+                                                                                <input type="hidden" id="montos_hide">
+
                                                                             </div>
 
                                                                              
@@ -347,6 +346,7 @@ require 'header.php';
                                                                             <div class="form-group col-lg-2 col-md-2 col-sm-2 col-xs-12">
                                                                                 <label style="color: #6f42c1">Monto Restante:</label>
                                                                                 <input type="text" class="form-control" name="siguienteMonto" id="siguienteMonto" maxlength="10" placeholder="$0">
+                                                                                <input type="hidden" class="form-control" name="siguienteMontoHide" id="siguienteMontoHide" maxlength="10" placeholder="$0">
                                                                             </div>
                                               
 

@@ -90,12 +90,12 @@ Class Cuentas
     public function listarCuentaDia()//que solo los pueda editar cuando no este abonado, ya abonado no puede editarlo,..
     {
         $sql="SELECT h.idhipoteca,h.fecha_desembolso,h.fecha_pago,h.monto,h.interes,h.interes_moratorio,
-        h.mantenimiento_valor,h.tipo,h.moneda,h.plazo,cl.nombres,cl.num_documento,h.condicion,h.estado,h.no_credito,h.solicitud,
-        h.cantidad_debitada,h.cuenta_desembolso
+        h.mantenimiento_valor,h.tipo,h.moneda,h.plazo,cl.nombres,cl.num_documento,h.condicion,h.estado,h.no_credito,h.solicitud,h.idfiador,h.idarticulo_garantia as idgarantia,
+        h.cantidad_debitada,h.cuenta_desembolso,h.comision,h.plazo,h.nota,h.tipo
         FROM hipoteca h 
         INNER JOIN solicitud s ON h.solicitud = s.idsolicitud 
         INNER JOIN cliente cl ON s.cliente=cl.idcliente 
-        INNER JOIN nuevacuenta_hipoteca nh ON nh.nidhipoteca=h.idhipoteca WHERE nh.estado = 'sin_abono' AND h.estado = 'Aceptado' ORDER BY h.idhipoteca DESC ";
+        INNER JOIN nuevacuenta_hipoteca nh ON nh.nidhipoteca=h.idhipoteca WHERE  h.estado = 'Aceptado' AND nh.estado='sin_abono' ORDER BY h.idhipoteca DESC ";
         return ejecutarConsulta($sql);
     }
 

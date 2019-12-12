@@ -237,7 +237,7 @@ function calculaCuotaaEnviarFuncion(){
                 }
             }
             if(parseFloat(monto_pago) === parseFloat(cuota)){
-                
+
                 labelsPendientes(0.00,parseFloat(amortizacion).toFixed(2))
             }
            
@@ -251,7 +251,17 @@ function labelsPendientes(pendiente,a_capital){
     $('#label_a_capital').html(a_capital)
     $('#commentAbono').text('')
 
+
+
+    if(parseFloat(a_capital) > 0){
+        let saldo_viejo =  parseFloat($('#siguienteMontoHide').val())//el saldo que tiene cuando carga los valores,se asigno el mismo valor a un input oculto porque de otra manera
+        //recalcula el resultado en cada enter ya que hay un resultado distinto en el texbox y lo calcula basado en cada resultado, mientras con el input oculto mantiene el mismo
+        //resultado todo el tiempo
+        $('#siguienteMonto').val(parseFloat(parseFloat(saldo_viejo) - parseFloat(a_capital)).toFixed(2) )
+
+    }
 }
+
 function recalculaInteres(){//si se modifica un campo en el abono, que recalcule el resultado
     let abonoInteres =parseFloat( $('#abonointeres').val()).toFixed(2)
     let moratorio =  parseFloat($('#interes_moratorio_abono').val()).toFixed(2)
@@ -382,6 +392,7 @@ function pickerChangeBanco() {
 
     });
 }
+
 function calculaSaldoBanco(idbanco) {
     let monto 
     $.ajax({
@@ -588,20 +599,7 @@ function limpiarAbono()
 }
 //Función mostrar formulario
 
-function editarAbono(iddetalle,nota,interes,capital,moneda) {
 
-    let fecha2=$('#fechaA').val() //porque si se recibe la fecha desde la funcion no solo manda el anio
-
-    $('#fecha_horaAbono').val(fecha2);
-    $('#commentAbono').val(nota);
-    $('#abonointeres').val(interes);
-    $('#abono_capital').val(capital);
-    $('#idabonodetalles').val(iddetalle);
-    console.log(iddetalle,fecha2,nota,interes,capital,moneda)
-
-
-
-}
 function listarVentasCliente(idCl){
     tabla=$('#tblCuentasCliente').dataTable(
         {
@@ -990,15 +988,94 @@ function enviaGuardarAbono(idhipoteca,idabonos,interes,interes_moratorio,mant_va
             bootbox.alert({
                 message: datos,
                 callback: function (result) {
-                  //  recargar()
+
+                    let fecha = $('#fecha_horacreditos').val()
+                    let idHipoteca = $('#hipoteca_hide').val()
+                    let monto = $('#montos_hide').val()
+                    $.ajax({
+                        url: "../ajax/gestionar_hipoteca.php?op=listarDetallesAbono", //Muestra listado de abonos
+                        type: "get", //send it through get method
+                        data: {
+                            'idhipoteca':idHipoteca,
+                            'monto': monto,
+                            'fecha':fecha
+                        },
+                        success: function(r) {
+                            $("#detallesAbonos").html(r).dataTable({
+
+                                "aProcessing": true,//Activamos el procesamiento del datatables
+                                "aServerSide": true,//Paginación y filtrado realizados por el servidor
+                                dom: 'Bfrtip',//Definimos los elementos del control de tabla
+                                buttons: [
+                                    'copyHtml5',
+                                    'excelHtml5',
+                                    'csvHtml5',
+                                    'pdf'
+                                ],
+
+                                "bDestroy": true,
+                                "iDisplayLength": 10,//Paginación
+                                "order": [[ 0, "desc" ]],//Ordenar (columna,orden)
+                                "pagingType": "full_numbers"}).DataTable();
+
+                        },
+
+                        error: function(xhr) {
+                            //Do Something to handle error
+                        }
+
+                    });//muestra el listado de abonos
                 }
             });
         }
 
     })
+
+
 }
+
+//EDIT FUNCTION
+function editarAbono(iddetalle,nota,interes,capital,moneda) {
+
+    let fecha2=$('#fechaA').val() //porque si se recibe la fecha desde la funcion no solo manda el anio
+
+    $('#fecha_horaAbono').val(fecha2);
+    $('#commentAbono').val(nota);
+    $('#abonointeres').val(interes);
+    $('#abono_capital').val(capital);
+    $('#idabonodetalles').val(iddetalle);
+    console.log(iddetalle,fecha2,nota,interes,capital,moneda)
+
+
+
+}
+function editarHipoteca(idhipoteca,fecha_desembolso,fecha_pago,solicitud,fiador,garantia,monto,interes,interes_moratorio,mantenimiento,comision,plazo,nota,tipo,moneda) {
+    $('#idhipoteca').val(idhipoteca)
+    $('#idsolicitud_picker').val(solicitud)
+    $('#idsolicitud_picker').selectpicker('refresh')
+    $('#idfiador_picker').val(fiador)
+    $('#idfiador_picker').selectpicker('refresh')
+    $('#fechaHipoteca').val(fecha_desembolso)
+    $('#fechaPago').val(fecha_pago)
+    $('#monto_ncuenta').val(monto)
+    $('#monto_ncuenta').attr('readonly',true)
+    $('#monedaHipoteca').val(moneda)
+    $('#monedaHipoteca').selectpicker('refresh')
+    $('#interes').val(interes)
+    $('#interes_moratorio').val(interes_moratorio)
+    $('#mantenimiento').val(mantenimiento)
+    $('#comision').val(comision)
+    $('#plazo_month').val(plazo)
+    $('#comment').val(nota)
+    $('#tipo').val(tipo)
+    $('#tipo').selectpicker('refresh')
+    console.log(tipo)
+   // console.log("idhipoteca",idhipoteca,"fecha_desembolso",fecha_desembolso,"fecha_pago",fecha_pago,"solicitud",solicitud,"monto",monto,"interes",interes,"interes_moratorio",interes_moratorio,"mantenimiento",mantenimiento,"moneda",moneda)
+}
+
 //DELETE FUNCTIONS
-function eliminarAbonoH(iddetalle) {
+function eliminarAbonoH(iddetalle,numero_abono,idhipoteca) {
+    console.log(numero_abono)
     bootbox.confirm("Seguro que desea eliminar el Abono? Sera borrado permanentemente",function (result) {
 
         if(result) { //si le dio a si
@@ -1007,7 +1084,9 @@ function eliminarAbonoH(iddetalle) {
                 url: "../ajax/gestionar_hipoteca.php?op=eliminarAbono",
                 type: "get", //send it through get method
                 data: {
-                    'id':iddetalle
+                    'id':iddetalle,
+                    'numero_abono':numero_abono,
+                    'idhipoteca':idhipoteca
 
 
                     /*$("#detallesAbonos").html(r).dataTable({
@@ -1144,6 +1223,7 @@ function muestraEstadoCuenta() {
     $('#comision_total').val(parseFloat(suma_comision).toFixed(2))
     console.log(suma_comision)
 }
+
 function muestraCuentasPendientesAbono() {
 
     let idcliente = $('#buscarClientesAbono').val()
@@ -1206,8 +1286,10 @@ function mostrarNumero() {
 function mostrarCuentas(idHipoteca,monto,interes,plazo,iddias) //todas las cuentas que se necesitan mostrar para abonar*******el dia menos es
 //si por ejemplo a alguien le toca pagar domingo y llega lunes entonces que se le redusca un dia
 {
-
+    $('#hipoteca_hide').val(idHipoteca) //se asignan para al guardar un abono pueda llamar la funcion ajax que recargara la tabla despues de guardar para imprimir
+    $('#montos_hide').val(monto)//se asignan para al guardar un abono pueda llamar la funcion ajax que recargara la tabla despues de guardar para imprimir
 let dia_menos = $('#dia_menos'+iddias).val()
+let fecha = $('#fecha_horacreditos').val()
 console.log("dias menos", dia_menos)
     $.ajax({
         url: "../ajax/gestionar_hipoteca.php?op=listarDetallesAbono", //Muestra listado de abonos
@@ -1215,6 +1297,7 @@ console.log("dias menos", dia_menos)
         data: {
             'idhipoteca':idHipoteca,
             'monto': monto,
+            'fecha':fecha
         },
         success: function(r) {
             $("#detallesAbonos").html(r).dataTable({
@@ -1242,7 +1325,7 @@ console.log("dias menos", dia_menos)
 
     });//muestra el listado de abonos
 
-    $.ajax({//recibe la suma de lo abonado para saber lo que resta, y el siguiente interes
+    $.ajax({
         url: "../ajax/gestionar_hipoteca.php?op=muestraSumaCapital", 
         type: "get", //send it through get method
         data: {
@@ -1258,8 +1341,10 @@ console.log("dias menos", dia_menos)
             //Esta funcion asigna el valor correcto a lo que se deberia abonar, ya que puede que llegue un momento que el monto restante
             //o lo que se reste de abonar sea menos de lo que debe abonar de acuerdo al plazo, entonces tiene que hacer la asignacion correcta
             //si lo que tiene que abonar es mas de lo que resta entonces le pasa el valor indicado
+            $('#siguienteMontoHide').val(restanteMonto)
            if (restanteMonto < siguienteCapital){
                $('#abono_capital').val(restanteMonto)//Lo que corresponde abonar
+
            }
            else{
                $('#abono_capital').val(siguienteCapital)              
@@ -1276,9 +1361,9 @@ console.log("dias menos", dia_menos)
         },
 
         error: function(xhr) {
-            console.log("No devuelve ni M",xhr);
+            console.log("No devuelve nada",xhr);
         }
-    });
+    });//recibe la suma de lo abonado para saber lo que resta, y el siguiente interes
 
     $.post("../ajax/gestionar_hipoteca.php?op=listarDetallesCuenta&id="+idHipoteca,function(r){//lista los detalles de la cuenta
 
@@ -1585,7 +1670,7 @@ function agregarDetalle(nombre,idcliente,descripcion,idcategoria,categoria,codig
             console.log(arr);
 
 
-          //  arr.push(articulo); //agrega al array todos los id de articulos
+            //  arr.push(articulo); //agrega al array todos los id de articulos
 
         }
     }
@@ -1596,13 +1681,13 @@ function agregarDetalle(nombre,idcliente,descripcion,idcategoria,categoria,codig
 }
 function evaluar(){
 
-var interes = document.getElementById("interes");
-var monto = document.getElementById("monto");
-var result = ((monto.value) * (interes.value))/100;
+    var interes = document.getElementById("interes");
+    var monto = document.getElementById("monto");
+    var result = ((monto.value) * (interes.value))/100;
 
 
-console.log(result.toFixed(2));
-$('#temporal').val(result.toFixed(2));
+    console.log(result.toFixed(2));
+    $('#temporal').val(result.toFixed(2));
 }
 
 function eliminarDetalle(indice)

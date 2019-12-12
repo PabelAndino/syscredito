@@ -25,7 +25,7 @@ else
                     <div class="col-md-12">
                         <div class="box">
                             <div class="box-header with-border">
-                                <h1 class="p-3 mb-2 bg-maroon-gradient text-white">Cliente </h1>
+                                <h1 class="p-3 mb-2 bg-maroon-gradient text-white">Fiador </h1>
                                 <div class="box-tools pull-right">
                                 </div>
                             </div>
@@ -97,13 +97,13 @@ else
                                         <label>Correo:</label>
                                         <input type="text" class="form-control" name="emailCliente" id="emailCliente" maxlength="50" placeholder="email">
                                     </div>
-                                    <!--<div class="form-group col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                                    <div class="form-group col-lg-3 col-md-3 col-sm-3 col-xs-12">
                                         <label>Ingresos:</label>
-                                        <input type="text" class="form-control" name="ingresosCliente" id="ingresosCliente" maxlength="50" placeholder="email">
-                                    </div>-->
+                                        <input type="text" class="form-control" name="ingresosCliente" id="ingresosCliente" maxlength="50" placeholder="Ingresos">
+                                    </div>
 
                                     <div class="form-group col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                        <button class="btn btn-primary" type="button" onclick="guardaryeditarCliente()" id="btnGuardarCliente"><i class="fa fa-save"></i> Guardar</button>
+                                        <button class="btn btn-primary" type="button" onclick="guardaryeditarFiador()" id="btnGuardarCliente"><i class="fa fa-save"></i> Guardar</button>
 
                                         <button class="btn btn-warning" onclick="limpiarCliente()" type="button"><i class="fa fa-arrow-circle-left"></i> Limpiar</button>
                                     </div>
@@ -112,7 +112,7 @@ else
                                 
                             <!-- centro -->
                             <div class="panel-body table-responsive" id="listadoregistros">
-                                <table id="tbllistado" class="table table-striped table-bordered table-condensed table-hover">
+                                <table id="tbllistadoFiador" class="table table-striped table-bordered table-condensed table-hover">
                                     <thead>
                                     <th>Opciones</th>
                                     <th>Nombre</th>

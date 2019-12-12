@@ -26,7 +26,7 @@ require 'header.php';
             <div class="col-md-12">
                 <div class="box">
                     <div class="box-header with-border">
-                        <h1 class="label-default">Cuentas Cobro de Prestamos
+                        <h1 class="label-default">Cartera de clientes
                            </h1>
                         <div class="box-tools pull-right">
                         </div>
@@ -35,8 +35,8 @@ require 'header.php';
 
                     <!-- LISTADO ABONOS -->
                     <div class="panel-body table-responsive" id="listadoregistros">
-                    <h2 class="label-primary">Muestra los clientes con mora de un Año o menos </h2>
-                        <table id="tbllistado" class="table table-striped table-bordered table-condensed table-hover">
+                    <h2 class="label-primary">Prestamos Pendientes </h2>
+                        <table id="listadoh" class="table table-striped table-bordered table-condensed table-hover">
                             <thead>
 
                             <th>Opciones</th>
@@ -63,29 +63,61 @@ require 'header.php';
                     </div>
                     <!-- FIN LISTADO ABONOS -->
 
+
+
+
                     <!-- LISTADO NUEVA CUENTA -->
                     <div class="panel-body table-responsive" id="listadonuevacuenta ">
-                        <h3 class="label-info">Cuentas que no han hecho abonos aun</h3>
-                        <table id="tbllistado_ncuenta" class="table table-striped table-bordered table-condensed table-hover">
-                            <thead>
 
+
+                        <h3 class="label-info">Abonos</h3>
+
+                        <div class="form-group col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                            <label>Fecha desde:</label>
+                            <input type="date" class="form-control" name="fecha_desde" id="fecha_desde">
+                        </div>
+
+                        <div class="form-group col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                            <label>Fecha hasta:</label>
+                            <input type="date" class="form-control" name="fecha_hasta" id="fecha_hasta">
+
+                        </div>
+                        <div class="form-group col-lg-2 col-md-2 col-sm-2 col-xs-12">
+                            <button class="btn btn-info" type="button" onclick="listarAbonos()"><i class="fa fa-info"></i></button>
+
+                        </div>
+                        <table id="listadoAbonos" class="table table-striped table-bordered table-condensed table-hover">
+                            <thead>
                             <th>Opciones</th>
+                            <th>ID Prestamo</th>
+                            <th>Fecha</th>
                             <th>Cliente</th>
-                            <th>Monto</th>
-                            <th>Interes</th>
+                            <th>Abono Capital</th>
+                            <th>Abono Interes</th>
+                            <th>Abono Mantenimiento</th>
+                            <th>Abono Mora</th>
+
+                            <th style="white-space: nowrap;min-width: 200px;max-width: 200px;overflow: scroll">Nota</th>
                             <th>Moneda</th>
-                            <th>Tipo</th>
-                            <th>Fecha Prestamo</th>
-                            <th>Fecha a pagar</th>
-                            <th>Estado</th>
 
                             </thead>
+
                             <tbody>
                             <!----  La loquera de aqui quien lo llena es el dataTable-->
                             </tbody>
 
                             <tfoot>
+                            <th>Opciones</th>
+                            <th>ID Prestamo</th>
+                            <th>Fecha</th>
+                            <th>Cliente</th>
+                            <th>Abono Capital</th>
+                            <th>Abono Interes</th>
+                            <th>Abono Mantenimiento</th>
+                            <th>Abono Mora</th>
 
+                            <th >Nota</th>
+                            <th>Moneda</th>
                             </tfoot>
                         </table>
 

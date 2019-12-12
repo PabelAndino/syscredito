@@ -8,249 +8,98 @@ $cc = new CUENTASCOBRAR();
 switch ($_GET["op"])
 {
 
-
-    /*case 'listar':
-
-        $fecha= date('Y-m');
-
-
-
-        $rspta=$cc->listar();
-        $data=Array();//almacenara todos los registros que voy a mostrar
-        while ($reg=$rspta->fetch_object()) //recorrere todos los registros almacenare en la variable reg y almacenare en el indices cada dato y recorrera todos los registros
-        {
-
-           $fecha2= date('Y-m', strtotime($reg->fecha));
-
-          // echo date('Y', strtotime($reg->fecha));
-            $anterior_mes = [];
-            $actual_mes = [];
-            $no_abono = [];
-
-
-           if(date('Y', strtotime($fecha2)) === date('Y')) {
-
-               if(date('m', strtotime($fecha2)) === date('m')){
-                   $actual_mes = [
-                       $reg->idpersona,//"0"=>('Pendiente'),//al hacer click manda el idarticulo
-                   ];
-               }
-
-               if(((int)date('m', strtotime($fecha2))) === (((int)date('m')) -1)){
-                   $anterior_mes = [
-                       $reg->idpersona,//"0"=>('Pendiente'),//al hacer click manda el idarticulo
-                   ];
-               }
-
-               $test = '';
-
-               foreach ($anterior_mes as $k1 => $v1){
-                   foreach ($actual_mes as $k2 => $v2){
-                       $test = $v1;
-                       echo $test;
-                   }
-               }
-
-               //echo json_encode($no_abono, JSON_PRETTY_PRINT);
-
-             //  echo json_encode($actual_mes, JSON_PRETTY_PRINT);
-
-               $data[]=array(
-                   "0"=>$reg->idpersona,//"0"=>('Pendiente'),//al hacer click manda el idarticulo
-                   "1"=>$reg->cliente,
-                   "2"=>$reg->abono_capital,
-                   "3"=>$reg->abono_interes,
-                   "4"=>$reg->fecha,
-                   "5"=>($fecha == $fecha2)? '<span class="label bg-green">PAGADO</span>':'<span class="label bg-red">PENDIENTE</span>'
-               );
-           }
-
-
-
-
-        }
-
-        $reult= array(
-            "sEcho"=>1, //informacion para el datatable
-            "iTotalRecords"=>count($data),//se envia el total de registros al datatable
-            "iTotalDisplayRecords"=>count($data),//enviamos el total de registros a vizualizar
-            "aaData"=>$data
-        );
-        echo json_encode($reult);
-        break;*/
-
     case 'listarh':
-        $nombre="Pabel Andino";
-        $fecha= date('Y-m');
-        $anio_actual= date('Y');
-        $anio_antepasado=$anio_actual-2;
-        $anio_pasado=$anio_actual-1;
-        $mes_actual=date('m');
+        $rspta = $cc->listarH();
+        $total=0;
+        echo '<thead style="background-color:#ffb211">
+                    <th>Opciones</th>
+                    <th>ID Prestamo</th>
+                    <th>Cliente</th>
+                    <th>Desembolso</th>
+                    <th>Pago</th>
+                    <th>Monto</th>
+                    <th>Interés%</th>
+                    <th>Mantenimiento%</th>
+                    <th>Moratorio%</th>
+                    <th>Plazo</th>
+                    <th>Moneda</th>
+                    <th style="white-space: nowrap;min-width: 200px;max-width: 200px;overflow: scroll">Nota</th>
+                </thead>';
 
-        $clientes=array();
-        $clientes2=array();
-        $todos_meses=array(
-            1=>12,
-            2=>11,
-            3=>10,
-            4=>9,
-            5=>8,
-            6=>7,
-            7=>6,
-            8=>5,
-            9=>4,
-            10=>3,
-            11=>2,
-            12=>1);//se guardan todos los meses
-        //cada mes es asignado de manera inversa para poder trabajar con el anio anterior
-        $row=0;
-        $rspta=$cc->listarcch();//cuentas por cobrar
-        $data=Array();//almacenara todos los registros que voy a mostrar
-
-        $dbclient=array();
-
-        $maxs=array();
-        while ($reg=$rspta->fetch_object()) //recorrere todos los registros almacenare en la variable reg y almacenare en el indices cada dato y recorrera todos los registros
+        while ($reg = $rspta->fetch_object())
         {
-            $monto=$reg->monto;
-            $fecha2= date('Y-m', strtotime($reg->fecha));
-            $fecha_completa_de_consulta=date('Y-m-d', strtotime($reg->fecha));
-            $anio=date('Y', strtotime($reg->fecha));
-            $dia_pago=date('d',strtotime($reg->dia_pago));
-
-            $mes=date('m', strtotime($reg->fecha));
-
-            if($anio_actual > $anio || $mes_actual > $mes ) {
-                //si la fecha de hoy(El mes es igual o menor) para que no muestre los que ya pagaron el mes
-
-                $aniomenor=$anio_actual-2;
-                $numercount=$mes_actual-$mes;
-
-                if( $anio == ($anio_antepasado)){//si el anio es 3 anios anterior al actual lo enumera a cero
-                    //para que mande el mensaje de que esta fuera de anio,
-                    $numercount=0;
-                }else if($anio == ($anio_pasado)){
-
-                    foreach ($todos_meses as $key => $values){
-                        if($mes==$key){
-                            $numercount= ($mes_actual+$values)-2;
-                        }
-                    }
-                }
-
-                $data[]=array(
-                    "0"=>'<a data-toggle="modal" href="#modalClienteh">  <button type="button" id="button_detalle" class="btn btn-info" onclick="detalles_clienteh('.$reg->idhipoteca.',\''.$reg->cliente.'\', \''.$reg->telefono.'\',  \''.$reg->direccion.'\',  \''.$reg->num_documento.'\',  \''.$monto.'\')" ><i class="fa fa-info"></i></button></a>',//al hacer click manda el idarticulo
-                    "1"=>$reg->cliente,
-                    "2"=>$reg->abono_capital,
-                    "3"=>$reg->abono_interes,
-                    "4"=>$reg->moneda,
-                    "5"=>($numercount <=0)?'<h4><span class="label bg-gray">Mas del Año</span></h4>':'<h4><span class="label bg-gray">  '.$numercount.'</span></h4>',
-                    "6"=>$fecha_completa_de_consulta,
-                    "7"=>$dia_pago,
-                    "8"=> '<span class="label bg-red">PENDIENTE</span>'
-                );
-
-            }
-
-
+            echo '<tr>
+                   <td>'."Option".'</td>
+                   <td>'.$reg->idhipoteca.'</td>
+                   <td>'.$reg->nombres.'</td>
+                  
+                   <td>'.date('d-m-Y',strtotime($reg->fecha_desembolso)).'</td>
+                   <td>'.date('d-m-Y',strtotime($reg->fecha_pago)).'</td>
+                   <td>'.$reg->monto.'</td>
+                   <td>'.$reg->interes.'</td>
+                   <td>'.$reg->mantenimiento.'</td>
+                   <td>'.$reg->interes_moratorio.'</td>
+                   <td>'.$reg->plazo.'</td>
+                   <td>'.$reg->moneda.'</td>
+                   <td>'.$reg->nota.'</td>
+                   </tr>';
         }
 
-        $result= array(
-            "sEcho"=>1, //informacion para el datatable
-            "iTotalRecords"=>count($data),//se envia el total de registros al datatable
-            "iTotalDisplayRecords"=>count($data),//enviamos el total de registros a vizualizar
-            "aaData"=>$data
-        );
-        echo json_encode($result);
 
         break;
-    case 'listarf':
+    case 'listarAbonos':
 
-        $fecha= date('Y-m');
-        $anio_actual= date('Y');
-        $anio_antepasado=$anio_actual-2;
-        $anio_pasado=$anio_actual-1;
-        $mes_actual=date('m');
-
-        $clientes=array();
-        $clientes2=array();
-        $todos_meses=array(
-            1=>12,
-            2=>11,
-            3=>10,
-            4=>9,
-            5=>8,
-            6=>7,
-            7=>6,
-            8=>5,
-            9=>4,
-            10=>3,
-            11=>2,
-            12=>1);//se guardan todos los meses
-        //cada mes es asignado de manera inversa para poder trabajar con el anio anterior
-        $row=0;
-        $rspta=$cc->listarccf();//cuentas por cobrar
-        $data=Array();//almacenara todos los registros que voy a mostrar
-
-        $dbclient=array();
-
-        $maxs=array();
-        while ($reg=$rspta->fetch_object()) //recorrere todos los registros almacenare en la variable reg y almacenare en el indices cada dato y recorrera todos los registros
+        $fechadesde=$_GET['fechadesde'];
+        $fechahasta=$_GET['fechahasta'];
+        $tipo_cambio = $_GET['tipo_cambio'];
+        $moneda = $_GET['moneda'];//la moneda que viene desde el fomulario
+        $rspta = $cc->listarAbonos($fechadesde,$fechahasta);
+        $data= Array();
+        while ($reg = $rspta->fetch_object())
         {
-
-            $fecha2= date('Y-m', strtotime($reg->fecha));
-            $fecha_completa_de_consulta=date('Y-m-d', strtotime($reg->fecha));
-            $anio=date('Y', strtotime($reg->fecha));
-            $dia_pago=date('d',strtotime($reg->dia_pago));
-
-            $mes=date('m', strtotime($reg->fecha));
-
-            if($anio_actual > $anio || $mes_actual > $mes ) {
-                //si la fecha de hoy(El mes es igual o menor) para que no muestre los que ya pagaron el mes
-
-                $aniomenor=$anio_actual-2;
-                $numercount=$mes_actual-$mes;
-
-                if( $anio == ($anio_antepasado)){//si el anio es 3 anios anterior al actual lo enumera a cero
-                    //para que mande el mensaje de que esta fuera de anio,
-                    $numercount=0;
-                }else if($anio == ($anio_pasado)){
-
-                    foreach ($todos_meses as $key => $values){
-                        if($mes==$key){
-                            $numercount= ($mes_actual+$values)-2;
-                        }
-                    }
-                }
-
-
-
-                $data[]=array(
-                    "0"=>('Pendiente'),//al hacer click manda el idarticulo
-                    "1"=>$reg->cliente,
-                    "2"=>$reg->casa,
-                    "3"=>$reg->abono_capital,
-                    "4"=>$reg->abono_interes,
-                    "5"=>$reg->moneda,
-                    "6"=>$reg->concepto,
-                    "7"=>($numercount <=0)?'<h4><span class="label bg-gray">Mas del Año</span></h4>':'<h4><span class="label bg-gray">  '.$numercount.'</span></h4>',
-                    "8"=>$fecha_completa_de_consulta,
-                    "9"=>$dia_pago,
-                    "10"=> '<span class="label bg-red">PENDIENTE</span>'
-                );
+            $interes = $reg->abono_interes;
+            $mantenimiento = $reg->mantenimiento;
+            $interes_moratorio = $reg->moratorio;
+            $capital = $reg->abono_capital;
+            $moneda_consulta = $reg->moneda;//la moneda que viene de Mysql
+            if($moneda == "Cordobas" && $moneda_consulta == "Dolares"){//Si quiere saber cuantos cordobas es por todo
+                $moneda_consulta = "Cordobas";
+                $interes = $interes * $tipo_cambio;
+                $mantenimiento = $mantenimiento * $tipo_cambio;
+                $interes_moratorio = $interes_moratorio * $tipo_cambio;
+                $capital = $capital * $tipo_cambio;
 
             }
+            if($moneda == "Dolares" && $moneda_consulta == "Cordobas"){//Si Quiere sabes cuantos dolares tiene
+                $moneda_consulta = "Dolares";
+                $interes = $interes / $tipo_cambio;
+                $mantenimiento = $mantenimiento / $tipo_cambio;
+                $interes_moratorio = $interes_moratorio / $tipo_cambio;
+                $capital = $capital / $tipo_cambio;
+            }
+            $data[]=array(
+                "0"=>"Option",//$conteo2,//meses
+                "1"=>$reg->idhipoteca,//$fechaInicio,//fechas
+                "2"=>date('d-m-Y',strtotime($reg->fecha)),//$totalInteres,
+                "3"=>$reg->nombres,//$interesM,//$totalInteresMoratorio,//interes Moratorio
+                "4"=>round(($capital),2),//$totalMantenimiento /* round((($mantenimiento * $capital)/100 ),2 ) */,
+                "5"=>round(($interes),2),//round(($totalInteres + $totalInteresMoratorio + $totalMantenimiento ),2),
+                "6"=>round(($mantenimiento),2),//$moneda.$dia_menos
+                "7"=>round(($interes_moratorio),2),
+                "8"=>$reg->nota,
+                "9"=>$moneda_consulta
 
 
+            );
         }
+        $results = array(
+            "sEcho"=>1, //Información para el datatables
+            "iTotalRecords"=>count($data), //enviamos el total registros al datatable
+            "iTotalDisplayRecords"=>count($data), //enviamos el total registros a visualizar
+            "aaData"=>$data);
 
-        $result= array(
-            "sEcho"=>1, //informacion para el datatable
-            "iTotalRecords"=>count($data),//se envia el total de registros al datatable
-            "iTotalDisplayRecords"=>count($data),//enviamos el total de registros a vizualizar
-            "aaData"=>$data
-        );
-        echo json_encode($result);
+        echo json_encode($results);
+
 
         break;
     case 'listars':
